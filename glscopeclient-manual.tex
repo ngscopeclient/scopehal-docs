@@ -1,0 +1,162 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in,top=0.6in,bottom=0.6in]{geometry}
+\usepackage[bookmarks,colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+\usepackage{url}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{paralist}
+\usepackage{makecell}
+\usepackage{tikz}
+\usepackage[osf]{libertine}
+\usepackage{zi4}
+\usepackage[libertine,cmbraces]{newtxmath}
+
+% configuration of source code examples
+\usepackage{listings}
+\lstset{language=c++}
+\lstset{numbers=left}
+\lstset{xleftmargin=2em}
+\lstset{framexleftmargin=2em}
+\lstset{belowskip=0em}
+\lstset{belowcaptionskip=0em}
+\lstset{tabsize=4}
+\lstset{frame=single}
+\lstset{breaklines=true}
+\lstset{showspaces=false}
+\lstset{showstringspaces=false}
+\lstset{showtabs=false}
+\lstset{breakatwhitespace=false}
+\lstset{basicstyle=\small\ttfamily}
+
+% table lines
+\newcommand{\thinhline}{\Xhline{1\arrayrulewidth}}
+\newcommand{\thickhline}{\Xhline{2.5\arrayrulewidth}}
+
+\setcounter{tocdepth}{2}
+
+\begin{document}
+
+\title{glscopeclient Operator Manual}
+\author{Andrew Zonenberg\\
+azonenberg@drawersteak.com}
+\date{\today}
+
+\maketitle
+\begin{abstract} \normalsize
+This document is the user manual for glscopeclient, a user interface and signal analysis tool for oscilloscopes and
+logic analyzers. As of this writing, glscopeclient is under active development but has not had a formal v0.1 release
+and should be considered alpha quality.
+\end{abstract}
+\thispagestyle{empty}
+
+\pagebreak
+
+\tableofcontents
+
+\pagebreak
+\section{Revision History}
+\begin{itemize}
+\item \today: [in progress] Initial draft
+\end{itemize}
+
+\pagebreak
+\section{Getting Started}
+
+\subsection{Supported Hardware}
+
+glscopeclient uses the libscopehal library to communicate with oscilloscopes, so any libscopehal-compatible hardware
+should work with glscopeclient.
+
+\begin{tabularx}{16cm}{lllllX}
+\thickhline
+Vendor & Device families & Driver & Tested on & Status \\
+\thickhline
+R\&S & RTM3000 & rs\_lan & (FIXME) & \makecell{Read-only mostly works\\can't change most settings} \\
+\thickhline
+Rigol & DS1000Z & rigol\_lan & DS1054Z & \makecell{Read-only mostly works\\can't change most settings} \\
+\thickhline
+Siglent & FIXME & lecroy\_lan & Untested & FIXME \\
+\thickhline
+Siglent & FIXME & lecroy\_vicp & Untested & FIXME \\
+\thickhline
+\makecell{Teledyne \\ LeCroy} & MAUI based & lecroy\_vicp & \makecell{WaveRunner 8104 \\ HDO9204} & Fully usable \\
+\thickhline
+\makecell{Teledyne \\ LeCroy} & T3DSO & lecroy\_lan & Untested & WIP \\
+\thickhline
+\end{tabularx}
+
+\subsection{Compilation}
+
+\begin{enumerate}
+
+\item Install dependencies. On Debian/Ubuntu:
+\begin{lstlisting}[language=sh]
+sudo apt install build-essential cmake pkg-config libglm-dev \
+	libgtkmm-3.0-dev libsigc++-2.0-dev
+\end{lstlisting}
+
+\item Install FFTS library
+\begin{lstlisting}[language=sh]
+git clone https://github.com/anthonix/ffts.git
+cd ffts
+mkdir build
+cd build
+cmake ../
+sudo make install
+\end{lstlisting}
+
+\item Build scopehal and scopehal-apps
+\begin{lstlisting}[language=sh]
+git clone https://github.com/azonenberg/scopehal-cmake.git --recurse-submodules
+cd scopehal-cmake
+mkdir build
+cd build
+cmake ../
+make
+\end{lstlisting}
+
+\item Install scopehal and scopehal-apps: right now, you don't. As of now, glscopeclient is intended to be run from the
+glscopeclient binary directory (build/src/glscopeclient). Anybody want to contribute and set up a proper install
+process?
+
+\end{enumerate}
+
+\subsection{Running glscopeclient}
+
+There is not yet a proper GUI startup dialog for discovering and connecting to instruments. For the moment, you must
+specify the instrument(s) you plan to connect to on the command line.
+
+\begin{lstlisting}[language=sh]
+./glscopeclient --debug \
+	mylecroy:lecroy_vicp:myscope.example.com:1234 \
+	myrigol:rigol_lan:rigol.example.com
+\end{lstlisting}
+
+The --debug argument may be omitted or replaced with any other liblogtools argument for controlling console debug
+verbosity (--quiet, --verbose, --debug, --trace, etc). If you're using glscopeclient at its current level of maturity
+you're probably a developer, so we suggest --debug.
+
+Each instrument is described by a ``connection string" containing three colon-separated fields.
+
+\begin{itemize}
+\item Nickname. This can be any text string not containing spaces or colons. If you have only one instrument it's
+largely ignored, but when multiple instruments are present channel names in the UI are prefixed with the nickname to
+avoid ambiguity.
+\item Driver name. This is a string identifying the command protocol and interface the scope uses. Note that not all
+scopes from the same vendor will use the same command set or driver!
+\item Arguments for the driver identifying the device to connect to, separated by colons. This varies by driver but is
+typically a hostname:port combination, TTY device path, or similar.
+\end{itemize}
+
+\pagebreak
+\section{Oscilloscope Drivers}
+
+\subsection{Bar}
+TODO
+
+\pagebreak
+\section{User Interface Overview}
+
+\end{document}
