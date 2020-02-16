@@ -167,15 +167,6 @@ scopes from the same vendor will use the same command set or driver!
 typically a hostname:port combination, TTY device path, or similar.
 \end{itemize}
 
-\pagebreak
-\section{Oscilloscope Drivers}
-
-\subsection{Foo}
-TODO
-
-\pagebreak
-\section{User Interface Overview}
-
 \subsection{Design Philosophy}
 
 glscopeclient's UI is heavily mouse driven and context based. Space used by always-visible buttons, sliders, etc is
@@ -185,12 +176,40 @@ controls are displayed in menus or pop-up dialogs, then hidden as soon as they a
 Most UI elements can be interacted with by left clicking (select), left dragging (move), using the scroll wheel (zoom),
 double clicking (open properties dialog), or right clicking (context menu).
 
-\subsection{Main Window}
+\pagebreak
+\section{Oscilloscope Drivers}
+
+\subsection{Agilent}
+TODO
+
+\subsection{Antikernel Labs}
+TODO
+
+\subsection{Keysight}
+TODO
+
+\subsection{Rigol}
+TODO
+
+\subsection{Rohde \& Schwarz}
+TODO
+
+\subsection{Siglent}
+TODO
+
+\subsection{Teledyne LeCroy}
+TODO
+
+\subsection{Tektronix}
+TODO
+
+\pagebreak
+\section{Main Window}
 
 The main window of glscopeclient consists of the menu bar and tool bar at top and a status bar at the bottom. All
 remaining space is occupied by one or more waveform groups.
 
-\subsection{Waveform Groups}
+\section{Waveform Groups}
 
 A waveform group is a collection of one or more waveforms stacked vertically under a common timeline. All waveforms
 within a group share the same timeline and vertical cursor(s).
@@ -221,7 +240,7 @@ with the parent trace's time scale.
 }
 \end{itemize}
 
-\subsubsection{Managing Groups}
+\subsection{Managing Groups}
 
 Additional groups may be created by right clicking a waveform and selecting \menustyle{[Move|Copy] waveform to / Insert
 new group at [right|bottom]} from the context menu. This will split the current group's area in half horizontally or
@@ -246,7 +265,7 @@ group (scopehal-apps:6). The exact semantics for this are not yet defined.
 New waveform groups are given an automatically generated name when created, for example "Waveform Group 2". This name
 will be editable in a future software release (scopehal-apps:53).
 
-\subsection{Timeline}
+\section{Timeline}
 
 The timeline is displayed at the top of each waveform group and shows the X axis scale for the group. The timeline (and
 all accompanying waveform views in the group) may be zoomed by scrolling with the mouse wheel, or panned by dragging
@@ -260,13 +279,13 @@ TODO: talk about how to set trigger offset in capture and change timebase once t
 
 TODO: insert screenshot after we have some pending UI changes done
 
-\subsection{Waveform Views}
+\section{Waveform Views}
 
 A waveform view is a 2D graph of a signal or protocol decode within a waveform group.
 
-\subsubsection{Graph}
+\subsection{Graph}
 
-\subsubsection{Y Axis}
+\subsection{Y Axis}
 
 Each waveform view has its own Y axis scale, which is locked to the ADC range of the instrument.
 
@@ -275,7 +294,7 @@ release will change the voltage offset of the channel.
 
 Scrolling the Y axis scale with the mouse wheel changes the gain of the channel.
 
-\subsubsection{Channel Information Box}
+\subsection{Channel Information Box}
 
 The channel information box is displayed in the lower left corner of each waveform view. It contains summary
 information about the channel. Currently this is the display name of the channel, the sample rate, and the record
@@ -283,6 +302,68 @@ length of the acquisition. Other information, such as probe coupling, may be dis
 
 Double-clicking the information box opens the channel properties dialog.
 
-\subsubsection{Overlays}
+\subsection{Overlays}
+
+\section{Measurements}
+
+\section{Protocol Decodes and Math Functions}
+
+\subsection{Introduction}
+
+\subsubsection{Key Concepts}
+
+glscopeclient and libscopehal are based on a ``filter graph" architecture internally. The filter graph is a directed
+acyclic graph with a set of source nodes (waveforms captured from hardware or loaded from a file) and sink nodes
+(waveform views) connected by edges representing data flow.
+
+A protocol decode is simply an intermediate node in the graph, which takes input from one or more waveform nodes and
+outputs a waveform which may be displayed in a waveform view, used as input to other protocol decodes, or both. A
+waveform is a series of data points which may represent voltages, digital samples, or arbitrarily complex protocol data
+structures.
+
+As a result, there is no internal distinction between math functions and protocol decodes, and it is possible to chain
+them arbitrarily. Consider the following example\footnote{Not all of these filters are currently implemented}.
+
+\begin{itemize}
+\item Two analog waveforms representing serial data and clock are acquired
+\item Each analog waveform is thresholded, producing a digital waveform
+\item The two digital waveforms are decoded as $I^2C$, producing a series of packets
+\item The $I^2C$ packets are decoded as writes to a serial DAC, producing an analog waveform
+\item A moving average filter is applied to the analog waveform
+\end{itemize}
+
+In this document we use the term ``protocol decoder" consistently to avoid ambiguity.
+
+\subsubsection{Conventions}
+
+\subsection{8B/10B (IBM)}
+\subsection{8B/10B (TMDS)}
+\subsection{AC Couple}
+\subsection{CAN}
+\subsection{Clock Jitter (TIE)}
+\subsection{Clock Recovery (PLL)}
+\subsection{Clock Recovery Debug}
+\subsection{Clock Recovery (UART)}
+\subsection{DC Offset}
+\subsection{Difference}
+\subsection{DVI}
+\subsection{Ethernet - 10baseT}
+\subsection{Ethernet - 100baseTX}
+\subsection{Ethernet Autonegotiation}
+\subsection{Eye Pattern}
+\subsection{FFT}
+\subsection{$I^2C$}
+\subsection{JTAG}
+\subsection{MDIO}
+\subsection{Moving Average}
+\subsection{Period}
+\subsection{Sin(x)/x Interpolation}
+\subsection{Threshold}
+\subsection{UART}
+\subsection{USB 1.0 / 2.x Activity}
+\subsection{USB 1.0 / 2.x Packet}
+\subsection{USB 1.0 / 2.x PCS}
+\subsection{USB 1.0 / 2.x PMA}
+\subsection{Waterfall}
 
 \end{document}
