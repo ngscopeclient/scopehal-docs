@@ -619,10 +619,10 @@ For example, an analog sample takes 20 bytes of RAM (16 of time plus a 32-bit fl
 sample. Thus, a 1M point analog waveform takes approximately 20 MB of RAM per channel, or 80 MB per capture on a
 four-channel oscilloscope with all channels enabled.
 
-On the larger side, A 10M point four channel capture would use 800 MB and a 64M point deep-memory capture would use 5
+On the larger side, a 10M point four channel capture would use 800 MB and a 64M point deep-memory capture would use 5
 GB. The default 100-waveform history setting is thus wildly inappropriate for such deep captures! A future software
 release may support spilling waveform data to a temporary directory on disk, permitting effectively unlimited history
-depth givens sufficient disk space.
+depth given sufficient disk space.
 
 Digital waveforms use one byte per sample for the actual measurement, so 17 MB per channel for a 1M point waveform.
 
