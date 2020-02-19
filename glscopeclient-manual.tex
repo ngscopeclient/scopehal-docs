@@ -11,6 +11,7 @@
 \usepackage{colortbl}
 \usepackage[osf]{libertine}
 \usepackage{zi4}
+\usepackage{float}
 \usepackage[libertine,cmbraces]{newtxmath}
 
 % configuration of source code examples
@@ -61,6 +62,9 @@ azonenberg@drawersteak.com}
 This document is the user manual for glscopeclient, a user interface and signal analysis tool for oscilloscopes and
 logic analyzers. As of this writing, glscopeclient is under active development but has not had a formal v0.1 release
 and should be considered alpha quality.
+
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
 \end{abstract}
 \thispagestyle{empty}
 
@@ -73,6 +77,45 @@ and should be considered alpha quality.
 \begin{itemize}
 \item \today: [in progress] Initial draft
 \end{itemize}
+
+\pagebreak
+\section{Legal Notices}
+
+\subsection{Introduction}
+
+glscopeclient, libscopehal, and the remainder of the project are all released under the 3-clause BSD license
+(reproduced below). This is a permissive license, explicitly chosen to encourage integration with third-party open
+source and commercial projects.
+
+\subsection{License Agreement}
+
+Copyright (c) 2012-2020 Andrew D. Zonenberg
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:
+\begin{itemize}
+\item Redistributions of source code must retain the above copyright notice, this list of conditions, and the
+following disclaimer.
+\item Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the
+following disclaimer in the documentation and/or other materials provided with the distribution.
+\item Neither the name of the author nor the names of any contributors may be used to endorse or promote products
+derived from this software without specific prior written permission.
+\end{itemize}
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+THE AUTHORS BE HELD LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+\subsection{Trademarks}
+
+This document frequently mentions the names of various test equipment vendors and products in order to discuss
+glscopeclient's compatibility with said products. The reader should assume that these are all trademarks of their
+respective owners.
 
 \pagebreak
 \section{Getting Started}
@@ -96,25 +139,8 @@ repository:ticket, for example scopehal-apps:3.
 \subsection{Supported Hardware}
 
 glscopeclient uses the libscopehal library to communicate with oscilloscopes, so any libscopehal-compatible hardware
-should work with glscopeclient.
-
-\begin{tabularx}{16cm}{lllllX}
-\thickhline
-Vendor & Device families & Driver & Tested on & Status \\
-\thickhline
-R\&S & RTM3000 & rs\_lan & (FIXME) & \makecell{Read-only mostly works\\can't change most settings} \\
-\thickhline
-Rigol & DS1000Z & rigol\_lan & DS1054Z & \makecell{Read-only mostly works\\can't change most settings} \\
-\thickhline
-Siglent & FIXME & lecroy\_lan & Untested & FIXME \\
-\thickhline
-Siglent & FIXME & lecroy\_vicp & Untested & FIXME \\
-\thickhline
-\makecell{Teledyne \\ LeCroy} & MAUI based & lecroy\_vicp & \makecell{WaveRunner 8104 \\ HDO9204} & Fully usable \\
-\thickhline
-\makecell{Teledyne \\ LeCroy} & T3DSO & lecroy\_lan & Untested & WIP \\
-\thickhline
-\end{tabularx}
+should work with glscopeclient. See the \hyperref[sec:drivers]{Oscilloscope Drivers} section for more details on which
+hardware is supported and how to configure specific drivers.
 
 \subsection{Compilation}
 
@@ -164,9 +190,9 @@ specify the instrument(s) you plan to connect to on the command line.
 	myrigol:rigol_lan:rigol.example.com
 \end{lstlisting}
 
-The --debug argument may be omitted or replaced with any other liblogtools argument for controlling console debug
-verbosity (--quiet, --verbose, --debug, --trace, etc). If you're using glscopeclient at its current level of maturity
-you're probably a developer, so we suggest --debug.
+The \texttt{--debug} argument may be omitted or replaced with any other liblogtools argument for controlling console
+debug verbosity (\texttt{--quiet}, \texttt{--verbose}, \texttt{--debug}, \texttt{--trace}, etc). If you're using
+glscopeclient at its current level of maturity you're probably a developer, so we suggest \texttt{--debug} by default.
 
 Each instrument is described by a ``connection string" containing three colon-separated fields.
 
@@ -191,6 +217,7 @@ double clicking (open properties dialog), or right clicking (context menu).
 
 \pagebreak
 \section{Oscilloscope Drivers}
+\label{sec:drivers}
 
 \subsection{Agilent}
 TODO (scopehal:74, scopehal:14)
@@ -220,19 +247,72 @@ TODO (scopehal:59)
 TODO (scopehal:16)
 
 \subsection{Siglent}
+
 TODO (scopehal:11)
 
-\subsection{Teledyne LeCroy}
+Many recent Siglent oscilloscopes are developed in partnership with Teledyne LeCroy (Siglent-designed hardware running
+Teledyne LeCroy firmware) and are sold under both brands. As a result, the Teledyne LeCroy compatible drivers work with
+many Siglent devices.
 
-There are currently two drivers for Teledyne LeCroy devices.
+TODO: expand this section with details on which Siglent families work with what driver
+
+\subsection{Teledyne LeCroy / LeCroy}
+
+There are currently two drivers for Teledyne LeCroy (and older LeCroy) devices. While all Teledyne LeCroy / LeCroy
+devices use almost identical SCPI command sets, Windows based devices running XStream or MAUI use a custom framing
+protocol around the SCPI data while the lower end RTOS based devices use raw SCPI over TCP.
+
+Please see the table below for details on which driver to use with  your hardware.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
+\thickhline
+DDA & lecroy\_vicp & Untested, but should work \\
+\thickhline
+HDO & lecroy\_vicp & \\
+\thickhline
+LabMaster & lecroy\_vicp & Untested, but should work\\
+\thickhline
+MDA & lecroy\_vicp &  Untested, but should work\\
+\thickhline
+SDA & lecroy\_vicp &  Untested, but should work\\
+\thickhline
+T3DSO & lecroy\_lan & \\
+\thickhline
+WaveAce & lecroy\_lan & \\
+\thickhline
+WaveJet & lecroy\_lan & \\
+\thickhline
+WaveMaster & lecroy\_vicp & Untested, but should work \\
+\thickhline
+WaveRunner & lecroy\_vicp &  \\
+\thickhline
+WaveSurfer & lecroy\_vicp &  \\
+\thickhline
+\end{tabularx}
 
 \subsubsection{lecroy\_lan}
 
-TODO
+TODO: finish this one
 
 \subsubsection{lecroy\_vicp}
 
-This driver uses SCPI over
+This driver uses SCPI over the Teledyne LeCroy Versatile Instrument Control Protocol (VICP), which runs over TCP port
+1861.
+
+It takes two arguments: hostname/IP and port number. If omitted, port number is assumed to be 1861.
+
+Example:
+\begin{lstlisting}[language=sh]
+./glscopeclient --debug myscope:lecroy_vicp:192.168.1.1:1861
+\end{lstlisting}
+
+This driver has been tested on WaveSurfer 3034, WaveRunner 8104, and HDO9204 devices. It should be compatible with any
+Teledyne LeCroy oscilloscope running Windows 7 or newer and the MAUI software.
+
+While the driver is expected to be compatible with older Windows XP based LeCroy devices running XStream, as of this
+writing no testing has been conducted. Reports of tests, successful or otherwise, will be appreciated!
 
 \subsection{Tektronix}
 TODO (scopehal:73, scopehal:13)
@@ -246,6 +326,108 @@ TODO (scopehal:40)
 The main window of glscopeclient consists of the menu bar and tool bar at top and a status bar at the bottom. All
 remaining space is occupied by one or more waveform groups.
 
+\subsection{Menu}
+
+\subsubsection{File}
+
+\subsubsection{Setup}
+
+\subsubsection{View}
+
+\subsubsection{Add}
+
+\subsection{Toolbar}
+
+The toolbar contains buttons and controls for the most frequently used actions.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/toolbar.png}
+\caption{glscopeclient toolbar}
+\label{toolbar}
+\end{figure}
+
+\subsubsection{Capture buttons}
+
+The capture button group (Fig. \ref{capturebuttons}) contains three buttons. From left to right these are ``arm
+normal trigger", ``arm one-shot trigger" and ``stop trigger".
+
+Note that the ``normal" trigger mode still uses one-shot capture internally so that all waveform data can be downloaded
+before the next trigger event.
+
+\begin{figure}[h]
+\centering
+\includegraphics[height=1cm]{images/capture-icons.png}
+\caption{Capture control buttons}
+\label{capturebuttons}
+\end{figure}
+
+\subsubsection{History button}
+
+The history button (Fig. \ref{historybutton}) toggles display of the \hyperref[sec:history]{waveform history view}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[height=1cm]{images/history-button.png}
+\caption{History button}
+\label{historybutton}
+\end{figure}
+
+\subsubsection{Opacity slider}
+
+The opacity slider (Fig. \ref{opacityslider}) controls the alpha/opacity used to display intensity-graded waveforms.
+Higher opacity values lead to better display of sparse waveforms (compare the crisp lines of Fig. \ref{sparse-waveform}
+to the barely visible trace in Fig. \ref{dim-waveform}) but can lead to a washed-out appearance if too many sample
+points are shoved into a small area.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=1cm]{images/opacity-slider.png}
+\caption{Trace opacity slider}
+\label{opacityslider}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=10cm]{images/sparse-waveform.png}
+\caption{Sparse waveform at a high zoom level}
+\label{sparse-waveform}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=10cm]{images/dim-waveform.png}
+\caption{Dim waveform showing difficulty of seeing waveform at low opacity}
+\label{dim-waveform}
+\end{figure}
+
+For example, the DVI waveform in Fig. \ref{washedout-waveform} looks like a solid white blob with a vaguely visible
+outline. No fine detail can be observed other than the increased over/undershoot and random-looking edges on the
+scanlines, compared to the flat appearance of the blanking period between scanlines and at the end of the frame.
+
+When the opacity is reduced in this example, many more nuances of the signal become apparent. The high/low voltage
+levels of the signal compared to the transitions between them are obvious, and the H/V sync pulses within the blanking
+period show up as a slightly darker region.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=10cm]{images/washedout-waveform.png}
+\caption{Intensity-graded waveform showing washed-out appearance at high opacity}
+\label{washedout-waveform}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=10cm]{images/graded-waveform.png}
+\caption{Intensity-graded waveform at lower opacity level}
+\label{graded-waveform}
+\end{figure}
+
+As of this writing, the opacity setting is global for the entire application. Should this be changed to per waveform
+group? If so, how should the group be selected and should there still be an option to make changes globally?
+
+\FloatBarrier
+\pagebreak
 \section{Waveform Groups}
 
 A waveform group is a collection of one or more waveforms stacked vertically under a common timeline. All waveforms
@@ -268,7 +450,8 @@ groups. Typical reasons for creating additional groups include:
 \item Zooming into one set of signals to see detail on short time scales while maintaining a high level overview of
 others
 \item Viewing signals with incompatible horizontal units. For example, a FFT has horizontal units of frequency while an
-analog waveform has horizontal units of time and eye patterns have horizontal units of UIs.
+analog waveform has horizontal units of time. Eye patterns also have horizontal units of time, but are always displayed
+as two UIs wide and cannot be zoomed.
 \footnote
 {
 It is currently possible to place signals with incompatible horizontal units in the same group. This may lead to
@@ -302,6 +485,7 @@ group (scopehal-apps:6). The exact semantics for this are not yet defined.
 New waveform groups are given an automatically generated name when created, for example "Waveform Group 2". This name
 will be editable in a future software release (scopehal-apps:53).
 
+\pagebreak
 \section{Timeline}
 
 The timeline is displayed at the top of each waveform group and shows the X axis scale for the group. The timeline (and
@@ -316,13 +500,37 @@ TODO: talk about how to set trigger offset in capture and change timebase once t
 
 TODO: insert screenshot after we have some pending UI changes done
 
+\pagebreak
 \section{Waveform Views}
 
 A waveform view is a 2D graph of a signal or protocol decode within a waveform group.
 
-\subsection{Graph}
+\subsection{Plot Area}
 
-\subsection{Y Axis}
+The plot area shows the waveform being displayed. The background has a subtle gradient from light at top to dark at
+bottom, in order to visually separate adjacent waveform view within the same group.
+
+The horizontal grid lines line up with the voltage scale markings on the Y axis. If the plot area includes Y=0, the
+grid line for zero is slightly brighter.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=10cm]{images/waveform-graph.png}
+\caption{Waveform plot area}
+\label{waveform-graph}
+\end{figure}
+
+The waveform is drawn as a semi-transparent line so that when zoomed out, the density of voltage at various points in
+the graph may be seen as lighter or darker areas. This is referred to as ``intensity grading".
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=10cm]{images/graded-waveform.png}
+\caption{Intensity-graded waveform}
+\label{graded-waveform2}
+\end{figure}
+
+\subsection{Y Axis Scale}
 
 Each waveform view has its own Y axis scale, which is locked to the ADC range of the instrument.
 
@@ -330,6 +538,16 @@ Dragging the Y axis scale with the left mouse button currently does nothing (sco
 release will change the voltage offset of the channel.
 
 Scrolling the Y axis scale with the mouse wheel changes the gain of the channel.
+
+If a left-pointing arrow (as seen in Fig. \ref{y-axis}) is visible, the current channel is selected as a trigger
+source. Click on the arrow and drag up or down to select the trigger level.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=3cm]{images/y-axis.png}
+\caption{Y axis of a waveform view showing trigger arrow}
+\label{y-axis}
+\end{figure}
 
 \subsection{Channel Information Box}
 
@@ -339,8 +557,57 @@ length of the acquisition. Other information, such as probe coupling, may be dis
 
 Double-clicking the information box opens the channel properties dialog.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=2cm]{images/channel-infobox.png}
+\caption{Channel information box}
+\label{channel-infobox}
+\end{figure}
+
 \subsection{Overlays}
 
+Waveforms may have additional information overlaid on top of them, such as protocol decodes. Each overlay has its own
+information box, which may be double-clicked to open the properties dialog and configure it just like any other
+channel.
+
+Fig. \ref{overlays} shows
+an example of an analog waveform with three overlays: thresholding it to NRZ digital, recovering a sampling
+clock with a CDR PLL, and finally decoding the serial NRZ data stream to TMDS protocol data and control events.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=14cm]{images/overlays.png}
+\caption{Waveform showing two digital overlays and a data decode overlay}
+\label{overlays}
+\end{figure}
+
+Overlays can be deleted but cannot currently be moved between waveform areas or reordered within a single waveform area
+(scopehal-apps:7, scopehal-apps:6)
+
+\pagebreak
+\section{History View}
+\label{sec:history}
+
+glscopeclient has the ability to save every waveform during a session in memory, allowing you to go back in time and
+see previous state of the system being debugged.
+
+By default, the history view (Fig. \ref{historyview}) is not displayed and no history is captured. If the history view
+is closed, past history is removed. (TODO: we should probably display a warning prompt or keep existing history when
+doing this?)
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=5cm]{images/history-view.png}
+\caption{Waveform history view}
+\label{historyview}
+\end{figure}
+
+\pagebreak
+\section{Protocol Analyzer View}
+
+\pagebreak
 \section{Protocol Decodes, Math Functions, and Measurements}
 
 \subsection{Introduction}
