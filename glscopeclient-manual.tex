@@ -136,7 +136,29 @@ This project is under active development and is not anywhere near feature comple
 likely to refer to active bug or feature request tickets on the GitHub issue trackers. Issues are referenced as
 repository:ticket, for example scopehal-apps:3.
 
-\subsection{Supported Hardware}
+\subsection{Host System Requirements}
+
+All current development is performed on Linux operating systems (primarily Debian and Arch). While use of 
+cross-platform APIs is encouraged and the UI toolkit (gtkmm) is portable, there are a handful of underlying POSIX-isms 
+that will need to be wrapped in order to support Windows or OSX.
+
+glscopeclient uses gtkmm as the UI toolkit. Current development mostly uses 3.24 but any recent 3.x version should work.
+
+The current CMake flags assume a Sandy Bridge or newer Intel CPU. This will likely change; any 64-bit ARM or Intel 
+processor should eventually be able to run glscopeclient.
+
+A mouse with scroll wheel, or touchpad with scroll gesture support, is mandatory to enable full use of the UI. We may 
+explore alternative input methods for some UI elements in the future.
+
+Waveform rendering is performed in compute shaders, so OpenGL 4.3 or newer is required. The corresponding minimum 
+hardware requirement is an AMD Radeon HD 5000, NVIDIA GeForce 400 series discrete GPU, or Intel Haswell or newer 
+integrated GPU plus suitably up-to-date drivers. TODO: what AMD integrated/ARM GPUs started supporting GL 4.3?
+
+The minimum RAM requirement to actually launch glscopeclient is relatively small (TODO: do some testing) however 
+history mode and deep captures can easily consume many GB of RAM. We suggest 8GB as a reasonable minimum, with 32 or 
+more encouraged for deep history.
+
+\subsection{Instrument Support}
 
 glscopeclient uses the libscopehal library to communicate with oscilloscopes, so any libscopehal-compatible hardware
 should work with glscopeclient. See the \hyperref[sec:drivers]{Oscilloscope Drivers} section for more details on which
