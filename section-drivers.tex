@@ -2,7 +2,35 @@
 \label{sec:drivers}
 
 \subsection{Agilent}
-TODO (scopehal:74, scopehal:14)
+
+Agilent devices support a similar similar SCPI command set across most device families. It is usually made available over Ethernet, USB, and GPIB. Only Ethernet is currently supported..
+
+Please see the table below for details of current hardware support:
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Device Family} & \textbf{Notes} \\
+\thickhline
+DSO5000 series & Not recently tested, but should work.\\
+\thickhline
+DSO6000 \& MSO6000 series & Working. No support for digital channels yet.\\
+\thickhline
+DSO7000 \& MSO7000 series & Untested, but should work. No support for digital channels yet.\\
+\thickhline
+\end{tabularx}
+
+\subsubsection{agilent\_lan}
+
+This driver uses SCPI over TCP, on port 5025.
+
+It takes two arguments: hostname/IP and port number. If omitted, port number is assumed to be 5025.
+
+Example:
+\begin{lstlisting}[language=sh]
+./glscopeclient --debug myscope:agilent_lan:192.168.1.1:5025
+\end{lstlisting}
+
+This driver has been tested on an MSO6034A.
 
 \subsection{Antikernel Labs}
 TODO
