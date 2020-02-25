@@ -6,7 +6,7 @@ add_custom_command(
 	COMMAND pdflatex -halt-on-error -interaction batchmode
 		--output-directory ${CMAKE_CURRENT_BINARY_DIR}
 		${CMAKE_CURRENT_SOURCE_DIR}/glscopeclient-manual.tex > /dev/null
-	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/glscopeclient-manual.tex
+	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.tex
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	VERBATIM)
 add_custom_target(doc ALL
