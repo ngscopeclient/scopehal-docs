@@ -33,7 +33,16 @@ Example:
 This driver has been tested on an MSO6034A.
 
 \subsection{Antikernel Labs}
-TODO
+
+Under-development internal logic analyzer analyzer core for FPGA design debug. The ILA uses a UART interface to a host
+system. Since there's no UART support in scopehal yet, socat must be used to bridge the UART to a TCP socket
+(SCPISocketTransport)
+
+\subsubsection{akila\_lan}
+
+This driver uses a raw binary protocol over TCP.
+
+It takes two arguments: hostname/IP and port number. If omitted, port number is assumed to be 5555.
 
 \subsection{Enjoy Digital}
 TODO (scopehal:79)
