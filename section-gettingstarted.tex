@@ -1,0 +1,117 @@
+\section{Getting Started}
+
+\subsection{Documentation Conventions}
+
+Items to be selected from a menu are displayed in \menustyle{monospace font}.
+
+Multilevel menu paths are separated by a / character. For example, \menustyle{Attenuation / 1x} means to open the
+\menustyle{Attenuation} submenu and select the \menustyle{1x} item.
+
+If there are multiple options for a menu or configuration option, they are displayed in square brackets and separated
+by a | character. For example, \menustyle{Move waveform to / Waveform Group [1|2]} means to select either
+\menustyle{Waveform Group 1} or \menustyle{Waveform Group 2} from the \menustyle{Move waveform to}
+menu.
+
+This project is under active development and is not anywhere near feature complete! As a result, this document is
+likely to refer to active bug or feature request tickets on the GitHub issue trackers. Issues are referenced as
+repository:ticket, for example scopehal-apps:3.
+
+\subsection{Host System Requirements}
+
+All current development is performed on Linux operating systems (primarily Debian and Arch). While use of
+cross-platform APIs is encouraged and the UI toolkit (gtkmm) is portable, there are a handful of underlying POSIX-isms
+that will need to be wrapped in order to support Windows or OSX.
+
+glscopeclient uses gtkmm as the UI toolkit. Current development mostly uses 3.24 but any recent 3.x version should work.
+
+The current CMake flags assume a Sandy Bridge or newer Intel CPU. This will likely change; any 64-bit ARM or Intel
+processor should eventually be able to run glscopeclient.
+
+A mouse with scroll wheel, or touchpad with scroll gesture support, is mandatory to enable full use of the UI. We may
+explore alternative input methods for some UI elements in the future.
+
+Waveform rendering is performed in compute shaders, so OpenGL 4.3 or newer is required. The corresponding minimum
+hardware requirement is an AMD Radeon HD 5000, NVIDIA GeForce 400 series discrete GPU, or Intel Haswell or newer
+integrated GPU plus suitably up-to-date drivers. TODO: what AMD integrated/ARM GPUs started supporting GL 4.3?
+
+The minimum RAM requirement to actually launch glscopeclient is relatively small (TODO: do some testing) however
+history mode and deep captures can easily consume many GB of RAM. We suggest 8GB as a reasonable minimum, with 32 or
+more encouraged for deep history.
+
+\subsection{Instrument Support}
+
+glscopeclient uses the libscopehal library to communicate with oscilloscopes, so any libscopehal-compatible hardware
+should work with glscopeclient. See the \hyperref[sec:drivers]{Oscilloscope Drivers} section for more details on which
+hardware is supported and how to configure specific drivers.
+
+\subsection{Compilation}
+
+\begin{enumerate}
+
+\item Install dependencies. On Debian/Ubuntu:
+\begin{lstlisting}[language=sh]
+sudo apt install build-essential cmake pkg-config libglm-dev \
+	libgtkmm-3.0-dev libsigc++-2.0-dev
+\end{lstlisting}
+
+\item Install FFTS library
+\begin{lstlisting}[language=sh]
+git clone https://github.com/anthonix/ffts.git
+cd ffts
+mkdir build
+cd build
+cmake ../
+make
+sudo make install
+\end{lstlisting}
+
+\item Build scopehal and scopehal-apps
+\begin{lstlisting}[language=sh]
+git clone https://github.com/azonenberg/scopehal-cmake.git --recurse-submodules
+cd scopehal-cmake
+mkdir build
+cd build
+cmake ../
+make
+\end{lstlisting}
+
+\item Install scopehal and scopehal-apps: right now, you don't. As of now, glscopeclient is intended to be run from the
+glscopeclient source directory (src/glscopeclient). Anybody want to contribute and set up a proper install process?
+
+\end{enumerate}
+
+\subsection{Running glscopeclient}
+
+There is not yet a proper GUI startup dialog for discovering and connecting to instruments. For the moment, you must
+specify the instrument(s) you plan to connect to on the command line.
+
+\begin{lstlisting}[language=sh]
+./glscopeclient --debug \
+	mylecroy:lecroy_vicp:myscope.example.com:1234 \
+	myrigol:rigol_lan:rigol.example.com
+\end{lstlisting}
+
+The \texttt{--debug} argument may be omitted or replaced with any other liblogtools argument for controlling console
+debug verbosity (\texttt{--quiet}, \texttt{--verbose}, \texttt{--debug}, \texttt{--trace}, etc). If you're using
+glscopeclient at its current level of maturity you're probably a developer, so we suggest \texttt{--debug} by default.
+
+Each instrument is described by a ``connection string" containing three colon-separated fields.
+
+\begin{itemize}
+\item Nickname. This can be any text string not containing spaces or colons. If you have only one instrument it's
+largely ignored, but when multiple instruments are present channel names in the UI are prefixed with the nickname to
+avoid ambiguity.
+\item Driver name. This is a string identifying the command protocol and interface the scope uses. Note that not all
+scopes from the same vendor will use the same command set or driver!
+\item Arguments for the driver identifying the device to connect to, separated by colons. This varies by driver but is
+typically a hostname:port combination, TTY device path, or similar.
+\end{itemize}
+
+\subsection{Design Philosophy}
+
+glscopeclient's UI is heavily mouse driven and context based. Space used by always-visible buttons, sliders, etc is
+kept to a minimum in order to keep as much screen real estate as possible usable for waveform display. Additional
+controls are displayed in menus or pop-up dialogs, then hidden as soon as they are not needed.
+
+Most UI elements can be interacted with by left clicking (select), left dragging (move), using the scroll wheel (zoom),
+double clicking (open properties dialog), or right clicking (context menu).

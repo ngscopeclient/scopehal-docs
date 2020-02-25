@@ -1,0 +1,103 @@
+\section{Oscilloscope Drivers}
+\label{sec:drivers}
+
+\subsection{Agilent}
+TODO (scopehal:74, scopehal:14)
+
+\subsection{Antikernel Labs}
+TODO
+
+\subsection{Enjoy Digital}
+TODO (scopehal:79)
+
+\subsection{Hantek}
+TODO (scopehal:26)
+
+\subsection{Keysight}
+TODO
+
+\subsection{Pico Technologies}
+TODO (scopehal:15)
+
+\subsection{Rigol}
+TODO (scopehal:12)
+
+\subsection{Rohde \& Schwarz}
+TODO (scopehal:59)
+
+\subsection{Saleae}
+TODO (scopehal:16)
+
+\subsection{Siglent}
+
+TODO (scopehal:11)
+
+Many recent Siglent oscilloscopes are developed in partnership with Teledyne LeCroy (Siglent-designed hardware running
+Teledyne LeCroy firmware) and are sold under both brands. As a result, the Teledyne LeCroy compatible drivers work with
+many Siglent devices.
+
+TODO: expand this section with details on which Siglent families work with what driver
+
+\subsection{Teledyne LeCroy / LeCroy}
+
+There are currently two drivers for Teledyne LeCroy (and older LeCroy) devices. While all Teledyne LeCroy / LeCroy
+devices use almost identical SCPI command sets, Windows based devices running XStream or MAUI use a custom framing
+protocol around the SCPI data while the lower end RTOS based devices use raw SCPI over TCP.
+
+Please see the table below for details on which driver to use with  your hardware.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
+\thickhline
+DDA & lecroy\_vicp & \\
+\thickhline
+HDO & lecroy\_vicp & \\
+\thickhline
+LabMaster & lecroy\_vicp & Untested, but should work\\
+\thickhline
+MDA & lecroy\_vicp &  Untested, but should work\\
+\thickhline
+SDA & lecroy\_vicp &  Untested, but should work\\
+\thickhline
+T3DSO & lecroy\_lan & TODO \\
+\thickhline
+WaveAce & lecroy\_lan & TODO \\
+\thickhline
+WaveJet & lecroy\_lan & TODO \\
+\thickhline
+WaveMaster & lecroy\_vicp & Untested, but should work \\
+\thickhline
+WaveRunner & lecroy\_vicp &  \\
+\thickhline
+WaveSurfer & lecroy\_vicp &  \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{lecroy\_lan}
+
+TODO: finish this one
+
+\subsubsection{lecroy\_vicp}
+
+This driver uses SCPI over the Teledyne LeCroy Versatile Instrument Control Protocol (VICP), which runs over TCP port
+1861.
+
+It takes two arguments: hostname/IP and port number. If omitted, port number is assumed to be 1861.
+
+Example:
+\begin{lstlisting}[language=sh]
+./glscopeclient --debug myscope:lecroy_vicp:192.168.1.1:1861
+\end{lstlisting}
+
+This driver has been tested on WaveSurfer 3034, WaveRunner 8104, and HDO9204 devices. It should be compatible with any
+Teledyne LeCroy oscilloscope running Windows 7 or newer and the MAUI software.
+
+While the driver is expected to be compatible with older Windows XP based LeCroy devices running XStream, as of this
+writing no testing has been conducted. Reports of tests, successful or otherwise, will be appreciated!
+
+\subsection{Tektronix}
+TODO (scopehal:73, scopehal:13)
+
+\subsection{Xilinx}
+TODO (scopehal:40)
