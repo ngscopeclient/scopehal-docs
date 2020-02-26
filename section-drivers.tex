@@ -67,13 +67,20 @@ TODO (scopehal:16)
 
 \subsection{Siglent}
 
-TODO (scopehal:11)
-
 Many recent Siglent oscilloscopes are developed in partnership with Teledyne LeCroy (Siglent-designed hardware running
 Teledyne LeCroy firmware) and are sold under both brands. As a result, the Teledyne LeCroy compatible drivers work with
-many Siglent devices.
+many Siglent devices.\\
 
-TODO: expand this section with details on which Siglent families work with what driver
+This driver may be selected by either requesting \texttt{siglent\_lan} or \texttt{lecroy\_lan} in glscopelient command
+string. This driver will use port 5025 by default. \\
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Device Family} & \textbf{Notes} \\
+\thickhline
+SDS-1000X-E series & Base functionality present. Tested on SDS-1204X-E. \\
+\thickhline
+\end{tabularx}
 
 \subsection{Teledyne LeCroy / LeCroy}
 
