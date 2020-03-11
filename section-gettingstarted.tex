@@ -87,22 +87,23 @@ specify the instrument(s) you plan to connect to on the command line.
 
 \begin{lstlisting}[language=sh]
 ./glscopeclient --debug \
-	mylecroy:lecroy_vicp:myscope.example.com:1234 \
-	myrigol:rigol_lan:rigol.example.com
+	mylecroy:lecroy:vicp:myscope.example.com:1234 \
+	myrigol:rigol:lan:rigol.example.com
 \end{lstlisting}
 
 The \texttt{--debug} argument may be omitted or replaced with any other liblogtools argument for controlling console
 debug verbosity (\texttt{--quiet}, \texttt{--verbose}, \texttt{--debug}, \texttt{--trace}, etc). If you're using
 glscopeclient at its current level of maturity you're probably a developer, so we suggest \texttt{--debug} by default.
 
-Each instrument is described by a ``connection string" containing three colon-separated fields.
+Each instrument is described by a ``connection string" containing four colon-separated fields.
 
 \begin{itemize}
 \item Nickname. This can be any text string not containing spaces or colons. If you have only one instrument it's
 largely ignored, but when multiple instruments are present channel names in the UI are prefixed with the nickname to
 avoid ambiguity.
-\item Driver name. This is a string identifying the command protocol and interface the scope uses. Note that not all
+\item Driver name. This is a string identifying the command protocol the scope uses. Note that not all
 scopes from the same vendor will use the same command set or driver!
+\item Transport. This is is a string describing how the driver connects to the scope (e.g. RS232 or Ethernet)
 \item Arguments for the driver identifying the device to connect to, separated by colons. This varies by driver but is
 typically a hostname:port combination, TTY device path, or similar.
 \end{itemize}

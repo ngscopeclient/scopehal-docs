@@ -3,46 +3,50 @@
 
 \subsection{Agilent}
 
-Agilent devices support a similar similar SCPI command set across most device families. It is usually made available over Ethernet, USB, and GPIB. Only Ethernet is currently supported..
+Agilent devices support a similar similar SCPI command set across most device families.
 
 Please see the table below for details of current hardware support:
 
 \begin{tabularx}{16cm}{llX}
 \thickhline
-\textbf{Device Family} & \textbf{Notes} \\
+\textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
 \thickhline
-DSO5000 series & Not recently tested, but should work.\\
+DSO5000 series & agilent & Not recently tested, but should work.\\
 \thickhline
-DSO6000 \& MSO6000 series & Working. No support for digital channels yet.\\
+DSO6000 \& MSO6000 series & agilent &  Working. No support for digital channels yet.\\
 \thickhline
-DSO7000 \& MSO7000 series & Untested, but should work. No support for digital channels yet.\\
+DSO7000 \& MSO7000 series & agilent &  Untested, but should work. No support for digital channels yet.\\
 \thickhline
 \end{tabularx}
 
-\subsubsection{agilent\_lan}
-
-This driver uses SCPI over TCP, on port 5025.
-
-It takes two arguments: hostname/IP and port number. If omitted, port number is assumed to be 5025.
+\subsubsection{agilent}
 
 Example:
 \begin{lstlisting}[language=sh]
-./glscopeclient --debug myscope:agilent_lan:192.168.1.1:5025
+./glscopeclient --debug myscope:agilent:lan:192.168.1.1:5025
 \end{lstlisting}
 
 This driver has been tested on an MSO6034A.
 
 \subsection{Antikernel Labs}
 
+So far only the ILA IP is supported.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
+\thickhline
+Internal Logic Analyzer & akila & \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{akila}
+
+This driver uses a raw binary protocol, not SCPI.
+
 Under-development internal logic analyzer analyzer core for FPGA design debug. The ILA uses a UART interface to a host
-system. Since there's no UART support in scopehal yet, socat must be used to bridge the UART to a TCP socket
-(SCPISocketTransport)
-
-\subsubsection{akila\_lan}
-
-This driver uses a raw binary protocol over TCP.
-
-It takes two arguments: hostname/IP and port number. If omitted, port number is assumed to be 5555.
+system. Since there's no UART support in scopehal yet, socat must be used to bridge the UART to a TCP socket using
+the ``lan" transport.
 
 \subsection{Enjoy Digital}
 TODO (scopehal:79)
@@ -68,77 +72,69 @@ TODO (scopehal:16)
 \subsection{Siglent}
 
 Many recent Siglent oscilloscopes are developed in partnership with Teledyne LeCroy (Siglent-designed hardware running
-Teledyne LeCroy firmware) and are sold under both brands. As a result, the Teledyne LeCroy compatible drivers work with
-many Siglent devices.\\
-
-This driver may be selected by either requesting \texttt{siglent\_lan} or \texttt{lecroy\_lan} in glscopelient command
-string. This driver will use port 5025 by default. \\
-
-\begin{tabularx}{16cm}{llX}
-\thickhline
-\textbf{Device Family} & \textbf{Notes} \\
-\thickhline
-SDS-1000X-E series & Base functionality present. Tested on SDS-1204X-E. \\
-\thickhline
-\end{tabularx}
-
-\subsection{Teledyne LeCroy / LeCroy}
-
-There are currently two drivers for Teledyne LeCroy (and older LeCroy) devices. While all Teledyne LeCroy / LeCroy
-devices use almost identical SCPI command sets, Windows based devices running XStream or MAUI use a custom framing
-protocol around the SCPI data while the lower end RTOS based devices use raw SCPI over TCP.
-
-Please see the table below for details on which driver to use with  your hardware.
+Teledyne LeCroy firmware) and are sold under both brands. As a result, there is some crossover in driver support. \\
 
 \begin{tabularx}{16cm}{llX}
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
 \thickhline
-DDA & lecroy\_vicp & \\
-\thickhline
-HDO & lecroy\_vicp & \\
-\thickhline
-LabMaster & lecroy\_vicp & Untested, but should work\\
-\thickhline
-MDA & lecroy\_vicp &  Untested, but should work\\
-\thickhline
-SDA & lecroy\_vicp &  Untested, but should work\\
-\thickhline
-T3DSO & lecroy\_lan & TODO \\
-\thickhline
-WaveAce & lecroy\_lan & TODO \\
-\thickhline
-WaveJet & lecroy\_lan & TODO \\
-\thickhline
-WaveMaster & lecroy\_vicp & Untested, but should work \\
-\thickhline
-WaveRunner & lecroy\_vicp &  \\
-\thickhline
-WaveSurfer & lecroy\_vicp &  \\
+SDS-1000X-E series & siglent & Base functionality present.\\
 \thickhline
 \end{tabularx}
 
-\subsubsection{lecroy\_lan}
+Tested on SDS-1204X-E.
 
-TODO: finish this one
+\subsection{Teledyne LeCroy / LeCroy}
 
-\subsubsection{lecroy\_vicp}
+Teledyne LeCroy (and older LeCroy) devices use the same driver, but two different transports for LAN connections.
 
-This driver uses SCPI over the Teledyne LeCroy Versatile Instrument Control Protocol (VICP), which runs over TCP port
-1861.
+While all Teledyne LeCroy / LeCroy devices use almost identical SCPI command sets, Windows based devices running
+XStream or MAUI use a custom framing protocol (``vicp") around the SCPI data while the lower end RTOS based devices use
+raw SCPI over TCP (``lan"). Some of these devices also require use of the Siglent driver as they are Siglent OEM
+designs rebranded by Teledyne LeCroy and have some quirks in the firmware which require workarounds.
 
-It takes two arguments: hostname/IP and port number. If omitted, port number is assumed to be 1861.
+Please see the table below for details on which configuration to use with  your hardware.
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+DDA & lecroy & vicp & \\
+\thickhline
+HDO & lecroy & vicp & \\
+\thickhline
+LabMaster & lecroy & vicp & Untested, but should work\\
+\thickhline
+MDA & lecroy & vicp & Untested, but should work\\
+\thickhline
+SDA & lecroy & vicp & Untested, but should work\\
+\thickhline
+T3DSO & siglent & lan & Untested, but should work\\
+\thickhline
+WaveAce & siglent & lan & Untested, but should work \\
+\thickhline
+WaveJet & siglent & lan & Untested, but should work \\
+\thickhline
+WaveMaster & lecroy & vicp & Untested, but should work \\
+\thickhline
+WaveRunner & lecroy & vicp & \\
+\thickhline
+WaveSurfer & lecroy & vicp & \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{lecroy}
+
+This is the primary driver for MAUI based Teledyne LeCroy / LeCroy devices.
 
 Example:
 \begin{lstlisting}[language=sh]
-./glscopeclient --debug myscope:lecroy_vicp:192.168.1.1:1861
+./glscopeclient --debug myscope:lecroy:vicp:192.168.1.1:1861
 \end{lstlisting}
 
-This driver has been tested on WaveSurfer 3034, WaveRunner 8104, and HDO9204 devices. It should be compatible with any
-Teledyne LeCroy oscilloscope running Windows 7 or newer and the MAUI software.
-
-While the driver is expected to be compatible with older Windows XP based LeCroy devices running XStream, as of this
-writing no testing has been conducted. Reports of tests, successful or otherwise, will be appreciated!
+This driver has been tested on a wide range of Teledyne LeCroy / LeCroy hardware including DDA 5005, DDA 5005A,
+WaveSurfer 3034, WaveRunner 8104, and HDO9204. It should be compatible with any Teledyne LeCroy or LeCroy oscilloscope
+running Windows XP or newer and the MAUI or XStream software.d!
 
 \subsection{Tektronix}
 TODO (scopehal:73, scopehal:13)

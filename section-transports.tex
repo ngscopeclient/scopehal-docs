@@ -1,0 +1,19 @@
+\section{Transports}
+\label{sec:transports}
+
+\subsection{lan}
+
+SCPI over TCP with no further encapsulation.
+
+This transport takes two arguments: hostname/IP and port number.
+
+If port number is not specified, uses TCP port 5025 (IANA assigned) by default except in the case of Rigol (which uses
+the non-standard port 5555).
+
+\subsection{vicp}
+
+SCPI over Teledyne LeCroy Virtual Instrument Control Protocol.
+
+This transport takes two arguments: hostname/IP and port number.
+
+If port number is not specified, uses TCP port 1861 (IANA assigned) by default.
