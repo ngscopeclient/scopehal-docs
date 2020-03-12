@@ -7,8 +7,8 @@ SCPI over TCP with no further encapsulation.
 
 This transport takes two arguments: hostname/IP and port number.
 
-If port number is not specified, uses TCP port 5025 (IANA assigned) by default except in the case of Rigol (which uses
-the non-standard port 5555).
+If port number is not specified, uses TCP port 5025 (IANA assigned) by default. Note that Rigol oscilloscopes use the
+non-standard port 5555, not 5025, so the port number must always be specified when using a Rigol instrument.
 
 \subsection{vicp}
 
