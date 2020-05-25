@@ -31,10 +31,9 @@ the graph may be seen as lighter or darker areas. This is referred to as ``inten
 
 Each waveform view has its own Y axis scale, which is locked to the ADC range of the instrument.
 
-Dragging the Y axis scale with the left mouse button currently does nothing (scopehal-apps:54) but in a future software
-release will change the voltage offset of the channel.
-
-Scrolling the Y axis scale with the mouse wheel changes the gain of the channel.
+If the waveform view is connected to a physical channel of an instrument, the gain may be configured by scrolling with
+the mouse wheel, and the offset may be adjusted by dragging with the left mouse button. If the view is displaying the
+output of a filter block, gain and offset are set by the filter and not adjustable.
 
 If a left-pointing arrow (as seen in Fig. \ref{y-axis}) is visible, the current channel is selected as a trigger
 source. Click on the arrow and drag up or down to select the trigger level.
@@ -52,14 +51,26 @@ The channel information box is displayed in the lower left corner of each wavefo
 information about the channel. Currently this is the display name of the channel, the sample rate, and the record
 length of the acquisition. Other information, such as probe coupling, may be displayed there in the future.
 
-Double-clicking the information box opens the channel properties dialog.
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=2cm]{images/channel-infobox.png}
 \caption{Channel information box}
 \label{channel-infobox}
 \end{figure}
+
+The information box may be dragged with the left mouse button to move the entire waveform view to a new location.
+
+Double-clicking the information box opens the channel properties dialog (Fig. \ref{channel-properties}). This dialog
+allows changing of the channel's nickname or color. The ``hardware name" of the channel is also displayed, so that a
+renamed channel can be easily traced back to a physical instrument input.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{images/channel-properties.png}
+\caption{Channel properties dialog}
+\label{channel-properties}
+\end{figure}
+
 
 \subsection{Overlays}
 
@@ -78,5 +89,5 @@ clock with a CDR PLL, and finally decoding the serial NRZ data stream to TMDS pr
 \label{overlays}
 \end{figure}
 
-Overlays can be deleted but cannot currently be moved between waveform areas or reordered within a single waveform area
-(scopehal-apps:7, scopehal-apps:6)
+Overlays can be deleted by means of the right-click context menu. Dragging the information box with the left mouse
+button allows overlays to be reordered, however they cannot currently be moved to another waveform view.
