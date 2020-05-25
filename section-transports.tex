@@ -10,6 +10,16 @@ This transport takes two arguments: hostname/IP and port number.
 If port number is not specified, uses TCP port 5025 (IANA assigned) by default. Note that Rigol oscilloscopes use the
 non-standard port 5555, not 5025, so the port number must always be specified when using a Rigol instrument.
 
+\subsection{lxi}
+
+SCPI over LXI VXI-11.
+
+Note that due to the remote procedure call paradigm used by LXI, it is not possible to batch multiple outstanding
+requests to an instrument when using this transport. Some instruments may experience reduced performance when using LXI
+as the transport.
+
+TODO: document this more completely.
+
 \subsection{vicp}
 
 SCPI over Teledyne LeCroy Virtual Instrument Control Protocol.

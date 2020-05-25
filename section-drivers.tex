@@ -30,13 +30,13 @@ This driver has been tested on an MSO6034A.
 
 \subsection{Antikernel Labs}
 
-So far only the ILA IP is supported.
-
 \begin{tabularx}{16cm}{llX}
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
 \thickhline
-Internal Logic Analyzer & akila & \\
+Internal Logic Analyzer IP & akila & \\
+\thickhline
+BLONDEL Oscilloscope Prototype & aklabs & \\
 \thickhline
 \end{tabularx}
 
@@ -47,6 +47,11 @@ This driver uses a raw binary protocol, not SCPI.
 Under-development internal logic analyzer analyzer core for FPGA design debug. The ILA uses a UART interface to a host
 system. Since there's no UART support in scopehal yet, socat must be used to bridge the UART to a TCP socket using
 the ``lan" transport.
+
+\subsubsection{aklabs}
+
+This driver uses two TCP sockets. Port 5025 is used for SCPI control plane traffic, and port 50101 is used for waveform
+data using a raw binary protocol.
 
 \subsection{Enjoy Digital}
 TODO (scopehal:79)
@@ -78,11 +83,11 @@ Teledyne LeCroy firmware) and are sold under both brands. As a result, there is 
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
 \thickhline
-SDS-1000X-E series & siglent & Base functionality present.\\
+SDS-1000X-E series & siglent & Base functionality present, tested on SDS-1204X-E.\\
+\thickhline
+SDS3000 series & siglent & Requires LXI transport \\
 \thickhline
 \end{tabularx}
-
-Tested on SDS-1204X-E.
 
 \subsection{Teledyne LeCroy / LeCroy}
 
@@ -134,7 +139,7 @@ Example:
 
 This driver has been tested on a wide range of Teledyne LeCroy / LeCroy hardware including DDA 5005, DDA 5005A,
 WaveSurfer 3034, WaveRunner 8104, and HDO9204. It should be compatible with any Teledyne LeCroy or LeCroy oscilloscope
-running Windows XP or newer and the MAUI or XStream software.d!
+running Windows XP or newer and the MAUI or XStream software.
 
 \subsection{Tektronix}
 TODO (scopehal:73, scopehal:13)
