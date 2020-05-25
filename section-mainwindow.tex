@@ -7,11 +7,45 @@ remaining space is occupied by one or more waveform groups.
 
 \subsubsection{File}
 
+This menu contains commands for manipulating glscopeclient session files.
+
+A session consists of a YAML file called filename.scopesession containing instrument and UI configuration, as well
+as a directory called filename\_data which contains waveform metadata and sample values for all enabled instrument
+channels.
+
+\textbf{Save}: The UI layout may be saved to a session file so that a common instrument setup can be returned to in the
+future. Waveform data may optionally be saved in the session as well.
+
+\textbf{Open}: Loads a .scopesession file. Checkboxes at the bottom of the file browser dialog allow the UI
+configuration, instrument settings, and waveform data to be individually loaded or ignored.
+
+\textbf{Quit}: Exits the application
+
 \subsubsection{Setup}
+
+This menu allows instrument settings to be configured. Currently there's not much here.
 
 \subsubsection{View}
 
+This menu allows display settings to be configured. As of now, the only option is selection of the color palette for
+eye patterns.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Name} & \textbf{Colors} & \textbf{Notes} \\
+\thickhline
+CRT & \includegraphics[width=5cm]{images/eye-gradient-crt.png} & Similar color scheme to a major scope vendor.\\
+Grayscale & \includegraphics[width=5cm]{images/eye-gradient-grayscale.png} & Common monochrome palette.\\
+Ironbow & \includegraphics[width=5cm]{images/eye-gradient-ironbow.png} & Common "hot metal" palette. \\
+KRain & \includegraphics[width=5cm]{images/eye-gradient-krain.png} & Similar color scheme to a major scope vendor.\\
+Rainbow & \includegraphics[width=5cm]{images/eye-gradient-rainbow.png} & Common HSV rainbow palette. \\
+Viridis & \includegraphics[width=5cm]{images/eye-gradient-viridis.png} & Perceptually uniform palette from matplotlib. \\
+\thickhline
+\end{tabularx}
+
 \subsubsection{Add}
+
+This menu allows a new waveform view to be created for any channel on a connected instrument.
 
 \subsection{Toolbar}
 
