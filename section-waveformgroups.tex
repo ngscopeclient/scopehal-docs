@@ -37,10 +37,16 @@ new group at [right|bottom]} from the context menu. This will split the current 
 vertically, with the selected waveform moved or copied to the newly added group and all other waveforms in the original
 group.
 
+Waveforms may be also be moved within, or between, groups by clicking the channel information box and dragging it. A
+yellow insertion bar will appear when dragging, showing the location the waveform will be inserted in.
+
+If a waveform is dragged to the very bottom or right side of a waveform group, the destination group will be split
+vertically or horizontally and the new waveform will be inserted below or to the right of the destination group. The
+insertion bar turns orange when dragging near the edge of a group, to indicate that a split will take place.
+
 Dividers between waveform groups may be dragged with the left mouse button. Any group may be subdivided again, to
 create arbitrarily complex tiles of waveforms. Figure \ref{multiple-groups} shows a two-level hierarchy created by
-moving channel 2 to a new group at right, moving channel 4 to this group, then moving channel 4 again a new group at
-bottom.
+moving channel 2 to a new group at right, then moving channel 4 to a new group below that one.
 
 \begin{figure}[h]
 \centering
@@ -49,8 +55,8 @@ bottom.
 \label{multiple-groups}
 \end{figure}
 
-A future software release will support using the mouse to move and copy waveforms, both between groups and within a
-group (scopehal-apps:6). The exact semantics for this are not yet defined.
+Protocol decode overlays may be reordered by dragging the channel information box with the mouse, however they cannot
+currently be moved to another waveform or group.
 
 New waveform groups are given an automatically generated name when created, for example "Waveform Group 2". This name
 will be editable in a future software release (scopehal-apps:53).
