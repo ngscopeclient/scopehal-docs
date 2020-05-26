@@ -83,8 +83,11 @@ glscopeclient source directory (src/glscopeclient). Anybody want to contribute a
 
 \subsection{Running glscopeclient}
 
-There is not yet a proper GUI startup dialog for discovering and connecting to instruments. For the moment, you must
-specify the instrument(s) you plan to connect to on the command line.
+When running glscopeclient with no arguments, a dialog box is displayed allowing you to connect to an instrument. As of
+this writing, there is no support for connecting to multiple instruments via the dialog.
+
+It is also possible to connect to arbitrarily many instruments by passing the ``connection string" for each instrument
+as a command-line argument.
 
 \begin{lstlisting}[language=sh]
 ./glscopeclient --debug \
