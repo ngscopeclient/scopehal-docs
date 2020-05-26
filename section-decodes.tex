@@ -245,6 +245,32 @@ the average value of the zero level.
 \pagebreak
 \subsection{DC Offset}
 
+Adds a constant value to each sample in an analog waveform.
+
+\subsubsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Offset & Float & The offset to apply \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{Output Signal}
+
+This filter outputs an analog waveform with one sample for each sample in the input, shifted by the requested offset.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \subsection{DDR3 Command Bus}
@@ -256,10 +282,6 @@ the average value of the zero level.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \subsection{DRAM Trfc}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagebreak
-\subsection{Difference}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -371,13 +393,85 @@ the average value of the zero level.
 \pagebreak
 \subsection{Subtract}
 
+Subtracts one waveform from another. No resampling is performed; both inputs must have identical sample rates.
+
+\subsubsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+IN+ & Analog & Positive input waveform \\
+\thickhline
+IN- & Analog & Negative input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{Parameters}
+
+This filter takes no parameters.
+
+\subsubsection{Output Signal}
+
+This filter outputs an analog waveform with one sample for each sample in the input, containing the difference of the
+two input waveforms.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \subsection{Threshold}
 
+Converts an analog waveform to digital by thresholding at a constant level (no hysteresis).
+
+\subsubsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Threshold & Float & Decision threshold \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{Output Signal}
+
+This filter outputs an digital waveform with one sample for each sample in the input, which is true if the
+corresponding input sample is above the threshold and false if less than or equal.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \subsection{Top}
+
+Calculates the top (logical one level) of each cycle in a digital waveform. It is most commonly used as an input to
+statistics, to view the average top of the entire waveform.
+
+\subsubsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{Parameters}
+
+This filter takes no parameters.
+
+\subsubsection{Output Signal}
+
+This filter outputs an analog waveform with one sample for each group of logical ones in the input signal, containing
+the average value of the one level.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
