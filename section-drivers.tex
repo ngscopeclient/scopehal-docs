@@ -81,13 +81,32 @@ Teledyne LeCroy firmware) and are sold under both brands. As a result, there is 
 
 \begin{tabularx}{16cm}{llX}
 \thickhline
-\textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
-SDS-1000X-E series & siglent & Base functionality present, tested on SDS-1204X-E.\\
+SDS5000X series & siglent & lxi, lan & Untested \\
 \thickhline
-SDS3000 series & siglent & Requires LXI transport \\
+SDS2000X Plus series & siglent & lxi, lan & Untested \\
 \thickhline
+SDS2000X-E series & siglent & lxi, lan & Untested \\
+\thickhline
+SDS2000X series & siglent & lxi & Base functionality present, tested on SDS2304X. \\
+\thickhline
+SDS1000X series & siglent & lxi & Untested \\
+\thickhline
+SDS1000X+ series & siglent & lxi & Untested \\
+\thickhline
+SDS1000X-E series & siglent & lxi, lan & Base functionality present, lan transport tested on SDS1204X-E.\\
+\thickhline
+SDS1000CFL series & siglent & ? & Untested \\
+\thickhline
+SDS1000DL+ series & siglent & lxi & Untested \\
+\thickhline
+SDS1000CML+ series & siglent & lxi & Untested \\
 \end{tabularx}
+
+Unlike TCP/IP sockets (``lan"), VXI-11 (``lxi") is a synchronous protocol that  does not support 
+queueing multiple transactions. When an oscilloscope supports both the lan and the lxi transport, 
+chances are that the lan transport will have a better performance than the lxi transport.
 
 \subsection{Teledyne LeCroy / LeCroy}
 
