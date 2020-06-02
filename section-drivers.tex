@@ -66,7 +66,23 @@ TODO
 TODO (scopehal:15)
 
 \subsection{Rigol}
-TODO (scopehal:12)
+
+Rigol oscilloscopes have subtle differences in SCPI command set, but this is implemented with quirks handling in the
+driver rather than needing different drivers for each scope family.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
+\thickhline
+DS1000Z & rigol & \\
+\thickhline
+MSO5000 & rigol & \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{rigol}
+
+This driver has been primarily tested on a MSO5000 series scope.
 
 \subsection{Rohde \& Schwarz}
 TODO (scopehal:59)
