@@ -99,28 +99,29 @@ Teledyne LeCroy firmware) and are sold under both brands. As a result, there is 
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
-SDS5000X series & siglent & lxi, lan & Untested \\
+SDS5000X series & siglent & lxi, lan, usbtmc & Untested \\
 \thickhline
-SDS2000X Plus series & siglent & lxi, lan & Untested \\
+SDS2000X Plus series & siglent & lxi, lan, usbtmc & Untested \\
 \thickhline
-SDS2000X-E series & siglent & lxi, lan & Untested \\
+SDS2000X-E series & siglent & lxi, lan, usbtmc & Untested \\
 \thickhline
-SDS2000X series & siglent & lxi & Base functionality present, tested on SDS2304X. \\
+SDS2000X series & siglent & lxi, usbtmc & Base functionality present, lxi and usbtmc tested on SDS2304X. \\
 \thickhline
-SDS1000X series & siglent & lxi & Untested \\
+SDS1000X series & siglent & lxi, usbtmc & Untested \\
 \thickhline
-SDS1000X+ series & siglent & lxi & Untested \\
+SDS1000X+ series & siglent & lxi, usbtmc & Untested \\
 \thickhline
-SDS1000X-E series & siglent & lxi, lan & Base functionality present, lan transport tested on SDS1204X-E.\\
+SDS1000X-E series & siglent & lxi, lan, usbtmc & Base functionality present, lan transport tested on SDS1204X-E.\\
 \thickhline
-SDS1000CFL series & siglent & ? & Untested \\
+SDS1000CFL series & siglent & usbtmc, ? & Untested. Documentation contradiction about support over Ethernet. \\
 \thickhline
-SDS1000DL+ series & siglent & lxi & Untested \\
+SDS1000DL+ series & siglent & lxi, usbtmc & Untested \\
 \thickhline
-SDS1000CML+ series & siglent & lxi & Untested \\
+SDS1000CML+ series & siglent & lxi, usbtmc & Untested \\
 \thickhline
 SDS3000X series & lecroy & vicp & Should be same as WaveSurfer 3000 \\
 \end{tabularx}
+
 
 Unlike TCP/IP sockets (``lan"), VXI-11 (``lxi") is a synchronous protocol that  does not support
 queueing multiple transactions. When an oscilloscope supports both the lan and the lxi transport,
