@@ -27,3 +27,16 @@ SCPI over Teledyne LeCroy Virtual Instrument Control Protocol.
 This transport takes two arguments: hostname/IP and port number.
 
 If port number is not specified, uses TCP port 1861 (IANA assigned) by default.
+
+\subsection{usbtmc}
+
+SCPI over USB Test \& Measurement Class protocol.
+
+This transport takes one argument: path to the usbtmc kernel driver
+
+Example:
+\begin{lstlisting}[language=sh]
+./glscopeclient myscope:siglent:usbtmc:/dev/usbtmc0
+\end{lstlisting}
+
+
