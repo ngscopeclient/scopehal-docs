@@ -111,10 +111,9 @@ git clone https://github.com/anthonix/ffts.git
 cd ffts
 mkdir build
 cd build
-cmake -G"MinGW Makefiles" ../
+cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=$MSYSTEM_PREFIX ..
 mingw32-make -j
-cp ./libffts_static.a /mingw64/lib/
-cp ./../include/ffts.h /mingw64/include/
+mingw32-make install
 \end{lstlisting}
 
 \item Build scopehal and scopehal-apps
