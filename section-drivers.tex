@@ -17,6 +17,10 @@ DSO6000 \& MSO6000 series & agilent &  Working. No support for digital channels 
 \thickhline
 DSO7000 \& MSO7000 series & agilent &  Untested, but should work. No support for digital channels yet.\\
 \thickhline
+MSOX-2000 series & agilent &  \\
+\thickhline
+MSOX-3000 series & agilent &  \\
+\thickhline
 \end{tabularx}
 
 \subsubsection{agilent}
@@ -60,7 +64,28 @@ TODO (scopehal:79)
 TODO (scopehal:26)
 
 \subsection{Keysight}
-TODO
+
+Keysight devices support a similar similar SCPI command set across most device families. Many Keysight devices were previously sold under the Agilent brand, so they are supported by the ``agilent" driver.
+
+Please see the table below for details of current hardware support:
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
+\thickhline
+MSOX-2000 series & agilent &  \\
+\thickhline
+MSOX-3000 series & agilent &  \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{agilent}
+
+Example:
+\begin{lstlisting}[language=sh]
+./glscopeclient --debug myscope:agilent:lan:192.168.1.1:5025
+\end{lstlisting}
+
 
 \subsection{Pico Technologies}
 TODO (scopehal:15)
