@@ -67,9 +67,10 @@ Preamble & Preamble/sync words & \cellcolor{preamble}\textcolor{white}{\#808080}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \subsection{8B/10B (IBM)}
+\label{proto:8b10b}
 
-Decodes the standard 8b/10b line code used by SGMII, 1000base-X, DisplayPort, JESD204B, PCIe gen 1/2, SATA, USB 3.0,
-and many other common serial protocols.
+Decodes the standard 8b/10b line code used by SGMII, \hyperref[proto:1000basex]{1000base-X}, DisplayPort, JESD204,
+PCIe gen 1/2, SATA, USB 3.0, and many other common serial protocols.
 
 \begin{tabularx}{16cm}{llX}
 \thickhline
@@ -334,6 +335,55 @@ offset.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \subsection{Ethernet - 100baseTX}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\subsection{Ethernet - 1000baseX}
+\label{proto:1000basex}
+
+Decodes the 1000base-X Ethernet PCS as specified in IEEE 802.3 clause 36.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & 8b/10b & Output of \hyperref[proto:8b10b]{8b/10b protocol decode}\\
+\thickhline
+\end{tabularx}
+
+\subsubsection{Parameters}
+
+This filter takes no parameters.
+
+\subsubsection{Output Signal}
+
+The 1000base-X filter outputs a series of Ethernet frame segment objects.
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Type} & \textbf{Description} & \textbf{Color} & \textbf{Format} \\
+\thickhline
+Preamble & Preamble & \cellcolor{preamble}\textcolor{white}{Preamble} & PREAMBLE \\
+\thickhline
+Preamble & Start of frame delimiter & \cellcolor{preamble}\textcolor{white}{Preamble} & SFD \\
+\thickhline
+Address & Src/dest MAC & \cellcolor{address}\textcolor{black}{Address} & 02:00:11:22:33:44 \\
+\thickhline
+Control & Ethertype & \cellcolor{control}\textcolor{white}{Control} & Type: IPv4 \newline Type: 0xbeef \\
+\thickhline
+Control & VLAN tag & \cellcolor{control}\textcolor{white}{Control} & FIXME \\
+\thickhline
+Data & Frame data & \cellcolor{data}\textcolor{white}{Data} & a5 \\
+\thickhline
+Checksum OK & Valid FCS & \cellcolor{checksumok}\textcolor{black}{Checksum OK} & CRC: 0xdeadbeef \\
+\thickhline
+Checksum Bad & Invalid FCS & \cellcolor{checksumbad}\textcolor{white}{Checksum Bad} & CRC: 0xbaadc0de \\
+\thickhline
+Error & Malformed data & \cellcolor{error}\textcolor{white}{Error} & ERROR \\
+\thickhline
+\end{tabularx}
+
+TODO: Document protocol analyzer output
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
