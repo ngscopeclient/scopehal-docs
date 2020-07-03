@@ -2,6 +2,7 @@
 # We could get CMake to do the glob, but there's not many files to deal with
 set(DOC_LIST
 	glscopeclient-manual.tex
+	section-copyright.tex
 	section-decodes.tex
 	section-drivers.tex
 	section-gettingstarted.tex
@@ -22,10 +23,10 @@ add_custom_command(
 	OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/glscopeclient-manual.pdf
 	COMMAND pdflatex -halt-on-error -interaction batchmode
 		--output-directory ${CMAKE_CURRENT_BINARY_DIR}
-		${CMAKE_CURRENT_SOURCE_DIR}/glscopeclient-manual.tex > /dev/null
+		${CMAKE_CURRENT_SOURCE_DIR}/glscopeclient-manual.tex > ${CMAKE_CURRENT_BINARY_DIR}/run1.log 2>&1
 	COMMAND pdflatex -halt-on-error -interaction batchmode
 		--output-directory ${CMAKE_CURRENT_BINARY_DIR}
-		${CMAKE_CURRENT_SOURCE_DIR}/glscopeclient-manual.tex > /dev/null
+		${CMAKE_CURRENT_SOURCE_DIR}/glscopeclient-manual.tex > ${CMAKE_CURRENT_BINARY_DIR}/run2.log 2>&1
 	DEPENDS ${DOC_LIST}
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	VERBATIM)

@@ -1,7 +1,11 @@
-\section{Transports}
+\chapter{Transports}
 \label{sec:transports}
 
-\subsection{lan}
+\section{gpib}
+
+Not yet implemented: SCPI over GPIB
+
+\section{lan}
 
 SCPI over TCP with no further encapsulation.
 
@@ -10,7 +14,7 @@ This transport takes two arguments: hostname/IP and port number.
 If port number is not specified, uses TCP port 5025 (IANA assigned) by default. Note that Rigol oscilloscopes use the
 non-standard port 5555, not 5025, so the port number must always be specified when using a Rigol instrument.
 
-\subsection{lxi}
+\section{lxi}
 
 SCPI over LXI VXI-11.
 
@@ -20,7 +24,11 @@ as the transport.
 
 TODO: document this more completely.
 
-\subsection{vicp}
+\section{serial}
+
+Not yet implemented: SCPI over RS-232 or USB-serial
+
+\section{vicp}
 
 SCPI over Teledyne LeCroy Virtual Instrument Control Protocol.
 
@@ -28,7 +36,7 @@ This transport takes two arguments: hostname/IP and port number.
 
 If port number is not specified, uses TCP port 1861 (IANA assigned) by default.
 
-\subsection{usbtmc}
+\section{usbtmc}
 
 SCPI over USB Test \& Measurement Class protocol.
 

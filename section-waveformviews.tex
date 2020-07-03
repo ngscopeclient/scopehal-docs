@@ -1,8 +1,8 @@
-\section{Waveform Views}
+\chapter{Waveform Views}
 
 A waveform view is a 2D graph of a signal or protocol decode within a waveform group.
 
-\subsection{Plot Area}
+\section{Plot Area}
 
 The plot area shows the waveform being displayed. The background has a subtle gradient from light at top to dark at
 bottom, in order to visually separate adjacent waveform view within the same group.
@@ -27,7 +27,7 @@ the graph may be seen as lighter or darker areas. This is referred to as ``inten
 \label{graded-waveform2}
 \end{figure}
 
-\subsection{Y Axis Scale}
+\section{Y Axis Scale}
 
 Each waveform view has its own Y axis scale, which is locked to the ADC range of the instrument.
 
@@ -45,7 +45,7 @@ source. Click on the arrow and drag up or down to select the trigger level.
 \label{y-axis}
 \end{figure}
 
-\subsection{Channel Information Box}
+\section{Channel Information Box}
 
 The channel information box is displayed in the lower left corner of each waveform view. It contains summary
 information about the channel. Currently this is the display name of the channel, the sample rate, and the record
@@ -71,7 +71,7 @@ renamed channel can be easily traced back to a physical instrument input.
 \label{channel-properties}
 \end{figure}
 
-\subsection{Overlays}
+\section{Overlays}
 
 Waveforms may have additional information overlaid on top of them, such as protocol decodes. Each overlay has its own
 information box, which may be double-clicked to open the properties dialog and configure it just like any other
@@ -91,7 +91,7 @@ clock with a CDR PLL, and finally decoding the serial NRZ data stream to TMDS pr
 Overlays can be deleted by means of the right-click context menu. Dragging the information box with the left mouse
 button allows overlays to be reordered, however they cannot currently be moved to another waveform view.
 
-\subsection{Statistics}
+\section{Statistics}
 
 Statistics may be shown for any waveform by checking the ``statistics" box in the context menu. The default statistics
 are minimum, average, and maximum although more may be added in the future.

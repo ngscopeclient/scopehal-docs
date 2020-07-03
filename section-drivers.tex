@@ -1,7 +1,7 @@
-\section{Oscilloscope Drivers}
+\chapter{Oscilloscope Drivers}
 \label{sec:drivers}
 
-\subsection{Agilent}
+\section{Agilent}
 
 Agilent devices support a similar similar SCPI command set across most device families.
 
@@ -23,7 +23,7 @@ MSOX-3000 series & agilent &  \\
 \thickhline
 \end{tabularx}
 
-\subsubsection{agilent}
+\subsection{agilent}
 
 Example:
 \begin{lstlisting}[language=sh]
@@ -32,7 +32,7 @@ Example:
 
 This driver has been tested on an MSO6034A.
 
-\subsection{Antikernel Labs}
+\section{Antikernel Labs}
 
 \begin{tabularx}{16cm}{llX}
 \thickhline
@@ -44,7 +44,7 @@ BLONDEL Oscilloscope Prototype & aklabs & \\
 \thickhline
 \end{tabularx}
 
-\subsubsection{akila}
+\subsection{akila}
 
 This driver uses a raw binary protocol, not SCPI.
 
@@ -52,18 +52,18 @@ Under-development internal logic analyzer analyzer core for FPGA design debug. T
 system. Since there's no UART support in scopehal yet, socat must be used to bridge the UART to a TCP socket using
 the ``lan" transport.
 
-\subsubsection{aklabs}
+\subsection{aklabs}
 
 This driver uses two TCP sockets. Port 5025 is used for SCPI control plane traffic, and port 50101 is used for waveform
 data using a raw binary protocol.
 
-\subsection{Enjoy Digital}
+\section{Enjoy Digital}
 TODO (scopehal:79)
 
-\subsection{Hantek}
+\section{Hantek}
 TODO (scopehal:26)
 
-\subsection{Keysight}
+\section{Keysight}
 
 Keysight devices support a similar similar SCPI command set across most device families. Many Keysight devices were previously sold under the Agilent brand, so they are supported by the ``agilent" driver.
 
@@ -79,7 +79,7 @@ MSOX-3000 series & agilent &  \\
 \thickhline
 \end{tabularx}
 
-\subsubsection{agilent}
+\subsection{agilent}
 
 Example:
 \begin{lstlisting}[language=sh]
@@ -87,10 +87,10 @@ Example:
 \end{lstlisting}
 
 
-\subsection{Pico Technologies}
+\section{Pico Technologies}
 TODO (scopehal:15)
 
-\subsection{Rigol}
+\section{Rigol}
 
 Rigol oscilloscopes have subtle differences in SCPI command set, but this is implemented with quirks handling in the
 driver rather than needing different drivers for each scope family.
@@ -105,17 +105,17 @@ MSO5000 & rigol & \\
 \thickhline
 \end{tabularx}
 
-\subsubsection{rigol}
+\subsection{rigol}
 
 This driver has been primarily tested on a MSO5000 series scope.
 
-\subsection{Rohde \& Schwarz}
+\section{Rohde \& Schwarz}
 TODO (scopehal:59)
 
-\subsection{Saleae}
+\section{Saleae}
 TODO (scopehal:16)
 
-\subsection{Siglent}
+\section{Siglent}
 
 Many recent Siglent oscilloscopes are developed in partnership with Teledyne LeCroy (Siglent-designed hardware running
 Teledyne LeCroy firmware) and are sold under both brands. As a result, there is some crossover in driver support. \\
@@ -152,7 +152,7 @@ Unlike TCP/IP sockets (``lan"), VXI-11 (``lxi") is a synchronous protocol that  
 queueing multiple transactions. When an oscilloscope supports both the lan and the lxi transport,
 chances are that the lan transport will have a better performance than the lxi transport.
 
-\subsection{Teledyne LeCroy / LeCroy}
+\section{Teledyne LeCroy / LeCroy}
 
 Teledyne LeCroy (and older LeCroy) devices use the same driver, but two different transports for LAN connections.
 
@@ -191,7 +191,7 @@ WaveSurfer & lecroy & vicp & \\
 \thickhline
 \end{tabularx}
 
-\subsubsection{lecroy}
+\subsection{lecroy}
 
 This is the primary driver for MAUI based Teledyne LeCroy / LeCroy devices.
 
@@ -204,8 +204,8 @@ This driver has been tested on a wide range of Teledyne LeCroy / LeCroy hardware
 WaveSurfer 3034, WaveRunner 8104, and HDO9204. It should be compatible with any Teledyne LeCroy or LeCroy oscilloscope
 running Windows XP or newer and the MAUI or XStream software.
 
-\subsection{Tektronix}
+\section{Tektronix}
 TODO (scopehal:73, scopehal:13)
 
-\subsection{Xilinx}
+\section{Xilinx}
 TODO (scopehal:40)

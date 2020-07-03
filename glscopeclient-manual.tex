@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[11pt]{book}
 \usepackage[T1]{fontenc}
 \usepackage[margin=1in,top=0.6in,bottom=0.6in]{geometry}
 \usepackage[bookmarks,colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
@@ -9,9 +9,10 @@
 \usepackage{paralist}
 \usepackage{makecell}
 \usepackage{colortbl}
-%\usepackage[osf]{libertine}
 \usepackage{zi4}
 \usepackage{float}
+\usepackage{tocstyle}
+\usepackage{textcomp}
 \usepackage[libertine,cmbraces]{newtxmath}
 
 % configuration of source code examples
@@ -48,65 +49,35 @@
 
 \newcommand{\menustyle}[1]{\texttt{#1}}
 
+% table of contents
 \setcounter{tocdepth}{3}
 
 \begin{document}
 
 \title{glscopeclient Operator Manual}
-\author{Andrew Zonenberg\\
-azonenberg@drawersteak.com}
+\author{Andrew D. Zonenberg}
 \date{\today}
 
 \maketitle
-\begin{abstract} \normalsize
-This document is the user manual for glscopeclient, a user interface and signal analysis tool for oscilloscopes and
-logic analyzers. As of this writing, glscopeclient is under active development but has not had a formal v0.1 release
-and should be considered alpha quality.
 
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-\end{abstract}
-\thispagestyle{empty}
+\include{section-copyright}
+\frontmatter
 
-\pagebreak
-
+\mainmatter
 \tableofcontents
 
-\pagebreak
 \include{section-revision}
-
-\pagebreak
 \include{section-legal}
-
-\pagebreak
 \include{section-gettingstarted}
-
-\pagebreak
 \include{section-transports}
-
-\pagebreak
 \include{section-drivers}
-
-\pagebreak
 \include{section-mainwindow}
-
 \FloatBarrier
-\pagebreak
 \include{section-waveformgroups}
-
-\pagebreak
 \include{section-timeline}
-
-\pagebreak
 \include{section-waveformviews}
-
-\pagebreak
 \include{section-history}
-
-\pagebreak
 \include{section-protoanalyzer}
-
-\pagebreak
 \include{section-decodes}
 
 \end{document}

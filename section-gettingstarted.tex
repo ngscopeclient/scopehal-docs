@@ -1,6 +1,6 @@
-\section{Getting Started}
+\chapter{Getting Started}
 
-\subsection{Documentation Conventions}
+\section{Documentation Conventions}
 
 Items to be selected from a menu are displayed in \menustyle{monospace font}.
 
@@ -16,7 +16,7 @@ This project is under active development and is not anywhere near feature comple
 likely to refer to active bug or feature request tickets on the GitHub issue trackers. Issues are referenced as
 repository:ticket, for example scopehal-apps:3.
 
-\subsection{Host System Requirements}
+\section{Host System Requirements}
 
 All current development is performed on Linux operating systems (primarily Debian and Arch), although experimental (and incomplete) Windows support is provided.
 glscopeclient uses gtkmm as the UI toolkit. Current development mostly uses 3.24 but any recent 3.x version should work.
@@ -35,17 +35,17 @@ The minimum RAM requirement to actually launch glscopeclient is relatively small
 history mode and deep captures can easily consume many GB of RAM. We suggest 8GB as a reasonable minimum, with 32 or
 more encouraged for deep history.
 
-\subsection{Instrument Support}
+\section{Instrument Support}
 
 glscopeclient uses the libscopehal library to communicate with oscilloscopes, so any libscopehal-compatible hardware
 should work with glscopeclient. See the \hyperref[sec:drivers]{Oscilloscope Drivers} section for more details on which
 hardware is supported and how to configure specific drivers.
 
-\subsection{Compilation}
+\section{Compilation}
 
 glscopeclient can be compiled on both Linux and Windows, but the specific steps that have to be taken differ quite a lot between these the two.
 
-\subsubsection{Linux}
+\subsection{Linux}
 \begin{enumerate}
 
 \item Install dependencies. On Debian/Ubuntu:
@@ -81,7 +81,7 @@ glscopeclient source directory (src/glscopeclient). Anybody want to contribute a
 
 \end{enumerate}
 
-\subsubsection{Windows}
+\subsection{Windows}
 
 On Windows, we make use of the MSYS2 development environment, which gives us access to the MingGW-w64 toolchain. Since this toolchain allows glscopeclient to be compiled as a native Windows application, MSYS2 is only needed to actually compile the project, not to run it.
 
@@ -157,7 +157,7 @@ This approach is not officially supported yet.
 \end{enumerate}
 
 
-\subsection{Running glscopeclient}
+\section{Running glscopeclient}
 
 When running glscopeclient with no arguments, a dialog box (Fig. \ref{connection-dialog}) is displayed allowing you to
 connect to an instrument. As of this writing, there is no support for connecting to multiple instruments via the
@@ -196,7 +196,7 @@ scopes from the same vendor will use the same command set or driver!
 typically a hostname:port combination, TTY device path, or similar.
 \end{itemize}
 
-\subsection{Design Philosophy}
+\section{Design Philosophy}
 
 glscopeclient's UI is heavily mouse driven and context based. Space used by always-visible buttons, sliders, etc is
 kept to a minimum in order to keep as much screen real estate as possible usable for waveform display. Additional
