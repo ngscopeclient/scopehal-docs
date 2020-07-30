@@ -24,9 +24,17 @@ as the transport.
 
 TODO: document this more completely.
 
-\section{serial}
+\section{uart}
 
-Not yet implemented: SCPI over RS-232 or USB-serial
+SCPI over RS-232 or USB-UART.
+
+This transport takes two arguments: device path (required) and baud rate (optional). If baud rate is not specified, it
+defaults to 115200.
+
+Example:
+\begin{lstlisting}[language=sh]
+./glscopeclient myscope:rigol:uart:/dev/ttyUSB0:115200
+\end{lstlisting}
 
 \section{vicp}
 
