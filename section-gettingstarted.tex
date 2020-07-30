@@ -196,6 +196,8 @@ scopes from the same vendor will use the same command set or driver!
 typically a hostname:port combination, TTY device path, or similar.
 \end{itemize}
 
+Some users have reported better performance by setting the OMP_WAIT_POLICY environment variable to PASSIVE.
+
 \section{Design Philosophy}
 
 glscopeclient's UI is heavily mouse driven and context based. Space used by always-visible buttons, sliders, etc is
