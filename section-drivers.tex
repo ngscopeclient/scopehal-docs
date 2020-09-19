@@ -169,9 +169,9 @@ Please see the table below for details on which configuration to use with  your 
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
-DDA & lecroy & vicp & \\
+DDA & lecroy & vicp & Tested on DDA5000A series \\
 \thickhline
-HDO & lecroy & vicp & \\
+HDO & lecroy & vicp & Tested on HDO9000 series \\
 \thickhline
 LabMaster & lecroy & vicp & Untested, but should work\\
 \thickhline
@@ -187,9 +187,9 @@ WaveJet & siglent & lan & Untested, but should work \\
 \thickhline
 WaveMaster & lecroy & vicp & Untested, but should work \\
 \thickhline
-WaveRunner & lecroy & vicp & \\
+WaveRunner & lecroy & vicp & Tested on WaveRunner Xi and 8000 series\\
 \thickhline
-WaveSurfer & lecroy & vicp & \\
+WaveSurfer & lecroy & vicp & Tested on WaveSurfer 3000 series \\
 \thickhline
 \end{tabularx}
 
@@ -202,9 +202,8 @@ Example:
 ./glscopeclient --debug myscope:lecroy:vicp:192.168.1.1:1861
 \end{lstlisting}
 
-This driver has been tested on a wide range of Teledyne LeCroy / LeCroy hardware including DDA 5005, DDA 5005A,
-WaveSurfer 3034, WaveRunner 8104, and HDO9204. It should be compatible with any Teledyne LeCroy or LeCroy oscilloscope
-running Windows XP or newer and the MAUI or XStream software.
+This driver has been tested on a wide range of Teledyne LeCroy / LeCroy hardware. It should be compatible with any
+Teledyne LeCroy or LeCroy oscilloscope running Windows XP or newer and the MAUI or XStream software.
 
 \section{Tektronix}
 TODO (scopehal:73, scopehal:13)
