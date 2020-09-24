@@ -206,7 +206,24 @@ This driver has been tested on a wide range of Teledyne LeCroy / LeCroy hardware
 Teledyne LeCroy or LeCroy oscilloscope running Windows XP or newer and the MAUI or XStream software.
 
 \section{Tektronix}
-TODO (scopehal:73, scopehal:13)
+
+This driver is being primarily developed on a MSO64. It supports raw SCPI over TCP using the ``lan" transport,
+using port 4000 by default rather than the IANA standard of 5025. It may also work via LXI VXI-11 and USBTMC, but
+these have never been tested.
+
+Note that the default settings for SCPI access on the MSO6 series use a full terminal emulator rather than raw SCPI
+commands. To remove the prompts and help test, go to Utility | I/O, then under the Socket Server panel select protocol
+``None" rather than the default of ``Terminal".
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+MSO5 series & tektronix & lan &  \\
+\thickhline
+MSO6 series & tektronix & lan &  \\
+\thickhline
+\end{tabularx}
 
 \section{Xilinx}
 TODO (scopehal:40)
