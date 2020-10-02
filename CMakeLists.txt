@@ -13,6 +13,7 @@ set(DOC_LIST
 	section-revision.tex
 	section-timeline.tex
 	section-transports.tex
+	section-triggers.tex
 	section-waveformgroups.tex
 	section-waveformviews.tex
 )

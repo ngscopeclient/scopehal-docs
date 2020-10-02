@@ -33,10 +33,12 @@ Each waveform view has its own Y axis scale, which is locked to the ADC range of
 
 If the waveform view is connected to a physical channel of an instrument, the gain may be configured by scrolling with
 the mouse wheel, and the offset may be adjusted by dragging with the left mouse button. If the view is displaying the
-output of a filter block, gain and offset are set by the filter and not adjustable.
+output of a filter block, gain and offset are set by the filter and generally not adjustable, although some (such as
+FFTs) do allow adjustment.
 
 If a left-pointing arrow (as seen in Fig. \ref{y-axis}) is visible, the current channel is selected as a trigger
-source. Click on the arrow and drag up or down to select the trigger level.
+source. Click on the arrow and drag up or down to select the trigger level. Some trigger types, such as window triggers,
+have two arrows for upper and lower levels.
 
 \begin{figure}[H]
 \centering
