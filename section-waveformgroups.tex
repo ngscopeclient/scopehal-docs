@@ -13,7 +13,7 @@ group (Figure \ref{single-group}).
 \label{single-group}
 \end{figure}
 
-As you add protocol decodes or look at different parts of a waveform, it may be necessary to create additional waveform
+As you add protocol decodes or look at different parts of a waveform, it may be helpful to create additional waveform
 groups. Typical reasons for creating additional groups include:
 
 \begin{itemize}
@@ -22,12 +22,6 @@ others
 \item Viewing signals with incompatible horizontal units. For example, a FFT has horizontal units of frequency while an
 analog waveform has horizontal units of time. Eye patterns also have horizontal units of time, but are always displayed
 as two UIs wide and cannot be zoomed.
-\footnote
-{
-It is currently possible to place signals with incompatible horizontal units in the same group. This may lead to
-confusion; a future software release will likely force creation of a new group if a protocol decode is incompatible
-with the parent trace's time scale.
-}
 \end{itemize}
 
 \section{Managing Groups}

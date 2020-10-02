@@ -23,9 +23,12 @@ configuration, instrument settings, and waveform data to be individually loaded 
 
 \subsection{Setup}
 
-This menu allows instrument settings to be configured. Currently there's not much here.
+\textbf{Instrument Sync}: Synchronizes two or more instruments under a single glscopeclient instance. TODO: more
+complete documentation
 
-TODO: Document scope sync wizard, trigger dialog, and halt conditions
+\textbf{Trigger}: Configures trigger settings
+
+\textbf{Halt Conditions}: Makes glscopeclient pause when a waveform meeting certain conditions is acquired
 
 \subsection{View}
 
@@ -48,6 +51,14 @@ Viridis & \includegraphics[width=5cm]{images/eye-gradient-viridis.png} & Percept
 \subsection{Add}
 
 This menu allows a new waveform view to be created for any channel on a connected instrument.
+
+\subsection{Window}
+
+This menu provides access to pop-up windows such as protocol analyzers which were closed.
+
+\subsection{Help}
+
+\textbf{About}: Displays program version and copyright information
 
 \section{Toolbar}
 
@@ -75,7 +86,7 @@ before the next trigger event.
 \label{capturebuttons}
 \end{figure}
 
-\subsection{History button}
+\subsection{History}
 
 The history button (Fig. \ref{historybutton}) toggles display of the \hyperref[sec:history]{waveform history view}.
 
@@ -84,6 +95,45 @@ The history button (Fig. \ref{historybutton}) toggles display of the \hyperref[s
 \includegraphics[height=1cm]{images/history-button.png}
 \caption{History button}
 \label{historybutton}
+\end{figure}
+
+\subsection{Refresh Settings}
+
+In order to improve performance, glscopeclient caches many instrument settings locally rather than constantly querying
+the instrument for the current timebase, trigger configuration, etc. If settings are changed on the instrument while
+glscopeclient is running, glscopeclient may not be aware of these changes.
+
+The Refresh Settings button (Fig. \ref{refreshbutton}) clears all cached instrument configuration and updates
+glscopeclient with the current instrument settings.
+
+\begin{figure}[h]
+\centering
+\includegraphics[height=1cm]{images/refresh-button.png}
+\caption{Refresh Settings button}
+\label{refreshbutton}
+\end{figure}
+
+\subsection{Clear Sweeps}
+
+The Clear Sweeps button (Fig. \ref{clearbutton}) clears all persistence waveforms, accumulated eye pattern / waterfall
+data, and statistics. Waveforms saved in history are not deleted.
+
+\begin{figure}[h]
+\centering
+\includegraphics[height=1cm]{images/clear-button.png}
+\caption{Clear Sweeps button}
+\label{clearbutton}
+\end{figure}
+
+\subsection{Fullscreen}
+
+The Fullscreen button (Fig. \ref{fullscreenbutton}) switches glscopeclient between normal and full-screen mode.
+
+\begin{figure}[h]
+\centering
+\includegraphics[height=1cm]{images/fullscreen-button.png}
+\caption{Fullscreen button}
+\label{fullscreenbutton}
 \end{figure}
 
 \subsection{Opacity slider}
