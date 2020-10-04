@@ -208,8 +208,8 @@ Teledyne LeCroy or LeCroy oscilloscope running Windows XP or newer and the MAUI 
 \section{Tektronix}
 
 This driver is being primarily developed on a MSO64. It supports raw SCPI over TCP using the ``lan" transport,
-using port 4000 by default rather than the IANA standard of 5025. It may also work via LXI VXI-11 and USBTMC, but
-these have never been tested.
+using port 4000 by default rather than the IANA standard of 5025, as well as LXI VXI-11. It may also work via USBTMC,
+but this have never been tested.
 
 Note that the default settings for SCPI access on the MSO6 series use a full terminal emulator rather than raw SCPI
 commands. To remove the prompts and help test, go to Utility | I/O, then under the Socket Server panel select protocol
@@ -219,9 +219,9 @@ commands. To remove the prompts and help test, go to Utility | I/O, then under t
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
-MSO5 series & tektronix & lan &  \\
+MSO5 series & tektronix & lan, lxi &  \\
 \thickhline
-MSO6 series & tektronix & lan &  \\
+MSO6 series & tektronix & lan, lxi &  \\
 \thickhline
 \end{tabularx}
 
