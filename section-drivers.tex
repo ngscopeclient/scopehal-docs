@@ -57,6 +57,20 @@ the ``lan" transport.
 This driver uses two TCP sockets. Port 5025 is used for SCPI control plane traffic, and port 50101 is used for waveform
 data using a raw binary protocol.
 
+\section{Demo}
+
+The ``demo" driver is a simulation-only driver for development purposes and does not connect to any hardware.
+
+It ignores any transport provided, and is normally used with the ``null" transport.
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+Simulator & demo & null & \\
+\thickhline
+\end{tabularx}
+
 \section{Enjoy Digital}
 TODO (scopehal:79)
 
