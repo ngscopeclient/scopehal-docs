@@ -59,9 +59,26 @@ data using a raw binary protocol.
 
 \section{Demo}
 
-The ``demo" driver is a simulation-only driver for development purposes and does not connect to any hardware.
+The ``demo" driver is a simulation-only driver for development and training purposes, and does not connect to any
+hardware.
 
 It ignores any transport provided, and is normally used with the ``null" transport.
+
+The demo instrument is intended to illustrate the usage of glscopeclient for various types of analysis and to aid in
+automated testing on computers which do not have a connection to a real oscilloscope, and is not intended to accurately
+model the response or characteristics of real world scope frontends or signals.
+
+It supports memory depths of 10K, 100K, 1M, and 10M points per waveform at rates of 1, 5, 10, 25, 50, and 100 Gsps.
+Four test signals are provided, each with 10 mV of Gaussian noise added. As of now, there is no way to configure the
+simulated signal generator.
+
+Test signals:
+\begin{itemize}
+\item 1.000 GHz tone
+\item 1.000 GHz tone mixed with a second tone, which sweeps from 1.100 to 1.500 GHz
+\item 10.3125 Gbps PRBS-31
+\item 1.25 Gbps repeating two 8B/10B symbols (K28.5 D16.2)
+\end{itemize}
 
 \begin{tabularx}{16cm}{lllX}
 \thickhline
