@@ -71,7 +71,7 @@ cd ffts
 mkdir build
 cd build
 cmake ../
-make -j
+make -j4
 sudo make install
 \end{lstlisting}
 
@@ -82,7 +82,7 @@ cd scopehal-apps
 mkdir build
 cd build
 cmake ../
-make -j
+make -j4
 \end{lstlisting}
 
 \item Install scopehal and scopehal-apps: right now, you don't. As of now, glscopeclient is intended to be run from the
@@ -121,7 +121,7 @@ cd ffts
 mkdir build
 cd build
 cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=$MSYSTEM_PREFIX ..
-mingw32-make -j
+mingw32-make -j4
 mingw32-make install
 \end{lstlisting}
 
@@ -133,7 +133,7 @@ mkdir build
 cd build
 cmake -G"MinGW Makefiles" -DLIBFFTS_INCLUDE_DIR=/mingw64/include/ \
     -DLIBFFTS_LIBRARIES=/mingw64/lib/libffts_static.a ./..
-mingw32-make -j
+mingw32-make -j4
 \end{lstlisting}
 
 \item Copying binaries and running glscopeclient \\
