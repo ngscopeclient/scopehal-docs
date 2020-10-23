@@ -70,7 +70,7 @@ git clone https://github.com/anthonix/ffts.git
 cd ffts
 mkdir build
 cd build
-cmake .. -DENABLE_SHARED
+cmake .. -DENABLE_SHARED=ON
 make -j4
 sudo make install
 \end{lstlisting}
@@ -120,7 +120,7 @@ git clone https://github.com/anthonix/ffts.git
 cd ffts
 mkdir build
 cd build
-cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=$MSYSTEM_PREFIX -DENABLE_SHARED ..
+cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=$MSYSTEM_PREFIX -DENABLE_SHARED=ON ..
 mingw32-make -j4
 mingw32-make install
 \end{lstlisting}
