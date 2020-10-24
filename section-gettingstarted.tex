@@ -61,8 +61,12 @@ lot between these the two.
 \begin{lstlisting}[language=sh]
 sudo apt install build-essential cmake pkg-config libglm-dev \
 	libgtkmm-3.0-dev libsigc++-2.0-dev libyaml-cpp-dev \
-	liblxi-dev texlive texlive-fonts-extra libglew-dev
+	liblxi-dev texlive texlive-fonts-extra libglew-dev \
+	catch2
 \end{lstlisting}
+
+If you are using an older stable release (such as Debian Buster), you may need to install catch2 from source
+(https://github.com/catchorg/Catch2). Alternatively, you may pass -DBUILD\_TESTING=OFF to CMake to disable unit testing.
 
 \item Install FFTS library
 \begin{lstlisting}[language=sh]
