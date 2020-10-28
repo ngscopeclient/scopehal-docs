@@ -243,6 +243,13 @@ the average value of the zero level.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Clock Recovery (D-PHY HS Mode)}
+
+Extracts a double-rate clock from a MIPI D-PHY clock+data stream, which is gated to only toggle when the data input
+is in HS mode. This can be used for generating eye patterns of the HS-mode data.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Clock Recovery (PLL)}
 \label{filter:cdrpll}
 
@@ -501,6 +508,35 @@ Calculates the magnitude of a complex valued signal
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{MDIO}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{MIPI D-Phy Data}
+
+Converts two streams of D-Phy Symbol's (one data and one clock) into bytes and control events
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{MIPI D-Phy Symbol}
+
+Decodes one or two analog channels to MIPI D-PHY symbols (HS/LS line states). Either the positive half, or both
+positive and negative, of the pair may be provided.
+
+If only the positive half is provided, it is possible to decode HS data and clocks, but not the LP-01 and LP-10 states,
+as these are indistinguishable from LP-00 and LP-11. This prevents proper decoding of Escape Mode data, although
+Start-Of-Transmission sequences may be inferred from context.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{MIPI DSI Frame}
+
+Converts a MIPI DSI Packet stream into video scanlines.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{MIPI DSI Packet}
+
+Converts two streams of D-Phy Symbol's (one data and one clock) into MIPI DSI packets.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
