@@ -145,7 +145,7 @@ mingw32-make -j4
 \end{lstlisting}
 
 \item Copying binaries and running glscopeclient \\
-Since glscopeclient is built using the MinGW toolchain, it depends on a rather large number of dynamic libraries. Since the application cannot find these libraries when being run from the build directory, there are two ways to make glscopeclient runnable: ``packaging'' the application by collecting all the depedencies, and installing it into the MinGW64 virtual file system.
+Since glscopeclient is built using the MinGW toolchain, it depends on a rather large number of dynamic libraries. Since the application cannot find these libraries when being run from the build directory, there are two ways to make glscopeclient runnable: copying it into place in the MinGW64 virtual file system, and ``packaging'' the application by collecting all the depedencies.
 
 \begin{enumerate}
 \item Installing glscopeclient into the virtual filesystem
