@@ -124,7 +124,8 @@ git clone https://github.com/anthonix/ffts.git
 cd ffts
 mkdir build
 cd build
-cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=$MSYSTEM_PREFIX -DENABLE_SHARED=ON ..
+cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=$MSYSTEM_PREFIX \
+    -DENABLE_SHARED=ON ..
 mingw32-make -j4
 mingw32-make install
 \end{lstlisting}
