@@ -130,6 +130,8 @@ mingw32-make -j4
 mingw32-make install
 \end{lstlisting}
 
+The unit tests will not be run as part of this build - if you would like to run them, you will need to provide catch2 (https://github.com/catchorg/Catch2), and remove the -DBUILD\_TESTING=OFF flag from below.
+
 \item Build scopehal and scopehal-apps
 \begin{lstlisting}[language=sh]
 git clone https://github.com/azonenberg/scopehal-apps.git --recurse-submodules
@@ -137,7 +139,8 @@ cd scopehal-apps
 mkdir build
 cd build
 cmake -G"MinGW Makefiles" -DLIBFFTS_INCLUDE_DIR=/mingw64/include/ \
-    -DLIBFFTS_LIBRARIES=/mingw64/lib/libffts_static.a ./..
+    -DLIBFFTS_LIBRARIES=/mingw64/lib/libffts_static.a \
+    -DBUILD_TESTING=OFF ..
 mingw32-make -j4
 \end{lstlisting}
 
