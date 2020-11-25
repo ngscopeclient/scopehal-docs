@@ -133,10 +133,13 @@ git clone https://github.com/anthonix/ffts.git
 cd ffts
 mkdir build
 cd build
-cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=$MSYSTEM_PREFIX -DENABLE_SHARED=ON ..
+cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=$MSYSTEM_PREFIX \
+    -DENABLE_SHARED=ON ..
 mingw32-make -j4
 mingw32-make install
 \end{lstlisting}
+
+The unit tests will not be run as part of this build - if you would like to run them, you will need to provide catch2 (https://github.com/catchorg/Catch2), and remove the -DBUILD\_TESTING=OFF flag from below.
 
 \item Build scopehal and scopehal-apps
 \begin{lstlisting}[language=sh]
@@ -145,17 +148,19 @@ cd scopehal-apps
 mkdir build
 cd build
 cmake -G"MinGW Makefiles" -DLIBFFTS_INCLUDE_DIR=/mingw64/include/ \
-    -DLIBFFTS_LIBRARIES=/mingw64/lib/libffts_static.a ./..
+    -DLIBFFTS_LIBRARIES=/mingw64/lib/libffts_static.a \
+    -DBUILD_TESTING=OFF ..
 mingw32-make -j4
 \end{lstlisting}
 
 \item Copying binaries and running glscopeclient \\
-Since glscopeclient is built using the MinGW toolchain, it depends on a rather large number of dynamic libraries. Since the application cannot find these libraries when being run from the build directory, there are two ways to make glscopeclient runnable: ``packaging'' the application by collecting all the depedencies, and installing it into the MinGW64 virtual file system.
+Since glscopeclient is built using the MinGW toolchain, it depends on a rather large number of dynamic libraries. Since the application cannot find these libraries when being run from the build directory, there are two ways to make glscopeclient runnable: copying it into place in the MinGW64 virtual file system, and ``packaging'' the application by collecting all the depedencies.
 
 \begin{enumerate}
 \item Installing glscopeclient into the virtual filesystem
 \begin{lstlisting}[language=sh]
 cp ./src/glscopeclient/glscopeclient.exe /mingw64/bin/
+cp -r ./src/glscopeclient/icons /mingw64/bin/
 cp -r ./src/glscopeclient/shaders /mingw64/bin/
 cp -r ./src/glscopeclient/styles /mingw64/bin/
 cp -r ./src/glscopeclient/gradients /mingw64/bin/
