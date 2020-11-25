@@ -57,12 +57,21 @@ lot between these the two.
 \subsection{Linux}
 \begin{enumerate}
 
-\item Install dependencies. On Debian/Ubuntu:
+\item Install dependencies.
+
+On Debian/Ubuntu:
 \begin{lstlisting}[language=sh]
 sudo apt install build-essential cmake pkg-config libglm-dev \
 	libgtkmm-3.0-dev libsigc++-2.0-dev libyaml-cpp-dev \
 	liblxi-dev texlive texlive-fonts-extra libglew-dev \
 	catch2
+\end{lstlisting}
+
+On Fedora:
+\begin{lstlisting}[language=sh]
+sudo apt install gtkmm30-devel cmake pkg-config glm-devel \
+	texlive libyaml-devel yaml-cpp-devel glew-devel \
+	catch-devel
 \end{lstlisting}
 
 If you are using an older stable release (such as Debian Buster), you may need to install catch2 from source
