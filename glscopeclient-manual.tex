@@ -1,4 +1,4 @@
-\documentclass[11pt]{book}
+\documentclass[11pt,letterpaper]{book}
 \usepackage[T1]{fontenc}
 \usepackage[margin=1in,top=0.6in,bottom=0.6in]{geometry}
 \usepackage[bookmarks,colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
@@ -14,6 +14,8 @@
 \usepackage{tocstyle}
 \usepackage{textcomp}
 \usepackage[libertine,cmbraces]{newtxmath}
+
+\setlength{\parskip}{2mm}
 
 % configuration of source code examples
 \usepackage{listings}
@@ -66,6 +68,8 @@
 \mainmatter
 \tableofcontents
 
+\raggedbottom
+
 \include{section-revision}
 \include{section-legal}
 \include{section-gettingstarted}
@@ -79,6 +83,7 @@
 \include{section-waveformviews}
 \include{section-history}
 \include{section-protoanalyzer}
+\include{section-grapheditor}
 \include{section-decodes}
 
 \end{document}

@@ -6,6 +6,7 @@ set(DOC_LIST
 	section-decodes.tex
 	section-drivers.tex
 	section-gettingstarted.tex
+	section-grapheditor.tex
 	section-history.tex
 	section-legal.tex
 	section-mainwindow.tex
