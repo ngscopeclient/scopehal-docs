@@ -253,10 +253,18 @@ Guard band & HDMI data/video guard band & \cellcolor{preamble}\textcolor{white}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{AC Couple}
+\label{filter:accouple}
 
 Automatically removes a DC offset from an analog waveform by subtracting the average of all samples from each sample.
-Dynamic range is lost compared to doing true AC coupling in the instrument front end, but there are certain situations
-where offset removal is necessary in postprocessing.
+
+This filter should only be used in postprocessing already acquired data, or other situations in which AC coupling in
+the hardware (via an AC coupled probe, or coaxial DC block) is not possible.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=17cm]{images/filters/ac-couple.png}
+\caption{Example AC coupling}
+\end{figure}
 
 \subsection{Inputs}
 
@@ -275,13 +283,16 @@ This filter takes no parameters.
 \subsection{Output Signal}
 
 This filter outputs an analog waveform with identical sample rate to the input, vertically shifted to center the signal
-about zero volts.
+at zero volts.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{ADL5205}
+\label{filter:adl5205}
 
 Decodes SPI data traffic to one half of an ADL5205 variable gain amplifier.
+
+TODO: Screenshot
 
 \subsection{Inputs}
 
@@ -304,6 +315,46 @@ This filter outputs one ADL5205 sample object for each write transaction, format
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Autocorrelation}
+\label{filter:autocorrelation}
+
+This filter calculates the autocorrelation of an analog waveform. Autocorrelation is a measure of self-similarity
+calculated by multiplying the signal with a time-shifted copy of itself. In Fig. \ref{filter_accouple}, strong peaks
+can be seen at multiples of the 8b/10b symbol rate.
+
+For best performance, it is crucial to keep the maximum offset as low as possible, since filter run time grows linearly
+with offset range.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=17cm]{images/filters/autocorrelation.png}
+\caption{Example of autocorrelation on a serial data stream}
+\label{filter_accouple}
+\end{figure}
+
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Max offset & Integer & Maximum shift (in samples)\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an analog waveform with the same timebase as the input, one sample for each correlation offset.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
