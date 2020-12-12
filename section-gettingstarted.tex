@@ -22,15 +22,16 @@ All current development is performed on Linux operating systems (primarily Debia
 incomplete) Windows support is provided. glscopeclient uses gtkmm as the UI toolkit. Current development mostly uses
 3.24 but any recent 3.x version should work.
 
-Any 64-bit ARM or Intel processor should be able to run glscopeclient. TODO: suggested minimum performance depending on
-waveform depth etc?
+Any 64-bit ARM or Intel processor should be able to run glscopeclient. If AVX2 support is present glscopeclient will
+use special optimized versions of some signal processing functions, however AVX2 is not required. AVX512 is not
+currently used.
 
 A mouse with scroll wheel, or touchpad with scroll gesture support, is mandatory to enable full use of the UI. We may
 explore alternative input methods for some UI elements in the future.
 
 Waveform rendering is performed in compute shaders, so OpenGL 4.3 or newer is required as well as the
 GL\_ARB\_gpu\_shader\_int64 extension. The corresponding minimum hardware requirement is an AMD Radeon HD 5000, NVIDIA
-GeForce 400 series discrete GPU, or Intel Broadwell or newer integrated GPU plus suitably up-to-date drivers.
+GeForce GTX 6xx series discrete GPU, or Intel Skylake or newer integrated GPU, plus suitably up-to-date drivers.
 TODO: what AMD integrated/ARM GPUs started supporting GL 4.3?
 
 To check for necessary graphics card support on Linux:
