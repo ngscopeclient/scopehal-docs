@@ -80,7 +80,7 @@ this is not universal.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=17cm]{images/filters/64b66b.png}
+\includegraphics[width=16cm]{images/filters/64b66b.png}
 \caption{Example 64b/66b decode}
 \label{filter_64b66b}
 \end{figure}
@@ -140,7 +140,7 @@ frame boundaries, idle/alignment sequences, and other control information.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=17cm]{images/filters/8b10b.png}
+\includegraphics[width=16cm]{images/filters/8b10b.png}
 \caption{Example 8b/10b decode}
 \label{filter_8b10b}
 \end{figure}
@@ -201,7 +201,7 @@ data bit rate) along with the data stream to provide synchronization.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=17cm]{images/filters/tmds.png}
+\includegraphics[width=16cm]{images/filters/tmds.png}
 \caption{Example TMDS decode}
 \label{filter_tmds}
 \end{figure}
@@ -262,7 +262,7 @@ the hardware (via an AC coupled probe, or coaxial DC block) is not possible.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=17cm]{images/filters/ac-couple.png}
+\includegraphics[width=16cm]{images/filters/ac-couple.png}
 \caption{Example AC coupling}
 \end{figure}
 
@@ -326,11 +326,10 @@ with offset range.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=17cm]{images/filters/autocorrelation.png}
+\includegraphics[width=16cm]{images/filters/autocorrelation.png}
 \caption{Example of autocorrelation on a serial data stream}
 \label{filter_accouple}
 \end{figure}
-
 
 \subsection{Inputs}
 
@@ -359,9 +358,20 @@ This filter outputs an analog waveform with the same timebase as the input, one 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Base}
+\label{filter:base}
 
-Calculates the base (logical zero level) of each cycle in a digital waveform. It is most commonly used as an input to
-statistics, to view the average base of the entire waveform.
+Calculates the base (logical zero level) of each cycle in a digital waveform.
+
+It is most commonly used as an input to statistics, to view the average base of the entire waveform. At times, however,
+it may be useful to view the base waveform. For example, in Fig. \ref{filter_base}, the vertical eye closure caused by
+channel ISI is readily apparent.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/base.png}
+\caption{Example of base measurement on a serial data stream}
+\label{filter_base}
+\end{figure}
 
 \subsection{Inputs}
 
@@ -380,11 +390,83 @@ This filter takes no parameters.
 \subsection{Output Signal}
 
 This filter outputs an analog waveform with one sample for each group of logical zeroes in the input signal, containing
-the average value of the zero level.
+the average value of the zero level for the middle 50\% of the low period.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{CAN}
+\label{filter:can}
+
+Decodes the Control Area Network (CAN) bus, commonly used in vehicle control systems. Both standard (11 bit) and
+extended (29 bit) IDs are supported.
+
+CAN-FD frames are detected and flagged as such, but the current decode cannot parse them fully.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/can.png}
+\caption{Example of CAN bus protocol decode}
+\label{filter_can}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+CANH & Digital & Thresholded CANH (or CANH-CANL) signal \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Bit Rate & Integer & Bit rate of the bus (most commonly 250 or 500 Kbps)\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+The CAN bus decode outputs a time series of CAN sample objects. These consist of a type field and a byte of data.
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Type} & \textbf{Description} & \textbf{Color} & \textbf{Format} \\
+\thickhline
+Control & Start of frame & \cellcolor{preamble}\textcolor{white}{Preamble} & SOF \\
+\thickhline
+ID & CAN ID & \cellcolor{address}\textcolor{black}{Address} & ID \%x \\
+\thickhline
+RTR & Remote Transmission Request & \cellcolor{control}\textcolor{white}{Control} & DATA | REQ \\
+\thickhline
+FD mode & CAN-FD mode & \cellcolor{control}\textcolor{white}{Control} & FD | STD\\
+\thickhline
+R0 & Reserved bits & \cellcolor{preamble}\textcolor{white}{Preamble} & RSVD \\
+\thickhline
+DLC & Data Length Code & \cellcolor{control}\textcolor{white}{Control} & Len 3 \\
+\thickhline
+Data & Payload data & \cellcolor{data}\textcolor{white}{Data} & \%02x \\
+\thickhline
+Valid CRC & Good checksum & \cellcolor{checksumok}\textcolor{black}{Checksum OK} & CRC: \%04x \\
+\thickhline
+Invalid CRC & Bad checksum & \cellcolor{checksumbad}\textcolor{white}{Checksum Bad} & CRC: \%04x \\
+\thickhline
+CRC delimiter & Bus turnaround & \cellcolor{preamble}\textcolor{white}{Preamble} & CRC DELIM \\
+\thickhline
+ACK & Acknowledgement & \cellcolor{checksumok}\textcolor{black}{Checksum OK} & ACK \\
+\thickhline
+NAK & Missing acknowledgement & \cellcolor{checksumbad}\textcolor{white}{Checksum Bad} & NAK \\
+\thickhline
+ACK delimiter & Bus turnaround & \cellcolor{preamble}\textcolor{white}{Preamble} & ACK DELIM \\
+\thickhline
+EOF & End of frame & \cellcolor{preamble}\textcolor{white}{Preamble} & EOF \\
+
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
