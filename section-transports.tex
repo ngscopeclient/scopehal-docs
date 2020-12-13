@@ -14,6 +14,11 @@ This transport takes two arguments: hostname/IP and port number.
 If port number is not specified, uses TCP port 5025 (IANA assigned) by default. Note that Rigol oscilloscopes use the
 non-standard port 5555, not 5025, so the port number must always be specified when using a Rigol instrument.
 
+Example:
+\begin{lstlisting}[language=sh]
+glscopeclient myscope:rigol:lan:192.0.2.9:5555
+\end{lstlisting}
+
 \section{lxi}
 
 SCPI over LXI VXI-11.
@@ -22,11 +27,22 @@ Note that due to the remote procedure call paradigm used by LXI, it is not possi
 requests to an instrument when using this transport. Some instruments may experience reduced performance when using LXI
 as the transport.
 
-TODO: document this more completely.
+Example:
+\begin{lstlisting}[language=sh]
+glscopeclient myscope:tektronix:lxi:192.0.2.9
+\end{lstlisting}
 
 \section{null}
 
 This transport does nothing, and is used as a placeholder for development simulations or non-SCPI instruments.
+
+NOTE: Due to limitations of the current command line argument parsing code, an argument must be provided to all transports,
+including this one. Since the argument is ignored, any non-empty string may be used.
+
+Example:
+\begin{lstlisting}[language=sh]
+glscopeclient sim:demo:null:blah
+\end{lstlisting}
 
 \section{uart}
 
@@ -48,11 +64,19 @@ This transport takes two arguments: hostname/IP and port number.
 
 If port number is not specified, uses TCP port 1861 (IANA assigned) by default.
 
+Example:
+\begin{lstlisting}[language=sh]
+glscopeclient myscope:lecroy:vicp:192.0.2.9
+\end{lstlisting}
+
 \section{usbtmc}
 
 SCPI over USB Test \& Measurement Class protocol.
 
-This transport takes one argument: path to the usbtmc kernel driver
+This transport takes one argument: the path to the usbtmc kernel device object.
+
+NOTE: The current implementation of this driver only works on Linux. There is currently no support for USBTMC on
+Windows (see scopehal:301)
 
 Example:
 \begin{lstlisting}[language=sh]
