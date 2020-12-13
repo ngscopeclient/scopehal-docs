@@ -25,11 +25,6 @@ MSOX-3000 series & agilent &  \\
 
 \subsection{agilent}
 
-Example:
-\begin{lstlisting}[language=sh]
-./glscopeclient --debug myscope:agilent:lan:192.168.1.1:5025
-\end{lstlisting}
-
 This driver has been tested on an MSO6034A.
 
 \section{Antikernel Labs}
@@ -59,7 +54,7 @@ data using a raw binary protocol.
 
 \section{Demo}
 
-The ``demo" driver is a simulation-only driver for development and training purposes, and does not connect to any
+The ``demo" driver is a simulation-only driver for development and training purposes, and does not connect to real
 hardware.
 
 It ignores any transport provided, and is normally used with the ``null" transport.
@@ -112,12 +107,6 @@ MSOX-3000 series & agilent &  \\
 
 \subsection{agilent}
 
-Example:
-\begin{lstlisting}[language=sh]
-./glscopeclient --debug myscope:agilent:lan:192.168.1.1:5025
-\end{lstlisting}
-
-
 \section{Pico Technologies}
 TODO (scopehal:15)
 
@@ -143,6 +132,9 @@ MSO5000 & rigol & \\
 This driver has been primarily tested on a MSO5000 series scope.
 
 \section{Rohde \& Schwarz}
+
+There is partial support for RTM3000 (and possibly others, untested) however it appears to have bitrotted.
+
 TODO (scopehal:59)
 
 \section{Saleae}
@@ -152,6 +144,9 @@ TODO (scopehal:16)
 
 Many recent Siglent oscilloscopes are developed in partnership with Teledyne LeCroy (Siglent-designed hardware running
 Teledyne LeCroy firmware) and are sold under both brands. As a result, there is some crossover in driver support. \\
+
+The current Siglent driver appears to have bitrotted due to divergence between the ``lecroy" and ``siglent" driver
+codebases. Contributions to fix Siglent support are welcome!
 
 \begin{tabularx}{16cm}{lllX}
 \thickhline
@@ -191,8 +186,8 @@ Teledyne LeCroy (and older LeCroy) devices use the same driver, but two differen
 
 While all Teledyne LeCroy / LeCroy devices use almost identical SCPI command sets, Windows based devices running
 XStream or MAUI use a custom framing protocol (``vicp") around the SCPI data while the lower end RTOS based devices use
-raw SCPI over TCP (``lan"). Some of these devices also require use of the Siglent driver as they are Siglent OEM
-designs rebranded by Teledyne LeCroy and have some quirks in the firmware which require workarounds.
+raw SCPI over TCP (``lan"). Some of the lower end devices also require use of the Siglent driver as they are Siglent
+OEM designs rebranded by Teledyne LeCroy and have some quirks in the firmware which require workarounds.
 
 Please see the table below for details on which configuration to use with  your hardware.
 
@@ -210,11 +205,11 @@ MDA & lecroy & vicp & Untested, but should work\\
 \thickhline
 SDA & lecroy & vicp & Untested, but should work\\
 \thickhline
-T3DSO & siglent & lan & Untested, but should work\\
+T3DSO & siglent & ??? & Untested\\
 \thickhline
-WaveAce & siglent & lan & Untested, but should work \\
+WaveAce & ??? & ??? & Untested\\
 \thickhline
-WaveJet & siglent & lan & Untested, but should work \\
+WaveJet & ??? & ??? & Untested\\
 \thickhline
 WaveMaster & lecroy & vicp & Untested, but should work \\
 \thickhline
@@ -228,11 +223,6 @@ WaveSurfer & lecroy & vicp & Tested on WaveSurfer 3000 series \\
 
 This is the primary driver for MAUI based Teledyne LeCroy / LeCroy devices.
 
-Example:
-\begin{lstlisting}[language=sh]
-./glscopeclient --debug myscope:lecroy:vicp:192.168.1.1:1861
-\end{lstlisting}
-
 This driver has been tested on a wide range of Teledyne LeCroy / LeCroy hardware. It should be compatible with any
 Teledyne LeCroy or LeCroy oscilloscope running Windows XP or newer and the MAUI or XStream software.
 
@@ -242,9 +232,9 @@ This driver is being primarily developed on a MSO64. It supports raw SCPI over T
 using port 4000 by default rather than the IANA standard of 5025, as well as LXI VXI-11. It may also work via USBTMC,
 but this have never been tested.
 
-Note that the default settings for SCPI access on the MSO6 series use a full terminal emulator rather than raw SCPI
-commands. To remove the prompts and help test, go to Utility | I/O, then under the Socket Server panel select protocol
-``None" rather than the default of ``Terminal".
+Note that the default settings for raw SCPI access on the MSO6 series use a full terminal emulator rather than raw SCPI
+commands. To remove the prompts and help text, go to Utility | I/O, then under the Socket Server panel select protocol
+``None" rather than the default of ``Terminal". Alternatively, use the LXI transport rather than raw SCPI.
 
 \begin{tabularx}{16cm}{lllX}
 \thickhline
