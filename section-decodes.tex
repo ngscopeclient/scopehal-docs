@@ -471,6 +471,52 @@ EOF & End of frame & \cellcolor{preamble}\textcolor{white}{Preamble} & EOF \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Channel Emulation}
+\label{filter:channelemu}
+
+This filter models the effects of applying an arbitrary channel, described via one or more 2-port S-parameter files, to
+a waveform. Fig. \ref{filter_channelemu} shows the result of passing a 1.25 Gbps serial data pattern through a 10x
+oscilloscope probe with approximately 500 MHz bandwidth. The ISI, attenuation, and phase shift introduced by the
+channel can all be seen.
+
+Only the forward path (S21) is considered in the current implementation of this filter; it is assumed that any
+reflected power is absorbed by terminations at the transmitter. Channels with significant return loss reflecting off
+the transmitter may not be modeled accurately.
+
+The channel model works in the frequency domain. An FFT is performed on the input, then each complex point is
+scaled by the interpolated S21 magnitude and rotated by the S21 phase, then an inverse FFT is used to transform the
+signal back into the time domain. The group delay of the channel is estimated and samples are discarded from the
+beginning of the waveform to prevent causality violations.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/channel-emulation.png}
+\caption{Example of channel emulation on a serial data stream}
+\label{filter_channelemu}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+S-Parameters & Filename vector & List of S-parameter files describing the channel\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an analog waveform with the same timebase as the input, with the emulated channel applied.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
