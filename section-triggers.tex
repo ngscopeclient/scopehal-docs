@@ -9,9 +9,10 @@ model and installed software options.
 
 The Trigger Offset field specifies the time from the \emph{start} of the waveform to the trigger point. Positive values
 move the trigger later into the waveform, negative values introduce a delay between the trigger and the start of the
-waveform. \footnote{This is a different convention than most oscilloscopes, which measure the trigger position from the
-\emph{midpoint} of the waveform. Since glscopeclient decouples the acquisition length from the UI zoom setting,
-measuring from the midpoint makes little sense as there are no obvious visual cues to the midpoint's location.}
+waveform. \footnote{This is a different convention than most oscilloscopes, which typically measure the trigger
+position from the \emph{midpoint} of the waveform. Since glscopeclient decouples the acquisition length from the UI
+zoom setting, measuring from the midpoint makes little sense as there are no obvious visual cues to the midpoint's
+location.}
 
 \begin{figure}[h]
 \centering
@@ -96,6 +97,8 @@ Level & Float & Voltage threshold\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Glitch}
+
+TODO: This is supported on at least LeCroy hardware, but it's not clear how it differs from pulse width.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -240,6 +243,8 @@ Trigger Type & Enum & Match data pattern or parity error\\
 
 Triggers when a signal goes above or below specified thresholds.
 
+The available configuration settings for this trigger vary from instrument to instrument.
+
 \begin{tabularx}{16cm}{llX}
 \thickhline
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
@@ -252,6 +257,11 @@ din & Analog & Input signal \\
 \begin{tabularx}{16cm}{llX}
 \thickhline
 \textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Condition & Enum & Specifies whether to trigger on entry or exit from the window, and whether to trigger immediately or
+after a time limit.\\
+\thickhline
+Edge & Enum & Specifies which edge of the window to trigger on\\
 \thickhline
 Lower Level & Float & Lower voltage threshold\\
 \thickhline
