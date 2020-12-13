@@ -5,8 +5,8 @@ glscopeclient has the ability to save every waveform during a session in memory,
 see previous state of the system being debugged. Clicking on a timestamp in the history view pauses acquisition and
 loads the historical waveform data for analysis.
 
-By default, the history view (Fig. \ref{historyview}) is not displayed and no history is captured. If the history view
-is closed, history continues to be captured up to the configured maximum history depth.
+By default, the history view (Fig. \ref{historyview}) is not displayed and history is limited to ten waveforms. If the
+history view is closed, history continues to be captured up to the configured maximum history depth.
 
 \begin{figure}[H]
 \centering
@@ -38,8 +38,10 @@ software release may support spilling waveform data to a temporary directory on 
 history depth given sufficient disk space.
 
 Digital waveforms use one byte per sample for the actual measurement, so 17 MB per channel for a 1M point waveform.
+Most logic analyzer or MSO drivers for libscopehal will perform automatic de-duplication when a waveform goes several
+clock cycles with no toggles, so the actual memory usage is likely to be significantly less than this.
 
-Filter memory usage varies depending on the specific fitler in question, however it is typically not a large
+Filter memory usage varies depending on the specific filter in question, however it is typically not a large
 contributor to the overall glscopeclient RAM footprint when using history mode because filters are evaluated
 dynamically each time a waveform is pulled from history rather than having output cached for every historical waveform.
 Thus, at most one copy of each filter's output is present in memory regardless of history depth.
