@@ -228,23 +228,28 @@ Teledyne LeCroy or LeCroy oscilloscope running Windows XP or newer and the MAUI 
 
 \section{Tektronix}
 
-This driver is being primarily developed on a MSO64. It supports raw SCPI over TCP using the ``lan" transport,
-using port 4000 by default rather than the IANA standard of 5025, as well as LXI VXI-11. It may also work via USBTMC,
-but this have never been tested.
-
-Note that the default settings for raw SCPI access on the MSO6 series use a full terminal emulator rather than raw SCPI
-commands. To remove the prompts and help text, go to Utility | I/O, then under the Socket Server panel select protocol
-``None" rather than the default of ``Terminal". Alternatively, use the LXI transport rather than raw SCPI.
+This driver is being primarily developed on a MSO64. It supports raw SCPI over LXI VXI-11. It may also work via USBTMC,
+but this have never been tested. Use of the ``lan" transport is not recommended due to observed stability issues.
 
 \begin{tabularx}{16cm}{lllX}
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
-MSO5 series & tektronix & lan, lxi &  \\
+MSO5 series & tektronix & lxi &  \\
 \thickhline
-MSO6 series & tektronix & lan, lxi &  \\
+MSO6 series & tektronix & lxi &  \\
 \thickhline
 \end{tabularx}
+
+\subsection{Note regarding ``lan" transport on MSO5/6}
+
+The default settings for raw SCPI access on the MSO6 series use a full terminal emulator rather than raw SCPI
+commands. To remove the prompts and help text, go to Utility | I/O, then under the Socket Server panel select protocol
+``None" rather than the default of ``Terminal".
+
+Additionally, we have seen some stability issues with the ``lan" transport which appear to be due to synchronization
+bugs in the firmware when multiple commands (especially enabling/disabling channels) are batched into the same TCP
+segment or sent closely enough that they are processed concurrently on the instrument.
 
 \section{Xilinx}
 TODO (scopehal:40)
