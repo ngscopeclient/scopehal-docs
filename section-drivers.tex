@@ -226,18 +226,31 @@ This is the primary driver for MAUI based Teledyne LeCroy / LeCroy devices.
 This driver has been tested on a wide range of Teledyne LeCroy / LeCroy hardware. It should be compatible with any
 Teledyne LeCroy or LeCroy oscilloscope running Windows XP or newer and the MAUI or XStream software.
 
+\subsubsection{Typical Performance (WaveRunner 8404M-MS, VICP)}
+
+\begin{itemize}
+\item 80K points, 1 channel: 35 - 45 WFM/s
+\item 80K points, 2 channels: 35 - 45 WFM/s
+\item 800K points, 2 channels: 16 - 17 WFM/s
+\item 8M points, 2 channels: 3.1 - 3.2 WFM/s
+\end{itemize}
+
 \section{Tektronix}
 
-This driver is being primarily developed on a MSO64. It supports raw SCPI over LXI VXI-11. It may also work via USBTMC,
-but this have never been tested. Use of the ``lan" transport is not recommended due to observed stability issues.
+This driver is being primarily developed on a MSO64. It supports SCPI over LXI VXI-11 or TCP sockets.
+
+The hardware supports USBTMC, however waveform download via USBTMC does not work with libscopehal for unknown reasons.
+
+Avoid using memory depths longer than 500K points with glscopeclient. The scope firmware will crash if you try and
+require a full reboot.
 
 \begin{tabularx}{16cm}{lllX}
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
-MSO5 series & tektronix & lxi &  \\
+MSO5 series & tektronix & lan, lxi &  \\
 \thickhline
-MSO6 series & tektronix & lxi &  \\
+MSO6 series & tektronix & lan, lxi &  \\
 \thickhline
 \end{tabularx}
 
@@ -247,9 +260,15 @@ The default settings for raw SCPI access on the MSO6 series use a full terminal 
 commands. To remove the prompts and help text, go to Utility | I/O, then under the Socket Server panel select protocol
 ``None" rather than the default of ``Terminal".
 
-Additionally, we have seen some stability issues with the ``lan" transport which appear to be due to synchronization
-bugs in the firmware when multiple commands (especially enabling/disabling channels) are batched into the same TCP
-segment or sent closely enough that they are processed concurrently on the instrument.
+\subsubsection{Typical Performance (MSO64, LXI, embedded OS)}
+
+\begin{itemize}
+\item 50K points, 1 channel: 10.3 - 11.4 WFM/s
+\item 50K points, 2 channels: 6.7 - 7.2 WFM/s
+\item 50K points, 4 channels: 5.1 - 5.3 WFM/s
+\item 500K points, 1 channel: 8.7 - 9.5 WFM/s
+\item 500K points, 4 channels: 3.8 - 3.9 WFM/s
+\end{itemize}
 
 \section{Xilinx}
 TODO (scopehal:40)
