@@ -40,6 +40,9 @@ glxinfo | grep GL_ARB_gpu_shader_int64
 glxinfo | grep "OpenGL version string"
 \end{lstlisting}
 
+If OpenCL 1.2 or higher is present, some filters may make use of GPU acceleration. As of this writing the first
+detected GPU is automatically used; there may be a way to select specific devices in the future.
+
 The minimum RAM requirement to actually launch glscopeclient is relatively small (TODO: do some testing) however
 history mode and deep captures can easily consume many GB of RAM. We suggest 8GB as a reasonable minimum, with 32 or
 more encouraged for deep history.
@@ -161,14 +164,15 @@ Since glscopeclient is built using the MinGW toolchain, it depends on a rather l
 \item Installing glscopeclient into the virtual filesystem
 \begin{lstlisting}[language=sh]
 cp ./src/glscopeclient/glscopeclient.exe /mingw64/bin/
+cp -r ./src/glscopeclient/gradients /mingw64/bin/
 cp -r ./src/glscopeclient/icons /mingw64/bin/
 cp -r ./src/glscopeclient/shaders /mingw64/bin/
 cp -r ./src/glscopeclient/styles /mingw64/bin/
-cp -r ./src/glscopeclient/gradients /mingw64/bin/
 cp ./lib/graphwidget/libgraphwidget.dll /mingw64/bin/
 cp ./lib/log/liblog.dll /mingw64/bin/
 cp ./lib/scopehal/libscopehal.dll /mingw64/bin/
 cp ./lib/scopeprotocols/libscopeprotocols.dll /mingw64/bin/
+cp -r ./lib/scopeprotocols/kernels /mingw64/bin/
 \end{lstlisting}
 \vspace{0.5cm}
 The application can now be started from any MinGW64 terminal session:
