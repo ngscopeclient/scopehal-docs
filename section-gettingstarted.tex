@@ -151,7 +151,7 @@ git clone https://github.com/azonenberg/scopehal-apps.git --recurse-submodules
 cd scopehal-apps
 mkdir build
 cd build
-cmake -G"MinGW Makefiles" -DLIBFFTS_INCLUDE_DIR=/mingw64/include/ \
+cmake -G"MinGW Makefiles" -DLIBFFTS_INCLUDE_DIR=/mingw64/include/ffts \
     -DLIBFFTS_LIBRARIES=/mingw64/lib/libffts_static.a \
     -DBUILD_TESTING=OFF ..
 mingw32-make -j4
