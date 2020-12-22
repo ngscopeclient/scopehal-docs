@@ -314,8 +314,6 @@ Teledyne LeCroy or LeCroy oscilloscope running Windows XP or newer and the MAUI 
 2 & 64M & 0.21 - 0.23 \\
 \thinhline
 4 & 64M & 0.12 - 0.13 \\
-\thinhline
-
 \thickhline
 \end{tabularx}
 
@@ -363,13 +361,21 @@ commands. To remove the prompts and help text, go to Utility | I/O, then under t
 
 \subsubsection{Typical Performance (MSO64, LXI, embedded OS)}
 
-\begin{itemize}
-\item 50K points, 1 channel: 10.3 - 11.4 WFM/s
-\item 50K points, 2 channels: 6.7 - 7.2 WFM/s
-\item 50K points, 4 channels: 5.1 - 5.3 WFM/s
-\item 500K points, 1 channel: 8.7 - 9.5 WFM/s
-\item 500K points, 4 channels: 3.8 - 3.9 WFM/s
-\end{itemize}
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Channels} & \textbf{Memory depth} & \textbf{WFM/s}\\
+\thickhline
+1 & 50K & 10.3 - 11.4 \\
+\thinhline
+2 & 50K & 6.7 - 7.2 \\
+\thinhline
+4 & 50K & 5.1 - 5.3 \\
+\thinhline
+1 & 500K & 8.7 - 9.5 \\
+\thinhline
+4 & 500K & 3.8 - 3.9 \\
+\thickhline
+\end{tabularx}
 
 \section{Xilinx}
 TODO (scopehal:40)
