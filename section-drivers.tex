@@ -12,13 +12,13 @@ Please see the table below for details of current hardware support:
 \textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
 DSO5000 series & agilent & lan & Not recently tested, but should work.\\
-\thickhline
+\thinhline
 DSO6000 \& MSO6000 series & agilent & lan &  Working. No support for digital channels yet.\\
-\thickhline
+\thinhline
 DSO7000 \& MSO7000 series & agilent & lan & Untested, but should work. No support for digital channels yet.\\
-\thickhline
+\thinhline
 MSOX-2000 series & agilent & lan \\
-\thickhline
+\thinhline
 MSOX-3000 series & agilent & lan \\
 \thickhline
 \end{tabularx}
@@ -27,18 +27,67 @@ MSOX-3000 series & agilent & lan \\
 
 \subsubsection{Typical Performance (MSO6034A, LAN)}
 
-\begin{itemize}
-\item 4K points, 1 channel: 25 WFM/s
-\end{itemize}
+Interestingly, performance sometimes gets better with more channels or deeper memory. Not sure why.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Channels} & \textbf{Memory depth} & \textbf{WFM/s}\\
+\thickhline
+1 & 1K & 66 \\
+\thinhline
+4 & 1K & 33 \\
+\thinhline
+4 & 4K & 33 \\
+\thinhline
+1 & 40K & 33 \\
+\thinhline
+1 & 4K & 22 \\
+\thinhline
+1 & 20K & 22 \\
+\thinhline
+4 & 20K & 22 \\
+\thinhline
+1 & 100K & 22 \\
+\thinhline
+4 & 10K & 17 \\
+\thinhline
+4 & 40K & 12 \\
+\thinhline
+1 & 200K & 11 \\
+\thinhline
+1 & 400K & 8 \\
+\thinhline
+4 & 100K & 6.5 \\
+\thinhline
+4 & 200K & 4 \\
+\thinhline
+1 & 1M & 3.7 \\
+\thinhline
+4 & 400K & 2.3 \\
+\thinhline
+1 & 1M & 1 \\
+\thinhline
+4 & 1M & 1 \\
+\thinhline
+4 & 4M & 0.2 \\
+\thickhline
+\end{tabularx}
 
 \subsubsection{Typical Performance (MSOX3104T, LAN)}
 
-\begin{itemize}
-\item 2.5K points, 1 channel: 3.3 WFM/s
-\item 2.5K points, 4 channels: 2.5 WFM/s
-\item 2.5M points, 1 channel: 1.0 WFM/s
-\item 2.0M points, 4 channels: 0.5 WFM/s
-\end{itemize}
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Channels} & \textbf{Memory depth} & \textbf{WFM/s}\\
+\thickhline
+1 & 2.5K & 3.3 \\
+\thinhline
+4 & 2.5K & 2.5 \\
+\thinhline
+1 & 2.5M & 1.0 \\
+\thinhline
+4 & 2.0M & 0.5 \\
+\thickhline
+\end{tabularx}
 
 \section{Antikernel Labs}
 
@@ -104,7 +153,8 @@ TODO (scopehal:26)
 
 \section{Keysight}
 
-Keysight devices support a similar similar SCPI command set across most device families. Many Keysight devices were previously sold under the Agilent brand, so they are supported by the ``agilent" driver.
+Keysight devices support a similar similar SCPI command set across most device families. Many Keysight devices were
+previously sold under the Agilent brand, so they are supported by the ``agilent" driver.
 
 Please see the table below for details of current hardware support:
 
@@ -239,14 +289,52 @@ This is the primary driver for MAUI based Teledyne LeCroy / LeCroy devices.
 This driver has been tested on a wide range of Teledyne LeCroy / LeCroy hardware. It should be compatible with any
 Teledyne LeCroy or LeCroy oscilloscope running Windows XP or newer and the MAUI or XStream software.
 
+\subsubsection{Typical Performance (HDO9204, VICP)}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Channels} & \textbf{Memory depth} & \textbf{WFM/s}\\
+\thickhline
+1 & 100K & >50 \\
+\thinhline
+1 & 400K & 29 - 35 \\
+\thinhline
+2 & 100K & 30 - 40 \\
+\thinhline
+4 & 100K & 17 - 21 \\
+\thinhline
+1 & 2M & 9 - 11 \\
+\thinhline
+1 & 10M & 2.2 - 2.6 \\
+\thinhline
+4 & 1M & 5.2 - 6.5 \\
+\thinhline
+1 & 64M & 0.41 - 0.42 \\
+\thinhline
+2 & 64M & 0.21 - 0.23 \\
+\thinhline
+4 & 64M & 0.12 - 0.13 \\
+\thinhline
+
+\thickhline
+\end{tabularx}
+
 \subsubsection{Typical Performance (WaveRunner 8404M-MS, VICP)}
 
-\begin{itemize}
-\item 80K points, 1 channel: 35 - 45 WFM/s
-\item 80K points, 2 channels: 35 - 45 WFM/s
-\item 800K points, 2 channels: 16 - 17 WFM/s
-\item 8M points, 2 channels: 3.1 - 3.2 WFM/s
-\end{itemize}
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Channels} & \textbf{Memory depth} & \textbf{WFM/s}\\
+\thickhline
+1 & 80K & 35 - 45 \\
+\thinhline
+2 & 80K & 35 - 45 \\
+\thinhline
+2 & 800K & 16 - 17 \\
+\thinhline
+2 & 8M & 3.1 - 3.2 \\
+\thickhline
+\end{tabularx}
+
 
 \section{Tektronix}
 
