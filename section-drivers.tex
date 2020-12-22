@@ -7,25 +7,34 @@ Agilent devices support a similar similar SCPI command set across most device fa
 
 Please see the table below for details of current hardware support:
 
-\begin{tabularx}{16cm}{llX}
+\begin{tabularx}{16cm}{lllX}
 \thickhline
-\textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
-DSO5000 series & agilent & Not recently tested, but should work.\\
+DSO5000 series & agilent & lan & Not recently tested, but should work.\\
 \thickhline
-DSO6000 \& MSO6000 series & agilent &  Working. No support for digital channels yet.\\
+DSO6000 \& MSO6000 series & agilent & lan &  Working. No support for digital channels yet.\\
 \thickhline
-DSO7000 \& MSO7000 series & agilent &  Untested, but should work. No support for digital channels yet.\\
+DSO7000 \& MSO7000 series & agilent & lan & Untested, but should work. No support for digital channels yet.\\
 \thickhline
-MSOX-2000 series & agilent &  \\
+MSOX-2000 series & agilent & lan \\
 \thickhline
-MSOX-3000 series & agilent &  \\
+MSOX-3000 series & agilent & lan \\
 \thickhline
 \end{tabularx}
 
 \subsection{agilent}
 
 This driver has been tested on an MSO6034A.
+
+\subsubsection{Typical Performance (MSOX3104T, LAN)}
+
+\begin{itemize}
+\item 2.5K points, 1 channel: 3.3 WFM/s
+\item 2.5K points, 4 channels: 2.5 WFM/s
+\item 2.5M points, 1 channel: 1.0 WFM/s
+\item 2.0M points, 4 channels: 0.5 WFM/s
+\end{itemize}
 
 \section{Antikernel Labs}
 
