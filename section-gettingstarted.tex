@@ -63,12 +63,29 @@ lot between these the two.
 
 \item Install dependencies.
 
-On Debian/Ubuntu:
+On Debian:
 \begin{lstlisting}[language=sh]
 sudo apt install build-essential cmake pkg-config libglm-dev \
 	libgtkmm-3.0-dev libsigc++-2.0-dev libyaml-cpp-dev \
 	liblxi-dev texlive texlive-fonts-extra libglew-dev \
 	catch2 libclfft-dev
+\end{lstlisting}
+
+On Ubuntu (Note 16.X not supported, requires 18.04 or later):
+\begin{lstlisting}[language=sh]
+	sudo apt install build-essential cmake pkg-config libglm-dev \
+		libgtkmm-3.0-dev libsigc++-2.0-dev libyaml-cpp-dev \
+		liblxi-dev texlive texlive-fonts-extra libglew-dev \
+		libclfft-dev
+	\end{lstlisting}
+	
+Installing Catch2:
+\begin{lstlisting}[language=sh]
+git clone https://github.com/catchorg/Catch2.git
+cd Catch2
+git checkout v2.x
+cmake -Bbuild -H. -DBUILD_TESTING=OFF
+sudo cmake --build build/ --target install
 \end{lstlisting}
 
 On Fedora:
@@ -81,6 +98,8 @@ sudo dnf install gtkmm30-devel cmake pkg-config glm-devel \
 If you are using an older stable release (such as Debian Buster), you may need to install catch2 from source
 (https://github.com/catchorg/Catch2). Alternatively, you may pass -DBUILD\_TESTING=OFF to CMake to disable unit testing.
 
+\pagebreak
+
 \item Install FFTS library
 \begin{lstlisting}[language=sh]
 git clone https://github.com/anthonix/ffts.git
@@ -91,6 +110,32 @@ cmake .. -DENABLE_SHARED=ON
 make -j4
 sudo make install
 \end{lstlisting}
+
+\item OpenCL drivers
+
+This section is WIP. The Arch wiki contains a good overview of the packages required for AMD, Intel, and Nvidia (https://wiki.archlinux.org/index.php/GPGPU).
+
+Recommend installing `clinfo` to check OpenCL support on your machine.
+\begin{lstlisting}[language=sh]
+sudo apt install clinfo
+\end{lstlisting}
+
+AMD:
+
+Download drivers from AMD's website (https://www.amd.com/en/support/kb/release-notes/rn-amdgpu-unified-linux-20-20).
+The commands show how to extract and run their driver. Current testing on Ubuntu 20.04 results in errors with APT unless the amdgpu-dkms package is removed after installation.
+
+\begin{lstlisting}[language=sh]
+cd ~/Downloads
+tar -Jxvf amdgpu-pro-X.X-XX-ubuntu-X.X.tar.xz
+cd ~/Downloads/amdgpu-pro-X.X-XX-ubuntu-X.X.tar.xz
+./amdgpu-pro-install --opencl=legacy,pal --headless
+....
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+sudo apt remove amdgpu-dkms
+sudo apt autoremove
+\end{lstlisting}
+
 
 \item Build scopehal and scopehal-apps
 \begin{lstlisting}[language=sh]
