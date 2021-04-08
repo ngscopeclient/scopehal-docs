@@ -578,11 +578,26 @@ Calculates data-dependent jitter for a serial data stream.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{DDR1 Command Bus}
+
+Decodes the command bus for first-generation DDR SDRAM.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{DDR3 Command Bus}
+
+Decodes the command bus for third-generation DDR SDRAM.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{De-Embed}
+
+Applies the inverse of a channel (supplied in 2-port Touchstone S-parameter format) to a signal, in order to calculate
+what the waveform would have looked like at the input to a cable, fixture, etc. given the signal seen at the output.
+
+Multiple Touchstone files may be provided, however only transmission (S21) is modeled in the current implementation so
+cascading channels or filters which have significant return loss may lead to inaccurate results (signals reflecting
+between two elements then back in the forward direction are not modeled).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
