@@ -174,7 +174,32 @@ MSOX-3000T series & agilent &  \\
 \end{tabularx}
 
 \section{Pico Technologies}
-TODO (scopehal:15)
+
+Pico oscilloscopes all have slightly different command sets, but are supported using the ``pico" driver in libscopehal.
+This driver connects via a TCP socket to a socket server (azonenberg/scopehal-pico-bridge) which connects to the
+appropriate instrument using Pico's binary SDK.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
+\thickhline
+6000 series & pico & Early development, incomplete support \\
+\thickhline
+\end{tabularx}
+
+\subsection{pico}
+
+\subsubsection{Typical Performance (6824E, LAN)}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Channels} & \textbf{Memory depth} & \textbf{WFM/s}\\
+\thickhline
+4 & FIXME & FIXME \\
+\thinhline
+
+\thickhline
+\end{tabularx}
 
 \section{Rigol}
 
