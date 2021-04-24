@@ -29,14 +29,26 @@ currently used.
 A mouse with scroll wheel, or touchpad with scroll gesture support, is mandatory to enable full use of the UI. We may
 explore alternative input methods for some UI elements in the future.
 
-Waveform rendering is performed in compute shaders, so OpenGL 4.3 or newer is required as well as the
-GL\_ARB\_gpu\_shader\_int64 extension. The corresponding minimum hardware requirement is an AMD Radeon HD 5000, NVIDIA
-GeForce GTX 6xx series discrete GPU, or Intel Skylake or newer integrated GPU, plus suitably up-to-date drivers.
-TODO: what AMD integrated/ARM GPUs started supporting GL 4.3?
+OpenGL 4.2 or later is required, as well as several extensions:
+\begin{itemize}
+\item GL_ARB_arrays_of_arrays (or OpenGL 4.3)
+\item GL_ARB_compute_shader (or OpenGL 4.3)
+\item GL_ARB_shader_storage_buffer_object (or OpenGL 4.3)
+\item GL_EXT_blend_equation_separate
+\end{itemize}
+
+The corresponding minimum hardware requirement is an AMD Radeon HD 5000, NVIDIA GeForce GTX 6xx series discrete GPU, or
+Intel Skylake or newer integrated GPU, plus suitably up-to-date drivers. On Linux with recent Mesa, Intel integrated
+GPUs as old as Ivy Bridge may be used.
+
+TODO: what AMD integrated/ARM GPUs started supporting GL 4.2.
 
 To check for necessary graphics card support on Linux:
 \begin{lstlisting}[language=sh]
-glxinfo | grep GL_ARB_gpu_shader_int64
+glxinfo | grep GL_ARB_arrays_of_arrays
+glxinfo | grep GL_ARB_compute_shader
+glxinfo | grep GL_ARB_shader_storage_buffer_object
+glxinfo | grep GL_EXT_blend_equation_separate
 glxinfo | grep "OpenGL version string"
 \end{lstlisting}
 
