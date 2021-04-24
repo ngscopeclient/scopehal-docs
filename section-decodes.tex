@@ -998,9 +998,87 @@ two input waveforms.
 \pagebreak
 \section{SWD}
 
-The Serial Wire Debug protocol, commonly used for debugging of low-pin-count ARM microcontrollers.
+The Serial Wire Debug protocol between a Debug Probe and an ARM Microcontroller, typically from the CORTEX-M family. This
+decode recognises all SWD frame elements and validates type and parity of both incoming and outgoing messages. It also
+identifies line resets and line protocol change messages.
 
-Reference: ARM Debug Interface v5 Architecture Specification, chapter 5.
+The SWD Protocol defines that the target will read and write on the rising edge of SWCLK. It does not place any constraint
+on when the probe reads and writes. For the purposes of graphical depiction each protocol element starts at a falling edge
+and continues to be valid until the next falling edge, following the graphical convention established in the ARM documentation.
+
+Reference: ARM Debug Interface v5 Architecture Specification, Chapter 4.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/swd.png}
+\caption{Example of SWD protocol decode}
+\label{filter_can}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+SWDIO & Digital & Serial Wire Data In/Out (To/From target)\\
+SWCLK & Digital & Serial Wire Clock In (To Target from Debug Probe)\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+No parameters are required for configuration of SWD. The protocol is clocked by SWCLK.
+
+\subsection{Output Signal}
+
+The SWD bus decode outputs a time series of SWD message elements, each of which may be one or a number of bits long.
+Each message element consist of a type and optional numeric content.
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Type} & \textbf{Description} & \textbf{Color} & \textbf{Format} \\
+\thickhline
+Line Control & Line Reset & \cellcolor{preamble}\textcolor{white}{Preamble} & LINE RESET \\
+\thickhline
+Line Mode & Line Mode Change to SWD & \cellcolor{control}\textcolor{white}{Control} & JTAG TO SWD \\
+\thickhline
+Line Mode & Line Mode Change to JTAG & \cellcolor{control}\textcolor{white}{Control} & SWD TO JTAG \\
+\thickhline
+Line Mode & Line Mode Change to Dormant & \cellcolor{control}\textcolor{white}{Control} & SWD TO DORMANT \\
+\thickhline
+Line Mode & Leave Dormant Mode & \cellcolor{control}\textcolor{white}{Control} & LEAVE DORMANT \\
+\thickhline
+Start & Start of frame & \cellcolor{preamble}\textcolor{white}{Preamble} & START \\
+\thickhline
+APnDP & Selection between AP and DP & \cellcolor{control}\textcolor{white}{Control} & AP|DP  \\
+\thickhline
+RnW & Read or Write mode & \cellcolor{control}\textcolor{white}{Control} & R|W  \\
+\thickhline
+ADDR & AP or DP Address & \cellcolor{address}\textcolor{black}{Address} & Reg \%02x \\
+\thickhline
+Parity & Good Header Parity & \cellcolor{green}\textcolor{black}{Control} & OK  \\
+\thickhline
+Parity & Bad Header Parity & \cellcolor{red}\textcolor{white}{Control} & BAD  \\
+\thickhline
+Stop & End of Header & \cellcolor{preamble}\textcolor{white}{Preamble} & STOP \\
+\thickhline
+Park & Line Release & \cellcolor{preamble}\textcolor{white}{Preamble} & PARK \\
+\thickhline
+Turnaround & Line Direction Change & \cellcolor{preamble}\textcolor{white}{Preamble} & TURN \\
+\thickhline
+Acknowledge & Good Response from target to request & \cellcolor{control}\textcolor{white}{Control} & ACK|WAIT    \\
+\thickhline
+Acknowledge & Bad Response from target to request & \cellcolor{control}\textcolor{white}{Control} & FAULT|ERROR    \\
+\thickhline
+Data & Payload to/From Target & \cellcolor{data}\textcolor{white}{Data} & \%08x \\
+\thickhline
+
+\thickhline
+\end{tabularx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
