@@ -255,43 +255,63 @@ TODO (scopehal:16)
 
 \section{Siglent}
 
-Many recent Siglent oscilloscopes are developed in partnership with Teledyne LeCroy (Siglent-designed hardware running
-Teledyne LeCroy firmware) and are sold under both brands. As a result, there is some crossover in driver support. \\
+A driver for SDS2000X+ is available in the codebase which has been developed according to Siglent offical documentation
+(Programming Guide PG01-E11A). This driver should be functional across the 'next generation' SDS2000X+, SDS5000X and SDS6000X
+scopes . It has been developed using the SDS2000X+.
 
-The current Siglent driver appears to have bitrotted due to divergence between the ``lecroy" and ``siglent" driver
-codebases. Contributions to fix Siglent support are welcome!
+An old Siglent driver with significant bitrot is available in the git archive if required.\\
 
 \begin{tabularx}{16cm}{lllX}
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
-SDS5000X series & siglent & lxi, lan, usbtmc & Untested \\
+SDS2000X+ series & siglent & lan & Basic functionality complete. Digital channels and advanced triggering remain to be added. \\
 \thickhline
-SDS2000X Plus series & siglent & lxi, lan, usbtmc & Untested \\
+SDS5000X series & siglent & lan & Initialises, triggers and downloads waveforms. More testing needed \\
 \thickhline
-SDS2000X-E series & siglent & lxi, lan, usbtmc & Untested \\
+SDS6000X series & siglent & lan & Untested. Not available in Western Markets. \\
 \thickhline
-SDS2000X series & siglent & lxi, usbtmc & Base functionality present, lxi and usbtmc tested on SDS2304X. \\
-\thickhline
-SDS1000X series & siglent & lxi, usbtmc & Untested \\
-\thickhline
-SDS1000X+ series & siglent & lxi, usbtmc & Untested \\
-\thickhline
-SDS1000X-E series & siglent & lxi, lan, usbtmc & Base functionality present, lan transport tested on SDS1204X-E.\\
-\thickhline
-SDS1000CFL series & siglent & usbtmc, ? & Untested. Documentation contradiction about support over Ethernet. \\
-\thickhline
-SDS1000DL+ series & siglent & lxi, usbtmc & Untested \\
-\thickhline
-SDS1000CML+ series & siglent & lxi, usbtmc & Untested \\
-\thickhline
-SDS3000X series & lecroy & vicp & Should be same as WaveSurfer 3000 \\
 \end{tabularx}
 
+No other Siglent scopes are supported at the moment although work is progressing on the SDS1000X-E series.
 
-Unlike TCP/IP sockets (``lan"), VXI-11 (``lxi") is a synchronous protocol that  does not support
-queueing multiple transactions. When an oscilloscope supports both the lan and the lxi transport,
-chances are that the lan transport will have a better performance than the lxi transport.
+The only exception to this is the SDS3000X series which is expected to work using the LeCroy driver over vicp interface
+as if it were a WaveSurfer 3000. User feedback appreciated.\\
+
+\subsubsection{Typical Performance (SDS2104X+, LAN)}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/siglent-samples.png}
+\caption{Siglent sample speed for various combinations of depth and channels}
+\label{siglent_sample}
+\end{figure}
+
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Channels} & \textbf{Memory depth} & \textbf{WFM/s}\\
+\thickhline
+1 & 5-100K & 2.3 \\
+\thinhline
+2 & 5-100K & 1.6 \\
+\thinhline
+3 & 5-100K & 1.2 \\
+\thinhline
+4 & 5-100K & 1 \\
+\thinhline
+1 & 10M & 0.5 \\
+\thinhline
+2-4 & 10M & 0.15 \\
+\thickhline
+\end{tabularx}
+
+These figures were obtained from a SDS2104X+ running firmware version 1.3.7R5. Different scopes and software
+revisions may vary. This series of scopes support sample depths up to 100MPoints, but depths beyond 10MPoints
+require a different software interface and are likely to be extremely slow, so have not yet been implemented.
+
+
+
 
 \section{Teledyne LeCroy / LeCroy}
 
@@ -299,8 +319,7 @@ Teledyne LeCroy (and older LeCroy) devices use the same driver, but two differen
 
 While all Teledyne LeCroy / LeCroy devices use almost identical SCPI command sets, Windows based devices running
 XStream or MAUI use a custom framing protocol (``vicp") around the SCPI data while the lower end RTOS based devices use
-raw SCPI over TCP (``lan"). Some of the lower end devices also require use of the Siglent driver as they are Siglent
-OEM designs rebranded by Teledyne LeCroy and have some quirks in the firmware which require workarounds.
+raw SCPI over TCP (``lan").
 
 Please see the table below for details on which configuration to use with  your hardware.
 
@@ -318,7 +337,7 @@ MDA & lecroy & vicp & Untested, but should work\\
 \thickhline
 SDA & lecroy & vicp & Untested, but should work\\
 \thickhline
-T3DSO & siglent & ??? & Untested\\
+T3DSO & ??? & ??? & Untested\\
 \thickhline
 WaveAce & ??? & ??? & Untested\\
 \thickhline
