@@ -34,3 +34,6 @@ add_custom_command(
 	VERBATIM)
 add_custom_target(doc ALL
 	DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/glscopeclient-manual.pdf)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/glscopeclient-manual.pdf
+	DESTINATION doc/glscopeclient)
