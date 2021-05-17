@@ -149,7 +149,9 @@ git clone https://github.com/anthonix/ffts.git
 cd ffts
 mkdir build
 cd build
-cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=$MSYSTEM_PREFIX \
+cmake \
+    -G"MinGW Makefiles" \
+    -DCMAKE_INSTALL_PREFIX=$MSYSTEM_PREFIX \
     -DENABLE_SHARED=ON ..
 mingw32-make -j4
 mingw32-make install
@@ -163,8 +165,8 @@ git clone https://github.com/azonenberg/scopehal-apps.git --recurse-submodules
 cd scopehal-apps
 mkdir build
 cd build
-cmake -G"MinGW Makefiles" -DLIBFFTS_INCLUDE_DIR=/mingw64/include/ffts \
-    -DLIBFFTS_LIBRARIES=/mingw64/lib/libffts_static.a \
+cmake \
+    -G"MinGW Makefiles" \
     -DBUILD_TESTING=OFF ..
 mingw32-make -j4
 \end{lstlisting}
