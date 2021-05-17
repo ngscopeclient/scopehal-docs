@@ -126,8 +126,8 @@ automated testing on computers which do not have a connection to a real oscillos
 model the response or characteristics of real world scope frontends or signals.
 
 It supports memory depths of 10K, 100K, 1M, and 10M points per waveform at rates of 1, 5, 10, 25, 50, and 100 Gsps.
-Four test signals are provided, each with 10 mV of Gaussian noise added. As of now, there is no way to configure the
-simulated signal generator.
+Five test signals are provided, each with 10 mV of Gaussian noise and a 5 GHz low-pass filter added (although this can
+be disabled under the channel properties)
 
 Test signals:
 \begin{itemize}
@@ -135,6 +135,7 @@ Test signals:
 \item 1.000 GHz tone mixed with a second tone, which sweeps from 1.100 to 1.500 GHz
 \item 10.3125 Gbps PRBS-31
 \item 1.25 Gbps repeating two 8B/10B symbols (K28.5 D16.2)
+\item Step from 0 to 1V
 \end{itemize}
 
 \begin{tabularx}{16cm}{lllX}
@@ -186,7 +187,9 @@ appropriate instrument using Pico's binary SDK.
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
 \thickhline
-6000 series & pico & Early development, incomplete support \\
+3000D series & pico & Early development, incomplete\\
+\thinhline
+6000E series & pico & \\
 \thickhline
 \end{tabularx}
 
@@ -198,9 +201,15 @@ appropriate instrument using Pico's binary SDK.
 \thickhline
 \textbf{Channels} & \textbf{Memory depth} & \textbf{WFM/s}\\
 \thickhline
-4 & FIXME & FIXME \\
+8 & 1M & 15.2 \\
 \thinhline
-
+4 & 1M & 30.5 \\
+\thinhline
+2 & 1M & 64.4 \\
+\thinhline
+1 & 10M & 12.2 \\
+\thinhline
+1 & 50M & 3.03 \\
 \thickhline
 \end{tabularx}
 
@@ -259,8 +268,8 @@ TODO (scopehal:16)
 \section{Siglent}
 
 A driver for SDS2000X+ is available in the codebase which has been developed according to Siglent offical documentation
-(Programming Guide PG01-E11A). This driver should be functional across the 'next generation' SDS2000X+, SDS5000X and SDS6000X
-scopes . It has been developed using the SDS2000X+.
+(Programming Guide PG01-E11A). This driver should be functional across the 'next generation' SDS2000X+, SDS5000X and
+SDS6000X scopes . It has been developed using the SDS2000X+.
 
 An old Siglent driver with significant bitrot is available in the git archive if required.\\
 
@@ -313,9 +322,6 @@ These figures were obtained from a SDS2104X+ running firmware version 1.3.7R5. D
 revisions may vary. This series of scopes support sample depths up to 100MPoints, but depths beyond 10MPoints
 require a different software interface and are likely to be extremely slow, so have not yet been implemented.
 
-
-
-
 \section{Teledyne LeCroy / LeCroy}
 
 Teledyne LeCroy (and older LeCroy) devices use the same driver, but two different transports for LAN connections.
@@ -338,7 +344,7 @@ LabMaster & lecroy & vicp & Untested, but should work\\
 \thickhline
 MDA & lecroy & vicp & Untested, but should work\\
 \thickhline
-SDA & lecroy & vicp & Untested, but should work\\
+SDA & lecroy & vicp & Tested on SDA 8Zi series\\
 \thickhline
 T3DSO & ??? & ??? & Untested\\
 \thickhline
@@ -346,7 +352,7 @@ WaveAce & ??? & ??? & Untested\\
 \thickhline
 WaveJet & ??? & ??? & Untested\\
 \thickhline
-WaveMaster & lecroy & vicp & Untested, but should work \\
+WaveMaster & lecroy & vicp & \\
 \thickhline
 WaveRunner & lecroy & vicp & Tested on WaveRunner Xi and 8000 series\\
 \thickhline

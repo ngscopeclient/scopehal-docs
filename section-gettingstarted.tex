@@ -18,13 +18,13 @@ repository:ticket, for example scopehal-apps:3.
 
 \section{Host System Requirements}
 
-All current development is performed on Linux operating systems (primarily Debian and Arch), although experimental (and
-incomplete) Windows support is provided. glscopeclient uses gtkmm as the UI toolkit. Current development mostly uses
-3.24 but any recent 3.x version should work.
+The majority of development is performed on Linux operating systems (primarily Debian and Arch), although experimental
+Windows support is available. glscopeclient uses gtkmm as the UI toolkit. Current development mostly uses 3.24 but any
+recent 3.x version should work.
 
-Any 64-bit ARM or Intel processor should be able to run glscopeclient. If AVX2 support is present glscopeclient will
-use special optimized versions of some signal processing functions, however AVX2 is not required. AVX512 is not
-currently used.
+Any 64-bit Intel or AMD processor should be able to run glscopeclient. If AVX2 and/or AVX512F support is present
+glscopeclient will use special optimized versions of some signal processing functions, however neither instruction set
+is required. Compiling in 32-bit mode is not supported due to the significant RAM requirements.
 
 A mouse with scroll wheel, or touchpad with scroll gesture support, is mandatory to enable full use of the UI. We may
 explore alternative input methods for some UI elements in the future.
@@ -41,7 +41,7 @@ The corresponding minimum hardware requirement is an AMD Radeon HD 5000, NVIDIA 
 Intel Skylake or newer integrated GPU, plus suitably up-to-date drivers. On Linux with recent Mesa, Intel integrated
 GPUs as old as Ivy Bridge may be used.
 
-TODO: what AMD integrated/ARM GPUs started supporting GL 4.2.
+TODO: what AMD integrated/ARM GPUs started supporting GL 4.2?
 
 To check for necessary graphics card support on Linux:
 \begin{lstlisting}[language=sh]
@@ -56,8 +56,8 @@ If OpenCL 1.2 or higher is present, some filters may make use of GPU acceleratio
 detected GPU is automatically used; there may be a way to select specific devices in the future.
 
 The minimum RAM requirement to actually launch glscopeclient is relatively small (TODO: do some testing) however
-history mode and deep captures can easily consume many GB of RAM. We suggest 8GB as a reasonable minimum, with 32 or
-more encouraged for deep history.
+history mode and deep captures can easily consume many GB of RAM very rapidly. We suggest 8GB as a reasonable minimum,
+with 32 or more encouraged for deep history.
 
 \section{Instrument Support}
 
@@ -110,12 +110,14 @@ git clone https://github.com/azonenberg/scopehal-apps.git --recurse-submodules
 cd scopehal-apps
 mkdir build
 cd build
-cmake ../
+cmake ../ -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=/usr
 make -j4
 \end{lstlisting}
 
-\item Install scopehal and scopehal-apps: right now, you don't. As of now, glscopeclient is intended to be run from the
-glscopeclient source directory (src/glscopeclient). Anybody want to contribute and set up a proper install process?
+\item Install scopehal and scopehal-apps
+\begin{lstlisting}[language=sh]
+make install
+\end{lstlisting}
 
 \end{enumerate}
 
@@ -242,8 +244,6 @@ scopes from the same vendor will use the same command set or driver!
 typically a hostname:port combination, TTY device path, or similar.
 \end{itemize}
 
-Some users have reported better performance by setting the OMP\_WAIT\_POLICY environment variable to PASSIVE.
-
 \section{Design Philosophy}
 
 glscopeclient's UI is heavily mouse driven and context based. Space used by always-visible buttons, sliders, etc is
@@ -256,10 +256,6 @@ double clicking (open properties dialog), or right clicking (context menu).
 Most text fields allow SI prefixes for scaling values (mV, us, GHz, etc).
 
 \section{Troubleshooting}
-
-\subsection{Poor performance or hangs}
-
-Ensure the OMP\_WAIT\_POLICY environment variable is set to PASSIVE.
 
 \subsection{Corrupted or no graphical output in waveform areas}
 
