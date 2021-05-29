@@ -142,21 +142,7 @@ pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake \
 \begin{lstlisting}[language=sh]
 pacman -S mingw-w64-x86_64-glm mingw-w64-x86_64-libsigc++ \
     mingw-w64-x86_64-gtkmm3 mingw-w64-x86_64-yaml-cpp \
-    mingw-w64-x86_64-glew
-\end{lstlisting}
-
-\item Build FFTS library
-\begin{lstlisting}[language=sh]
-git clone https://github.com/anthonix/ffts.git
-cd ffts
-mkdir build
-cd build
-cmake \
-    -G"MinGW Makefiles" \
-    -DCMAKE_INSTALL_PREFIX=$MSYSTEM_PREFIX \
-    -DENABLE_SHARED=ON ..
-mingw32-make -j4
-mingw32-make install
+    mingw-w64-x86_64-glew mingw-w64-x86_64-ffts
 \end{lstlisting}
 
 The unit tests will not be run as part of this build - if you would like to run them, you will need to provide catch2 (https://github.com/catchorg/Catch2), and remove the -DBUILD\_TESTING=OFF flag from below.
