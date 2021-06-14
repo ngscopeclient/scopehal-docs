@@ -893,6 +893,12 @@ Unit conversions are performed, for example the product of a voltage and current
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{OFDM Demodulator}
+
+NOTE: this filter is still under development and not suitable for general use.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Overshoot}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1117,6 +1123,22 @@ calculated by hand, but most commonly used as a base class for more specialized 
 \section{TDR}
 
 Converts a TDR waveform from volts to reflection coefficient or impedance.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{TDR Step De-Embed}
+
+Given a waveform of a fast rising step, calculate the frequency response of a de-embedding network to convert the
+measured waveform into an ideal unit step. The resulting data can be exported to a Touchstone file.
+
+The calculated response is typically used as input to the de-embed filter and applied to a TDR/TDT waveform generated
+with the same pulse generator. This correction allows for overshoot, ringing, and other artifacts on the pulse to be
+removed from the TDR/TDT response.
+
+It is important that the input contain a single rising edge, and is reasonably stable before and after the edge.
+If multiple cycles of the test step, or falling edges, are present inaccurate results may be obtained.
+
+NOTE: this filter is still under development and not suitable for general use.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
