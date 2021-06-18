@@ -55,9 +55,9 @@ glxinfo | grep "OpenGL version string"
 If OpenCL 1.2 or higher is present, some filters may make use of GPU acceleration. As of this writing the first
 detected GPU is automatically used; there may be a way to select specific devices in the future.
 
-The minimum RAM requirement to actually launch glscopeclient is relatively small (TODO: do some testing) however
-history mode and deep captures can easily consume many GB of RAM very rapidly. We suggest 8GB as a reasonable minimum,
-with 32 or more encouraged for deep history.
+The minimum RAM requirement to actually launch glscopeclient is relatively small (the default demo configuration uses
+under 512 MB) however history mode and deep captures can easily consume many GB of RAM very rapidly. We suggest 8GB as
+a reasonable minimum, with 32 or more encouraged for deep history.
 
 \section{Instrument Support}
 
@@ -132,8 +132,7 @@ On Windows, we make use of the MSYS2 development environment, which gives us acc
 Since this toolchain allows glscopeclient to be compiled as a native Windows application, the project might be run
 outside of MSYS2.
 
-Note that glscopeclient is available as a package in MSYS2 repositories.
-Therefore, it can be installed through the package manager, without building it from sources:
+\subsubsection{Installing from the package manager}
 
 \begin{lstlisting}[language=sh]
 pacman -Sy
@@ -141,6 +140,8 @@ pacman -S mingw-w64-x86_64-scopehal-apps
 \end{lstlisting}
 
 See also \href{https://packages.msys2.org/group/mingw-w64-x86_64-eda}{\lstinline{mingw-w64-x86_64-eda}}.
+
+\subsubsection{Building from source}
 
 \begin{enumerate}
 
@@ -158,6 +159,13 @@ which also get installed by the MSYS2 installer).
 pacman -S git mingw-w64-x86_64-toolchain
 \end{lstlisting}
 
+\item Check out the code
+
+\begin{lstlisting}[language=sh]
+git clone --recursive https://github.com/azonenberg/scopehal-apps
+cd scopehal-apps
+\end{lstlisting}
+
 \item Execute makepkg-mingw in subdir MSYS2:
 
 \begin{lstlisting}[language=sh]
@@ -165,7 +173,9 @@ cd msys2
 MINGW_ARCH=mingw64 makepkg-mingw --noconfirm --noprogressbar -sCLf
 \end{lstlisting}
 
-The unit tests will not be run as part of this build - if you would like to run them, you will need to provide catch2 (https://github.com/catchorg/Catch2), and remove the -DBUILD\_TESTING=OFF flag from the PKGBUILD recipe in subdir msys2.
+The unit tests will not be run as part of this build - if you would like to run them, you will need to provide catch2
+(https://github.com/catchorg/Catch2), and remove the -DBUILD\_TESTING=OFF flag from the PKGBUILD recipe in subdir
+msys2.
 
 \item Installing, copying binaries and running glscopeclient.
 
@@ -190,29 +200,151 @@ This last approach is not officially supported yet.
 
 \section{Running glscopeclient}
 
-When running glscopeclient with no arguments, a dialog box (Fig. \ref{connection-dialog}) is displayed allowing you to
-connect to an instrument. As of this writing, there is no support for connecting to multiple instruments via the
-dialog.
+When running glscopeclient with no arguments, an empty session (Fig. \ref{empty-window}) is created. To perform useful
+work, it is necessary to either open a saved session (\menustyle{File | Open}), import waveforms from an external data
+file (\menustyle{File | Import}), connect to an instrument (\menustyle{File | Connect}), or reconnect to a recently
+used instrument (\menustyle{File | Recent Instruments}).
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=6cm]{images/connection-dialog.png}
-\caption{Connection dialog}
-\label{connection-dialog}
+\includegraphics[width=10cm]{images/empty-window.png}
+\caption{Empty glscopeclient session}
+\label{empty-window}
 \end{figure}
 
-It is also possible to connect to arbitrarily many instruments by passing the ``connection string" for each instrument
-as a command-line argument.
+\subsection{Configuration arguments}
 
+Most of these arguments are intended for developers, but they can help troubleshoot unusual bugs.
+
+\begin{itemize}
+
+\item \texttt{--noglint64}\\
+Do not use \texttt{GL\_ARB\_gpu\_shader\_int64} even if the GPU supports it.
+
+\item \texttt{--noopencl}\\
+Do not use OpenCL even if a supported GPU or accelerator is present.
+
+\end{itemize}
+
+\subsection{Console verbosity arguments}
+
+glscopeclient takes standard liblogtools arguments for controlling console debug verbosity.
+
+If no verbosity level is specified, the default is ``notice" (3). (We suggest using \texttt{--debug} for routine use
+until the v1.0 release to aid in troubleshooting.)
+
+\begin{itemize}
+
+\item \texttt{--debug}\\
+Sets the verbosity level to ``debug" (5).
+
+\item \texttt{-l [file]}, \texttt{--logfile [file]}\\
+Writes a copy of all log messages to \texttt{file}. This is preferred over simply redirecting output with pipes, as
+console escape sequences are stripped from the file log output.
+
+\item \texttt{-L [file]}, \texttt{--logfile-lines [file]}\\
+Same as \texttt{--logfile} except line buffering is turned on.
+
+\item \texttt{-q}, \texttt{--quiet}\\
+Reduces the verbosity level by one. Can be specified more than once to lower verbosity by several steps.
+
+\item \texttt{--trace [class]}, \texttt{--trace [class::function]} \\
+Enables extra debug output from the class \texttt{class} or the function \texttt{class::function}. Has no effect unless
+\texttt{--debug} is also specified.
+
+\item \texttt{--stdout-only}\\
+Sends all logging output to stdout. By default, error (level 1) and warning (level 2) messages go to stderr.
+
+\item \texttt{--verbose}\\
+Sets the verbosity level to ``verbose" (4).
+
+\end{itemize}
+
+\subsection{File arguments}
+
+The file extension is used to determine the format. File extensions are case sensitive and must be lowercase to be
+correctly interpreted.
+
+\begin{itemize}
+\item \texttt{[file.scopesession]}
+Loads a saved session.
+
+\item \texttt{[file.bin]} \\
+Imports waveform data from the binary format used by Agilent, Keysight, and Rigol oscilloscopes.
+
+\item \texttt{[file.complex]} \\
+Imports complex I/Q data from a file. The file must contain interleaved (I, Q) pairs in either 8-bit signed integer,
+16-bit signed integer, 32-bit normalized floating point, or 64-bit normalized floating point format.
+
+glscopeclient uses a heuristic to determine the correct sample format. The first 1024 bytes of the file are loaded
+using all four possible formats, and the average I/Q magnitude is used to create a score. After excluding floating
+point formats with a maximum magnitude less than 1e-6, the score closest to zero is considered the correct format and
+the remainder of the file is parsed using this format.
+
+If the file name contains the string "MSps" (case sensitive), digits left of the string are assumed to be a sample rate
+in millions of samples per second. If this string is not found, the sample rate is assumed to be 1 Msps.
+
+\item \texttt{[file.csv]} \\
+Imports sample data from a CSV (comma-separated-value) file. More than one CSV file can be loaded at once (displayed as
+separate points in history) by specifying multiple file names as long as they have identical column schemas.
+
+Lines starting with a '\#' character are treated as comments and generally ignored by the parser. (If the comment format
+matches that used by Digilent's WaveForms utility, timestamps and other metadata are extracted from the comments.)
+
+If the first row of the CSV contains non-numeric characters, it is treated as a header row. Header content in the
+timestamp column is ignored; headers in other columns are used as channel names in the imported waveform.
+
+The first column of the CSV must contain sample timestamps, in seconds. Scientific notation is supported. Timestamps
+must be monotonic (each row must have a timestamp strictly greater than that of the previous row).
+
+glscopeclient uses a heuristic to detect uniformly sampled waveforms, which enabled certain optimizations for display
+and signal processing. If the standard deviation of intervals between samples is less than 1\% of the average sample
+interval, the waveform is assumed to be uniformly sampled and timestamps are rounded to the nearest multiple of the
+average interval. If the deviation is greater, the waveform is assumed to be sparsely sampled and timestamps are not
+modified.
+
+\item \texttt{[file.vcd]} \\
+Imports digital waveform data from a VCD (value change dump) file, typically created by a logic analyzer or HDL
+simulator.
+
+\item \texttt{[file.wav]} \\
+Imports sample data from a WAV file. More than one WAV file can be loaded at once (displayed as separate points in
+history) by specifying multiple file names as long as they have identical sample rates and channel counts.
+
+\item \texttt{--nodata}\\
+When loading a .scopesession file, load settings only and not saved waveform data.
+
+\item \texttt{--reconnect}\\
+When loading a .scopesession file, reconnect to the instrument and resume remote control. Current instrument settings
+are overwritten with the configuration from the saved session.
+
+\item \texttt{--retrigger}\\
+When loading a .scopesession file, arm the trigger immediately. has no effect unless \texttt{--reconnect} is also
+specified.
+
+\end{itemize}
+
+\subsection{Instrument arguments}
+
+Example:
 \begin{lstlisting}[language=sh]
 ./glscopeclient --debug \
 	mylecroy:lecroy:vicp:myscope.example.com:1234 \
 	myrigol:rigol:lan:rigol.example.com
 \end{lstlisting}
 
-The \texttt{--debug} argument may be omitted or replaced with any other liblogtools argument for controlling console
-debug verbosity (\texttt{--quiet}, \texttt{--verbose}, \texttt{--debug}, \texttt{--trace}, etc). If you're using
-glscopeclient at its current level of maturity you're probably a developer, so we suggest \texttt{--debug} by default.
+\begin{itemize}
+\item \texttt{[connection string]} \\
+Connects to the specified instrument. By default, all channels are enabled and displayed.
+
+\item \texttt{--nodigital} \\
+Do not enable MSO channels at startup. This does not prevent MSO channels from being added to the session later.
+
+\item \texttt{--nospectrum}
+Do not enable spectrum analyzer channels at startup. This does not prevent spectrum analyzer channels from being added
+to the session later.
+
+\end{itemize}
 
 Each instrument is described by a ``connection string" containing four colon-separated fields.
 
@@ -235,6 +367,9 @@ controls are displayed in menus or pop-up dialogs, then hidden as soon as they a
 
 Most UI elements can be interacted with by left clicking (select), left dragging (move), using the scroll wheel (zoom),
 double clicking (open properties dialog), or right clicking (context menu).
+
+If you have a multi-button gaming mouse, button 8 stops the trigger and button 9 starts. These bindings are not
+currently configurable.
 
 Most text fields allow SI prefixes for scaling values (mV, us, GHz, etc).
 
