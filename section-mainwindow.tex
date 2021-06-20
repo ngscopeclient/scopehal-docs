@@ -5,31 +5,66 @@ remaining space is occupied by one or more waveform groups.
 
 \section{Menu}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{File}
 
-This menu contains commands for manipulating glscopeclient session files.
+This menu contains commands for saving and loading waveform and session files, and managing instrument connections.
+
+\begin{itemize}
+\item \menustyle{Connect}\\
+Displays the ``connect to instrument" dialog.
+
+\item \menustyle{Recent Instruments}\\
+Contains a list of up to ten recently used instruments.
+
+\item \menustyle{Open}\\
+Loads a .scopesession file. Checkboxes at the bottom of the file browser dialog allow the UI configuration, instrument
+settings, and waveform data to be individually loaded or ignored. If reconnecting to an instrument, settings from the
+saved session will be applied and overwrite the current channel and timebase configuration.
+
+\item \menustyle{Import}\\
+Imports a data file from an external source. See Sec. \ref{import} for details on supported import file formats and
+extensions.
+
+\item \menustyle{Save}\\
+The UI layout may be saved to a session file so that a common instrument and analysis setup can be returned to in the
+future. Waveform data may optionally be saved in the session as well.
 
 A session consists of a YAML file called filename.scopesession containing instrument and UI configuration, as well
 as a directory called filename\_data which contains waveform metadata and sample values for all enabled instrument
 channels.
 
-\textbf{Save}: The UI layout may be saved to a session file so that a common instrument setup can be returned to in the
-future. Waveform data may optionally be saved in the session as well.
+Note that both the .scopesession and the \_data directory must be copied if moving the session to a new location.
 
-\textbf{Open}: Loads a .scopesession file. Checkboxes at the bottom of the file browser dialog allow the UI
-configuration, instrument settings, and waveform data to be individually loaded or ignored.
+\item \menustyle{Close}\\
+Close the current session without exiting glscopeclient
 
-\textbf{Quit}: Exits the application
+\item \menustyle{Quit}\\
+Exits the application
 
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Setup}
 
-\textbf{Instrument Sync}: Synchronizes two or more instruments under a single glscopeclient instance. TODO: more
-complete documentation
+\begin{itemize}
 
-\textbf{Trigger}: Configures trigger settings
+\item \menustyle{Instrument Sync}\\
+Synchronizes two or more instruments under a single glscopeclient instance. TODO: more complete documentation
 
-\textbf{Halt Conditions}: Makes glscopeclient pause when a waveform meeting certain conditions is acquired
+\item \menustyle{Trigger}\\
+Configures trigger settings
 
+\item \menustyle{Halt Conditions}\\
+Makes glscopeclient pause when a waveform meeting certain conditions is acquired
+
+\item \menustyle{Preferences}\\
+Opens the preferences dialog
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{View}
 
 This menu allows display settings to be configured. As of now, the only option is selection of the color palette for
@@ -48,18 +83,46 @@ Viridis & \includegraphics[width=5cm]{images/eye-gradient-viridis.png} & Percept
 \thickhline
 \end{tabularx}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Add}
 
-This menu allows a new waveform view to be created for any channel on a connected instrument.
+This menu allows new waveforms to be added to the display
 
+\begin{itemize}
+
+\item \menustyle{Channels}\\
+Lists all channels on the currently connected instrument(s)
+
+\item \menustyle{Generate}\\
+Allows synthetic waveforms to be generated for testing, simulation, and channel design applications
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Window}
 
-This menu provides access to pop-up windows such as protocol analyzers which were closed.
+This menu provides access to various utility windows.
+
+\begin{itemize}
+
+\item \menustyle{Filter Graph}\\
+Opens the filter graph editor (see Chapter \ref{grapheditor})
+
+\item \menustyle{Analyzer}\\
+Opens protocol analyzer views which have been closed
+
+\item \menustyle{Multimeter}\\
+Displays measurements from digital multimeters attached to the session
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Help}
 
 \textbf{About}: Displays program version and copyright information
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Toolbar}
 
 The toolbar contains buttons and controls for the most frequently used actions.
@@ -100,11 +163,12 @@ The history button (Fig. \ref{historybutton}) toggles display of the \hyperref[s
 \subsection{Refresh Settings}
 
 In order to improve performance, glscopeclient caches many instrument settings locally rather than constantly querying
-the instrument for the current timebase, trigger configuration, etc. If settings are changed on the instrument while
-glscopeclient is running, glscopeclient may not be aware of these changes.
+the instrument for the current timebase, trigger configuration, etc. If settings are changed via the instrument front
+panel while glscopeclient is running, glscopeclient may not be aware of these changes.
 
 The Refresh Settings button (Fig. \ref{refreshbutton}) clears all cached instrument configuration and updates
-glscopeclient with the current instrument settings.
+glscopeclient with the current instrument settings. For most ``headless" instruments, such as Pico Technology devices,
+this button has no effect.
 
 \begin{figure}[h]
 \centering

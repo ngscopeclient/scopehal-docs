@@ -201,9 +201,14 @@ This last approach is not officially supported yet.
 \section{Running glscopeclient}
 
 When running glscopeclient with no arguments, an empty session (Fig. \ref{empty-window}) is created. To perform useful
-work, it is necessary to either open a saved session (\menustyle{File | Open}), import waveforms from an external data
-file (\menustyle{File | Import}), connect to an instrument (\menustyle{File | Connect}), or reconnect to a recently
-used instrument (\menustyle{File | Recent Instruments}).
+work, you can:
+\begin{itemize}
+\item Open a saved session (\menustyle{File | Open})
+\item Import waveforms from an external data file (\menustyle{File | Import})
+\item Connect to an instrument (\menustyle{File | Connect})
+\item Reconnect to a recently used instrument (\menustyle{File | Recent Instruments})
+\item Generate a synthetic waveform (\menustyle{Add | Generate})
+\end{itemize}
 
 \begin{figure}[h]
 \centering
@@ -261,6 +266,7 @@ Sets the verbosity level to ``verbose" (4).
 \end{itemize}
 
 \subsection{File arguments}
+\label{import}
 
 The file extension is used to determine the format. File extensions are case sensitive and must be lowercase to be
 correctly interpreted.
