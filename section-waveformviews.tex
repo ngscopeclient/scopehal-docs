@@ -74,6 +74,17 @@ Double-clicking the information box opens the channel properties dialog (Fig. \r
 allows changing of the channel's nickname or color. The ``hardware name" of the channel is also displayed, so that a
 renamed channel can be easily traced back to a physical instrument input.
 
+Depending on the particular instrument in question, other settings may be displayed here, such as fine deskew,
+attenuation, polarity inversion, and bandwidth limiting. An input mux selector is shown if the scope has more than one
+input per channel (such as the Teledyne LeCroy SDA and WaveMaster series).
+
+The channel properties dialog also allows setting threshold and hysteresis for digital channels, and ADC configuration
+for scopes that have variable analog resolution (such as the Teledyne LeCroy HDO9000 or Pico Technology 6000E series).
+These settings are listed under channel properties since some instruments support per-channel adjustment of them,
+however it it is important to note that these settings apply to multiple channels (a bank or even the entire
+instrument) in some cases. A list box under these settings shows the list of other channels, if any, that share the
+same configuration.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=8cm]{images/channel-properties.png}
@@ -81,20 +92,67 @@ renamed channel can be easily traced back to a physical instrument input.
 \label{channel-properties}
 \end{figure}
 
+\section{Cursors}
+
+\subsection{Vertical Cursors}
+
+To add a vertical cursor (Fig. \ref{vertical-cursor}), right click on the waveform and select \menustyle{Cursor |
+Vertical (single)} or \menustyle{Cursor | Vertical (dual)} as appropriate.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=13cm]{images/vertical-cursor.png}
+\caption{Vertical cursor}
+\label{vertical-cursor}
+\end{figure}
+
+To place a single cursor, click on the waveform at the desired location. To place double cursors, click at the starting
+location to place the first cursor then drag to the ending location and release the mouse to place the second cursor.
+Once placed, either cursor can be moved by clicking on it and dragging to the new location.
+
+Cursors will snap to transitions in digital signals or protocol decode overlays if the mouse is within a few pixels of
+the location. No snapping is applied when the mouse is over an analog waveform.
+
+In the timeline each cursor will display its X-axis position. If both cursors are active, the delta between them
+is shown. If the X axis uses time units, the frequency with period equal to the cursor spacing is also shown.
+
+At the bottom of each waveform area, the Y-axis value of the signal where it crosses the cursor is shown. In FFT /
+spectrum analyzer plots, the integrated in-band power between both cursors is also shown.
+
+\subsection{Horizontal Cursors}
+
+To add a horizontal cursor (Fig. \ref{horizontal-cursor}), right click on the waveform and select \menustyle{Cursor |
+Horizontal (single)} or \menustyle{Cursor | Horizontal (dual)} as appropriate.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{images/horizontal-cursor.png}
+\caption{Horizontal cursor}
+\label{horizontal-cursor}
+\end{figure}
+
+To place a single cursor, click on the waveform at the desired location. To place double cursors, click at the starting
+location to place the first cursor then drag to the ending location and release the mouse to place the second cursor.
+Once placed, either cursor can be moved by clicking on it and dragging to the new location.
+
+At the right side of the plot, each cursor will display its Y-axis location. If both cursors are active, the delta
+between them is also shown.
+
+All waveform areas in a group share the same Y axis cursor positions.
+
 \section{Overlays}
 
 Waveforms may have additional information overlaid on top of them, such as protocol decodes. Each overlay has its own
 information box, which may be double-clicked to open the properties dialog and configure it just like any other
 channel.
 
-Fig. \ref{overlays} shows
-an example of an analog waveform with three overlays: thresholding it to NRZ digital, recovering a sampling
-clock with a CDR PLL, and finally decoding the serial NRZ data stream to TMDS protocol data and control events.
+Fig. \ref{overlays} shows an example of an analog waveform with five overlays: a CDR PLL, thresholding, and decodes of
+the 64/66b line code, the 10Gbase-R Ethernet framing, and IPv4 packet headers.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=14cm]{images/overlays.png}
-\caption{Waveform showing two digital overlays and a data decode overlay}
+\caption{Waveform showing two digital overlays and a three decode overlays}
 \label{overlays}
 \end{figure}
 
@@ -103,5 +161,13 @@ button allows overlays to be reordered, however they cannot currently be moved t
 
 \section{Statistics}
 
-Statistics may be shown for any waveform by checking the ``statistics" box in the context menu. The default statistics
-are minimum, average, and maximum although more may be added in the future.
+Statistics (Fig. \ref{stats}) may be shown for any waveform by checking the ``statistics" box in the context menu. The
+default statistics are minimum, average, and maximum although more may be added in the future.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=5cm]{images/stats.png}
+\caption{Statistics for an analog waveform}
+\label{stats}
+\end{figure}
