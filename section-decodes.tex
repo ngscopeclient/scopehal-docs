@@ -8,7 +8,7 @@ glscopeclient and libscopehal are based on a ``filter graph" architecture intern
 acyclic graph with a set of source nodes (waveforms captured from hardware or loaded from a saved session) and sink
 nodes (waveform views, protocol analyzer views, and statistics) connected by edges representing data flow.
 
-A filter is simply an intermediate node in the graph, which takes input from one or more waveform nodes and outputs a
+A filter is simply an intermediate node in the graph, which takes input from zero or more waveform nodes and outputs a
 waveform which may be displayed, used as input to other filters, or both. A waveform is a series of data points which
 may represent voltages, digital samples, or arbitrarily complex protocol data structures.
 
@@ -28,7 +28,7 @@ In this document we use the term ``filter" consistently to avoid ambiguity.
 
 \subsection{Conventions}
 
-Each filter takes one or more inputs (vector inputs), zero or more parameters (scalar inputs), and outputs a
+A filter can take arbitrarily many inputs (vector inputs), arbitrarily many parameters (scalar inputs), and outputs a
 signal (vector output).
 
 If the output signal is a complex-valued type (as opposed to a single scalar, e.g. voltage, at each sample) the
@@ -478,14 +478,20 @@ a waveform. Fig. \ref{filter_channelemu} shows the result of passing a 1.25 Gbps
 oscilloscope probe with approximately 500 MHz bandwidth. The ISI, attenuation, and phase shift introduced by the
 channel can all be seen.
 
-Only the forward path (S21) is considered in the current implementation of this filter; it is assumed that any
-reflected power is absorbed by terminations at the transmitter. Channels with significant return loss reflecting off
-the transmitter may not be modeled accurately.
+If multiple S-parameter files are specified, they are combined by multiplying the magnitudes of each dataset and
+summing the phase shifts. Only the forward path of the given S-parameter matrix is considered; it is assumed that any
+reflected power is absorbed by terminations. Channels with significant return loss reflecting between multiple networks
+will not be modeled accurately by this algorithm.
 
-The channel model works in the frequency domain. An FFT is performed on the input, then each complex point is
-scaled by the interpolated S21 magnitude and rotated by the S21 phase, then an inverse FFT is used to transform the
-signal back into the time domain. The group delay of the channel is estimated and samples are discarded from the
-beginning of the waveform to prevent causality violations.
+The channel model works in the frequency domain. An FFT is performed on the input, then each complex point is scaled by
+the interpolated magnitude and rotated by the phase, then an inverse FFT is used to transform the signal back into the
+time domain.
+
+The group delay of the channel is then estimated and samples are discarded from the beginning of the waveform to
+prevent causality violations. For example, when performing channel emulation using a network with a 1ns group delay,
+the output waveform will begin 1ns after the input (since the channel output before this depends on input samples
+before the start of the waveform). Note that the group delay estimation works on low frequency bins in the current
+implementation; channels with a strong high-pass response may give inaccurate results.
 
 \begin{figure}[h]
 \centering
@@ -510,6 +516,8 @@ din & Analog & Input waveform \\
 \thickhline
 \textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
+Path & Enum & The S-parameter path (S11, S12, S21, or S22)\\
+\thinhline
 S-Parameters & Filename vector & List of S-parameter files describing the channel\\
 \thickhline
 \end{tabularx}
@@ -529,6 +537,52 @@ is in HS mode. This can be used for generating eye patterns of the HS-mode data.
 \pagebreak
 \section{Clock Recovery (PLL)}
 \label{filter:cdrpll}
+
+This filter uses a PLL to recover a clock from a serial data stream. The recovered clock is double-rate and
+phased 90\textdegree with respect to the data, such that the data can be sampled directly by both edges of the PLL
+output clock.
+
+When the optional clock gating input is low, the output does not toggle and any edges in the input signal are ignored.
+As soon as the gate goes high, the PLL will phase shift the internal NCO to align with the next transition in the input
+signal and then begin running closed-loop.
+
+The edge detector uses a single threshold suitable for NRZ inputs. When using a multi-level modulation such as PAM-4 or
+MLT-3, set the threshold to the highest or lowest crossing level.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/cdrpll.png}
+\caption{Example of CDR PLL on a serial data stream}
+\label{filter_cdrpll}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+IN & Analog & Input waveform \\
+\thinhline
+Gate & Digital & Clock enable signal, or NULL to disable gating\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Symbol rate & Float & Symbol rate, in Hz\\
+\thinhline
+Threshold & Float & Decision threshold for the edge detector, in volts\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an digital waveform with one sample per transition of the recovered clock.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
