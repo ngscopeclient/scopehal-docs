@@ -76,8 +76,8 @@ An expression can be:
 \begin{itemize}
 \item A quoted string
 \item A decimal number
-\item An field identifier (such as \texttt{PHY} or \texttt{Reg}). Note that raw packet bytes cannot currently be used
-in filters, although this is planned to be added in the future.
+\item A field identifier (such as \texttt{PHY} or \texttt{Reg}). Identifiers are case sensitive.
+\item data[x], where x is an arbitrary numeric expression
 \item A filter expression in parentheses. This expression must evaluate to boolean true or false. The unary ! operator
 can be used to negate a parenthetical expression.
 \end{itemize}
