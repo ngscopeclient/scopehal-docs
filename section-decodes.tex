@@ -653,6 +653,11 @@ Multiple Touchstone files may be provided, however only transmission (S21) is mo
 cascading channels or filters which have significant return loss may lead to inaccurate results (signals reflecting
 between two elements then back in the forward direction are not modeled).
 
+Additionally, S11 loading on the DUT is not modeled.
+
+The maximum gain the de-embed applies is capped (default 20 dB) in order to prevent amplifying noise outside the
+passband of the network being de-embedded.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Deskew}
