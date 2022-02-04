@@ -11,8 +11,8 @@
 \usepackage{colortbl}
 \usepackage{zi4}
 \usepackage{float}
-\usepackage{tocbasic}
 \usepackage{textcomp}
+\usepackage{tocloft}
 \usepackage[libertine,cmbraces]{newtxmath}
 
 \setlength{\parskip}{2mm}
@@ -58,8 +58,10 @@
 
 \newcommand{\menustyle}[1]{\texttt{#1}}
 
-% table of contents
+% table of contents configuration
 \setcounter{tocdepth}{3}
+\setlength{\cftsecnumwidth}{1.5cm}
+\setlength{\cftsubsecnumwidth}{1.5cm}
 
 \begin{document}
 
