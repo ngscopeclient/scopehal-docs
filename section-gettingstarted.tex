@@ -102,7 +102,7 @@ git clone https://github.com/anthonix/ffts.git
 cd ffts
 mkdir build
 cd build
-cmake .. -DENABLE_SHARED=ON
+cmake .. -DENABLE_SHARED=ON -DCMAKE_INSTALL_PREFIX=/usr
 make -j4
 sudo make install
 \end{lstlisting}
