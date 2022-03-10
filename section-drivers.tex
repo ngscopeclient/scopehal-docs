@@ -146,13 +146,60 @@ Simulator & demo & null & \\
 \end{tabularx}
 
 \section{Digilent}
-TODO (scopehal:410)
+
+Digilent oscilloscopes using the WaveForms SDK are all supported using the ``digilent" driver in libscopehal. This
+driver connects using the ``twinlan" transport to a \href{https://github.com/azonenberg/scopehal-waveforms-bridge}
+{socket server} which links against the Digilent WaveForms SDK. This provides network transparency, and allows the
+Digilent bridge server to be packaged separately for distribution and only installed by users who require it.
+
+As of 2022-03-09, analog input channels on the Analog Discovery Pro and Analog Discovery 2 have been tested and are
+functional, however only basic edge triggering is implemented so far. Analog inputs on other devices likely work,
+however only these two have been tested to date.
+
+Analog outputs, digital inputs, and digital outputs are currently unimplemented, but are planned to be added in the
+future.
+
+\subsection{digilent}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+Electronics Explorer & digilent & twinlan & Not tested, but probably works\\
+\thinhline
+Analog Discovery & digilent & twinlan & Not tested, but probably works\\
+\thinhline
+Analog Discovery 2 & digilent & twinlan & No digital channel support \newline No analog output support\\
+\thinhline
+Analog Discovery Pro & digilent & twinlan & No digital channel support \newline No analog output support \\
+\thinhline
+Digital Discovery & digilent & twinlan & No digital channel support,\newline so pretty useless for now\\
+\thickhline
+\end{tabularx}
+
+\subsubsection{Typical Performance (ADP3450, USB -> LAN)}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Channels} & \textbf{Memory depth} & \textbf{WFM/s}\\
+\thickhline
+4 & 64K & 25.8 \\
+\thinhline
+2 & 64K & 32.3 \\
+\thinhline
+1 & 64K & 33.0 \\
+\thickhline
+\end{tabularx}
+
+\section{DreamSource Lab}
+
+TODO (\issue{scopehal}{452})
 
 \section{Enjoy Digital}
-TODO (scopehal:79)
+TODO (\issue{scopehal}{79})
 
 \section{Hantek}
-TODO (scopehal:26)
+TODO (\issue{scopehal}{26})
 
 \section{Keysight}
 
