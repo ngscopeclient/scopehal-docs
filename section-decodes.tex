@@ -5,8 +5,9 @@
 \subsection{Key Concepts}
 
 glscopeclient and libscopehal are based on a ``filter graph" architecture internally. The filter graph is a directed
-acyclic graph with a set of source nodes (waveforms captured from hardware or loaded from a saved session) and sink
-nodes (waveform views, protocol analyzer views, and statistics) connected by edges representing data flow.
+acyclic graph with a set of source nodes (waveforms captured from hardware, loaded from a saved session, or generated
+numerically) and sink nodes (waveform views, protocol analyzer views, and statistics) connected by edges representing
+data flow.
 
 A filter is simply an intermediate node in the graph, which takes input from zero or more waveform nodes and outputs a
 waveform which may be displayed, used as input to other filters, or both. A waveform is a series of data points which
@@ -31,7 +32,7 @@ In this document we use the term ``filter" consistently to avoid ambiguity.
 A filter can take arbitrarily many inputs (vector inputs), arbitrarily many parameters (scalar inputs), and outputs a
 signal (vector output).
 
-If the output signal is a complex-valued type (as opposed to a single scalar, e.g. voltage, at each sample) the
+If the output signal is a multi-field type (as opposed to a single scalar, e.g. voltage, at each sample) the
 ``Output Signal" section will include a table describing how various types of output data are displayed. Printf-style
 format codes maybe used for clarity. For example, ``\%02x" means data is formatted as hexadecimal bytes with leading
 zeroes.

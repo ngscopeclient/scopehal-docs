@@ -8,6 +8,7 @@ set(DOC_LIST
 	section-gettingstarted.tex
 	section-grapheditor.tex
 	section-history.tex
+	section-internals.tex
 	section-legal.tex
 	section-mainwindow.tex
 	section-protoanalyzer.tex

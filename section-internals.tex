@@ -1,0 +1,219 @@
+\chapter{Internals}
+
+\section{Introduction}
+
+This chapter provides a high level overview of libscopehal and glscopeclient internals. It is intended for developers
+to gain an understanding of the overall project architecture and how key pieces fit together, but is not a substitute
+for the low level API documentation (Doxygen).
+
+Many of the entities described below use a dynamic discovery / registration system. This allows all such classes to be
+enumerated (and associated with human-readable names), and allows for objects of any registered type - including those
+provided by plugins - to be created at run time by a factory method given the human-readable class name.
+
+\section{Instruments}
+\label{sec:instruments}
+
+An instrument is an instance of a class derived from \codestyle{Instrument}, which represents an arbitrary piece of
+laboratory equipment. As of this writing, an instrument may be an oscilloscope, multimeter, power supply, baseband
+signal generator, or RF signal generator - or an arbitrary combination of these (for example an oscilloscope with
+integrated function generator is both an oscilloscope and baseband signal generator).
+
+The type of an instrument is defined by a bit field and may be queried by calling \codestyle{GetInstrumentTypes()}. Do
+\emph{not} rely on C++ RTTI to determine the type of an instrument, for example it is incorrect to
+\codestyle{dynamic\_cast} a \codestyle{Instrument*} pointer to \codestyle{Oscilloscope*} to check if the instrument is
+an oscilloscope. This is because the C++ type of an object is fixed when the driver class is compiled, and the driver
+may be used with many different instruments with various sets of software and hardware options. In other words, the
+fact that a given driver supports \emph{some} device that contains multimeter functionality does not in any way imply
+that the \emph{particular} device you are talking to is a multimeter.
+
+The Instrument class provides no functionality other than describing the device (querying make/model/serial number,
+assigning display nicknames, and querying feature set). To do any useful work, the object is normally casted to a
+derived type to gain access to that device class's API.
+
+\section{SCPI Devices}
+\label{sec:scpidevices}
+
+A SCPI device is an instance of a class derived from \codestyle{SCPIDevice}, which represents a device which speaks
+some variant of SCPI. The vast majority of instrument driver classes derive from both \codestyle{SCPIDevice} and one or
+more \codestyle{Instrument} derived classes.
+
+A SCPI device object uses a \hyperref[sec:transports]{transport} to communicate with the associated instrument, which
+avoids the need for the driver class to concern itself with the specifics of how the SCPI commands are transferred to
+the device.
+
+\section{Transports}
+\label{sec:transports}
+
+A transport is an instance of a class derived from \codestyle{SCPITransport}, which provides a means of sending SCPI
+commands and/or raw byte string data to or from a physical instrument.
+
+Most transports use a single stream in the underlying protocol layer (such as a single TCP socket) to transport both
+control plane content (SCPI commands) and data plane content (waveform data), however some specialized protocols have
+multiple physical streams (for example the \codestyle{SCPITwinLanTransport} transport). For these instruments, the
+command/reply APIs and raw data APIs may not go to the same place.
+
+All transports must be registered in order to be used by glscopeclient. To register a transport class, add the macro
+\codestyle{TRANSPORT\_INITPROC(FooTransport)} to your class declaration and call
+\codestyle{AddTransportClass(FooTransport)} in either the \texttt{TransportStaticInit} function within libscopehal or
+the \codestyle{PluginInit} function of a plugin, as appropriate.
+
+The special class \codestyle{SCPINullTransport} serves as a \texttt{/dev/null} equivalent: it discards anything written
+to it, and never returns read data. It is primarily intended to be used by the ``demo" driver, which does not connect
+to a real instrument.
+
+While it is in principle possible to create a driver class that talks directly to a device via e.g. a USB API and
+bypasses the transport model, this is strongly discouraged for user experience and flexibility reasons. Most drivers
+for such devices (for example the Digilent and Pico drivers) instead consist of two components: a bridge server that
+converts the instrument API to SCPI commands on one socket and a raw sample data on a second socket, and a
+libscopehal-side driver that converts this to the relevant instrument API.
+
+\section{Oscilloscopes}
+\label{sec:oscilloscopes}
+
+An Oscilloscope is an instance of a class derived from \codestyle{Oscilloscope}, which represents a device for
+acquiring sampled digital data. All actual oscilloscopes use this API, as do some other instruments such as spectrum
+analyzers. Most oscilloscope driver classes derive from \codestyle{SCPIOscilloscope} rather than directly from
+\codestyle{Oscilloscope}, as they use SCPI to communicate with the hardware.
+
+An oscilloscope may have zero or more \hyperref[sec:channels]{channels}. \footnote{All currently extant implementations
+have at least one channel, however it is plausible that a zero-channel instrument might exist in the future (for
+example, some sort of external trigger controller that exposes the same trigger API as a conventional oscilloscope) so
+the API allows for this.}
+
+At any given time, an oscilloscope has exactly one \hyperref[sec:triggers]{trigger} associated with it. A trigger has
+inputs and properties just like a \hyperref[sec:filters]{filter}, since both are derived from
+\codestyle{FlowGraphNode}. Most triggers take at least one input, however zero-input triggers are possible (for
+example, triggering on AC mains zero crossings).
+
+Every oscilloscope driver class must contain a public static method \codestyle{GetDriverNameInternal()}, which returns a
+\codestyle{std::string} containing a short, human readable name for the driver (for example ``agilent" or ``pico"). By
+convention, the driver name should consist of lowercase letters and numbers only - no spaces, punctuation, or capital
+letters.
+
+Just like transports, every oscilloscope driver class must be registered in the dynamic creation table by invoking
+\codestyle{OSCILLOSCOPE\_INITPROC(MyOscilloscope)} in the class declaration and
+\codestyle{AddDriverClass(MyOscilloscope)} in \texttt{DriverStaticInit} or \texttt{PluginInit}.
+
+\section{Channels}
+\label{sec:channels}
+
+A channel is an instance of a class derived from \codestyle{OscilloscopeChannel}, which represents a single source of
+data and associated controls. A channel may be associated with an \hyperref[sec:oscilloscopes]{oscilloscope}, or it may
+be a \hyperref[sec:filters]{filter} which is not associated with any particular physical instrument.
+
+Channels of an oscilloscope generally map 1:1 to analog front ends. Most commonly they are also 1:1 with instrument front
+panel connectors, however there are some notable exceptions. Some high end oscilloscopes (such as the Teledyne LeCroy
+WaveMaster family) have multiple inputs with a multiplexer feeding a single front end; this ensemble is considered to
+be a single channel by libscopehal. Network analyzers have separate channels for receive and reflected power, for
+example $S_{11}$ and $S_{12}$ of a VNA are measured at the same physical port on the instrument but separate channels
+in libscopehal.
+
+A channel normally has one or more output \hyperref[sec:streams]{streams}, however in some less common situations (such
+as dedicated trigger inputs) there may be zero streams.
+
+Channels are reference counted: when at least one filter or waveform view is consuming the output of a channel it will
+be automatically enabled. When the last user of a channel is removed, the channel will be disabled and, if a filter,
+deleted.
+
+Various properties can be configured on channels, such as gain/offset and bandwidth limiters. Depending on whether the
+channel is a filter or not, or what kind of oscillocope it is connected to, not all of these settings may be available.
+
+\section{Streams}
+\label{sec:streams}
+
+A stream is an output from a \hyperref[sec:channels]{channel}. Most channels of physical oscilloscopes have only a
+single stream, however some have multiple (for example I and Q from a realtime spectrum analyzer, or magnitude and
+angle from a VNA). Many filters have multiple output streams, for example each channel of an imported WAV file is a
+separate stream of the import filter.
+
+All streams of a channel must have the same X axis unit, however they may have independent Y axis units.
+
+The set of streams provided by a filter may change at run time, most commonly if an import filter is pointed to a new
+file. When a filter changes its set of output streams, it must emit the \codestyle{m\_outputsChangedSignal} signal so
+that other code can handle the change appropriately.
+
+\section{Triggers}
+\label{sec:triggers}
+
+TODO: write this section
+
+\section{Waveforms}
+\label{sec:waveforms}
+
+A waveform is a class derived from \codestyle{WaveformBase} which stores a vector of sampled data. The
+\codestyle{AnalogWaveform} and \codestyle{DigitalWaveform} classes store 32-bit floating point and Boolean data
+respectively. Additional waveform classes are defined by many protocol decodes to store data of arbitrary class type.
+
+The units for X and Y axis are not specified in the waveform, but are properties of the channel / stream that the
+waveform came from. Most commonly, for analog oscilloscope waveforms, the X axis unit is femtoseconds and the Y axis
+unit is volts - but other units may be encountered, for example the output of a FFT has X axis units in Hz and Y axis
+in dBm.\footnote{Some variables and methods throughout the project (especially in older code) use ``time" or
+``voltage" terminology to refer to the current X or Y axis units. This will likely be changed through refactoring over
+the long term.}
+
+Waveforms store timestamp / header metadata as well as three vectors of data:
+
+\begin{itemize}
+\item \codestyle{m\_offsets}: start time of each sample
+\item \codestyle{m\_durations}: length of each sample
+\item \codestyle{m\_samples}: actual sample data
+\end{itemize}
+
+All three vectors must always be the same length. (The struct-of-arrays memory format allows for better cache locality
+and is more SIMD-friendly than an array-of-structs format.)
+
+Sample offsets and durations are measured in time base units (defined by \codestyle{m\_timescale}). This is commonly
+the sample rate of the ADC or logic analyzer that acquired the data, however for upsampled or interpolated data smaller
+time scale values - as low as 1 - may be used. A static offset, the ``trigger phase" (\codestyle{m\_triggerPhase}),
+measured in raw X axis units and not scaled by \codestyle{m\_timescale}, is added to the timestamp of every signal
+after scaling by the time base unit. This is commonly used to apply a sub-sample offset to a waveform for trigger
+interpolation or de-skewing.
+
+The final timestamp of sample \emph{i}, in X axis units, is thus \codestyle{m\_offsets[i]}*\codestyle{m\_timescale} +
+\codestyle{m\_triggerPhase}.
+
+Note that the offset/duration allows samples to have arbitrary length and spacing; i.e. waveforms are inherently
+sparse. This is necessary to support protocol events, irregularly sampled data, etc. Sample timestamps must increase
+monotonically: sample \emph{i+1} must start at or after the end of sample \emph{i}.
+
+The majority of waveforms (such as those coming directly off an oscilloscope) will be uniformly sampled, which renders
+the sparse storage format inefficient. A waveform of N samples which has a duration of 1 for every sample, and offsets
+ranging from 0 to \emph{N-1}, is considered to be ``dense packed" and should have the \codestyle{m\_densePacked} flag
+set to enable various processing optimizations. The dense pack flag must NOT be set on a waveform which does not meet
+these criteria as this can lead to incorrect output.
+
+Filters presented with input marked as dense packed are free to ignore the timestamp and duration flags at their input.
+Filters generating densely packed output should set the dense pack flag, however they must still fill the timestamp and
+duration vectors for use by filters which do not have an optimized special case for dense packed inputs.
+
+\section{Filters}
+\label{sec:filters}
+
+TODO: write this section
+
+\section{Plugins}
+
+A plugin is a shared library which may contain transports, drivers, filters, and export wizards. All of these must be
+registered in a function called \codestyle{PluginInit} exported with extern "C" linkage.
+
+Plugins are automatically loaded at startup by glscopeclient, however standalone applications using libscopehal must
+explicitly call \codestyle{InitializePlugins()} to load them.
+
+\subsection{Linux}
+
+On Linux, plugins are loaded from the following directories:
+
+\begin{itemize}
+\item \codestyle{/usr/lib/scopehal/plugins}
+\item \codestyle{/usr/local/lib/scopehal/plugins}
+\item \codestyle{~/.scopehal/plugins}
+\item Executable directory, if not under \codestyle{/usr}
+\end{itemize}
+
+\subsection{Windows}
+
+On Windows, plugins are loaded from the following directories:
+
+\begin{itemize}
+\item \codestyle{(Executable directory) \textbackslash plugins}
+\end{itemize}
