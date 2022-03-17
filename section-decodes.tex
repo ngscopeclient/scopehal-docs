@@ -474,10 +474,17 @@ EOF & End of frame & \cellcolor{preamble}\textcolor{white}{Preamble} & EOF \\
 \section{Channel Emulation}
 \label{filter:channelemu}
 
-This filter models the effects of applying an arbitrary channel, described via a set of 2-port S-parameters, to
-a waveform. Fig. \ref{filter_channelemu} shows the result of passing a 1.25 Gbps serial data pattern through a 10x
-oscilloscope probe with approximately 500 MHz bandwidth. The ISI, attenuation, and phase shift introduced by the
+This filter models the effects of applying an arbitrary channel, described via a single path of a set of S-parameters,
+to a waveform. Fig. \ref{filter_channelemu} shows the result of passing a 1.25 Gbps serial data pattern through S21 of
+a 10x oscilloscope probe with approximately 500 MHz bandwidth. The ISI, attenuation, and phase shift introduced by the
 channel can all be seen.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/channel-emulation.png}
+\caption{Example of channel emulation on a serial data stream}
+\label{filter_channelemu}
+\end{figure}
 
 The channel model works in the frequency domain. An FFT is performed on the input, then each complex point is scaled by
 the interpolated magnitude and rotated by the phase, then an inverse FFT is used to transform the signal back into the
@@ -491,12 +498,16 @@ of the S-parameter dataset in the current implementation; channels which do not 
 frequency will give incorrect group delay estimates. The ``Group Delay Truncation Mode" parameter can be set to manual
 in this case, selecting the ``Group Delay Truncation" parameter instead of the automatically estimated value.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=16cm]{images/filters/channel-emulation.png}
-\caption{Example of channel emulation on a serial data stream}
-\label{filter_channelemu}
-\end{figure}
+By choosing appropriate stimulus waveforms and S-parameter paths, many different kinds of analysis can be performed.
+For example, given a 4-port network describing two transmission lines (with ports 1 and 3 as input, and 2 and 4 as
+output):
+\begin{itemize}
+\item Applying $S_{11}$ to a step or impulse waveform gives TDR response of the port 1-2 channel.
+\item Applying $S_{21}$ to an impulse waveform gives impulse response of the port 1-2 channel
+\item Applying $S_{21}$ to a serial data stream gives the port 1-2 signal as it would be seen by a receiver
+\item Applying $S_{31}$ to a serial data stream gives the NEXT between the port 1-2 and 3-4 channels
+\item Applying $S_{41}$ to a serial data stream gives the FEXT between the port 1-2 and 3-4 channels
+\end{itemize}
 
 \subsection{Inputs}
 
@@ -692,18 +703,58 @@ Decodes the command bus for third-generation DDR SDRAM.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{De-Embed}
+\label{filter:deembed}
 
-Applies the inverse of a channel (supplied in 2-port Touchstone S-parameter format) to a signal, in order to calculate
-what the waveform would have looked like at the input to a cable, fixture, etc. given the signal seen at the output.
+Applies the inverse of a channel (described by a single path in an S-parameter dataset) to a signal, in order to
+calculate what the waveform would have looked like at the input to a cable, fixture, etc. given the signal seen at the
+output.
 
-Multiple Touchstone files may be provided, however only transmission (S21) is modeled in the current implementation so
-cascading channels or filters which have significant return loss may lead to inaccurate results (signals reflecting
-between two elements then back in the forward direction are not modeled).
+The channel model works in the frequency domain. An FFT is performed on the input, then each complex point is scaled by
+the interpolated magnitude and rotated by the phase, then an inverse FFT is used to transform the signal back into the
+time domain.
 
-Additionally, S11 loading on the DUT is not modeled.
+The group delay of the channel is then estimated and samples are discarded from the end of the waveform to prevent
+causality violations. For example, when performing a de-embed using a network with a 1ns group delay, the output
+waveform will end 1ns before the input (since the channel output after this depends on input samples before the start
+of the stimulus waveform). Note that the automatic group delay estimation uses points from roughly the center of the
+S-parameter dataset in the current implementation; channels which do not have a significant passband around this
+frequency will give incorrect group delay estimates. The ``Group Delay Truncation Mode" parameter can be set to manual
+in this case, selecting the ``Group Delay Truncation" parameter instead of the automatically estimated value.
 
 The maximum gain the de-embed applies is capped (default 20 dB) in order to prevent amplifying noise outside the
 passband of the network being de-embedded.
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+signal & Analog & Input waveform \\
+\thinhline
+mag & Analog & S-parameter magnitude channel \\
+\thinhline
+ang & Analog & S-parameter angle channel \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Max Gain & Float & Maximum gain to apply\\
+\thinhline
+Group Delay Truncation & Int & Group delay override for manual mode\\
+\thinhline
+Group Delay Truncation Mode & Enum & Specifies manual or automatically estimated group delay\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an analog waveform with the same timebase as the input, with the emulated channel applied.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
