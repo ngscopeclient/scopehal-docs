@@ -509,6 +509,12 @@ output):
 \item Applying $S_{41}$ to a serial data stream gives the FEXT between the port 1-2 and 3-4 channels
 \end{itemize}
 
+Note that only the single S-parameter path provided is considered, and reflections elsewhere in the system are not
+modeled. As a result, multiple applications of this filter to emulate a large circuit piecewise (for example, a
+cable followed by a fixture) may give inaccurate results since reflections between the two networks are not considered.
+In this situation, it is preferable to use a circuit simulator to calculate combined S-parameters of the entire circuit
+and then perform a the channel emulation once.
+
 \subsection{Inputs}
 
 \begin{tabularx}{16cm}{llX}
@@ -565,7 +571,13 @@ NOTE: The current edge detector uses a single threshold suitable for NRZ inputs.
 such as PAM-4 or MLT-3, set the threshold to the highest or lowest crossing level. This will work fine for MLT-3 but
 introduces some data-dependent jitter in PAM signals (since the slew rate for an 00-11 transition is different than
 that for a 10-11 transition). The resulting recovered clock should still be adequate for protocol decoding, however a
-better edge detector will need to be implemented in order to do adequate jitter measurements on PAM waveforms.
+better edge detector will need to be implemented in order to do adequate jitter measurements on PAM waveforms. An edge
+detector suitable for PAM is planned (\issue{scopehal}{77}).
+
+The current implementation of this filter uses a simple bang-bang control loop which is fast and provides reasonable
+jitter transfer performance (passing high frequency jitter but rejecting spread spectrum modulation), but does not
+precisely match the jitter transfer characteristics of any particular serial data standard. In the future, several
+standard PLL responses including the Fibre Channel golden PLL (\issue{scopehal}{163}) will be supported as options.
 
 \begin{figure}[h]
 \centering
@@ -605,6 +617,8 @@ This filter outputs an digital waveform with one sample per transition of the re
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Clock Recovery (UART)}
+
+Simple DLL suitable for displaying eye patterns of RS232 and similar protocols.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -688,6 +702,9 @@ This filter takes no parameters.
 
 This filter outputs an analog waveform with a single sample containing the computed DDJ value.
 
+Additionally, the raw DDJ histogram is stored internally and may be accessed by other filters via the C++ API. There is
+currently no way to display the histogram content.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{DDR1 Command Bus}
@@ -705,9 +722,9 @@ Decodes the command bus for third-generation DDR SDRAM.
 \section{De-Embed}
 \label{filter:deembed}
 
-Applies the inverse of a channel (described by a single path in an S-parameter dataset) to a signal, in order to
-calculate what the waveform would have looked like at the input to a cable, fixture, etc. given the signal seen at the
-output.
+Applies the inverse of a channel (described by a single path in an S-parameter dataset, normally $S_{21}$) to a signal,
+in order to calculate what the waveform would have looked like at the input to a cable, fixture, etc. given the signal
+seen at the output.
 
 The channel model works in the frequency domain. An FFT is performed on the input, then each complex point is scaled by
 the interpolated magnitude and rotated by the phase, then an inverse FFT is used to transform the signal back into the
@@ -720,6 +737,12 @@ of the stimulus waveform). Note that the automatic group delay estimation uses p
 S-parameter dataset in the current implementation; channels which do not have a significant passband around this
 frequency will give incorrect group delay estimates. The ``Group Delay Truncation Mode" parameter can be set to manual
 in this case, selecting the ``Group Delay Truncation" parameter instead of the automatically estimated value.
+
+Note that only the single S-parameter path provided is considered, and reflections elsewhere in the system are not
+modeled. As a result, multiple applications of this filter to de-embed a large circuit piecewise (for example, a
+cable followed by a probe) may give inaccurate results since reflections between the two networks are not considered.
+In this situation, it is preferable to use a circuit simulator to calculate combined S-parameters of the entire circuit
+and then perform a single de-embed.
 
 The maximum gain the de-embed applies is capped (default 20 dB) in order to prevent amplifying noise outside the
 passband of the network being de-embedded.
