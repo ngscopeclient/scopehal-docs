@@ -474,15 +474,10 @@ EOF & End of frame & \cellcolor{preamble}\textcolor{white}{Preamble} & EOF \\
 \section{Channel Emulation}
 \label{filter:channelemu}
 
-This filter models the effects of applying an arbitrary channel, described via one or more 2-port S-parameter files, to
+This filter models the effects of applying an arbitrary channel, described via a set of 2-port S-parameters, to
 a waveform. Fig. \ref{filter_channelemu} shows the result of passing a 1.25 Gbps serial data pattern through a 10x
 oscilloscope probe with approximately 500 MHz bandwidth. The ISI, attenuation, and phase shift introduced by the
 channel can all be seen.
-
-If multiple S-parameter files are specified, they are combined by multiplying the magnitudes of each dataset and
-summing the phase shifts. Only the forward path of the given S-parameter matrix is considered; it is assumed that any
-reflected power is absorbed by terminations. Channels with significant return loss reflecting between multiple networks
-will not be modeled accurately by this algorithm.
 
 The channel model works in the frequency domain. An FFT is performed on the input, then each complex point is scaled by
 the interpolated magnitude and rotated by the phase, then an inverse FFT is used to transform the signal back into the
@@ -491,8 +486,10 @@ time domain.
 The group delay of the channel is then estimated and samples are discarded from the beginning of the waveform to
 prevent causality violations. For example, when performing channel emulation using a network with a 1ns group delay,
 the output waveform will begin 1ns after the input (since the channel output before this depends on input samples
-before the start of the waveform). Note that the group delay estimation works on low frequency bins in the current
-implementation; channels with a strong high-pass response may give inaccurate results.
+before the start of the waveform). Note that the automatic group delay estimation uses points from roughly the center
+of the S-parameter dataset in the current implementation; channels which do not have a significant passband around this
+frequency will give incorrect group delay estimates. The ``Group Delay Truncation Mode" parameter can be set to manual
+in this case, selecting the ``Group Delay Truncation" parameter instead of the automatically estimated value.
 
 \begin{figure}[h]
 \centering
@@ -507,7 +504,11 @@ implementation; channels with a strong high-pass response may give inaccurate re
 \thickhline
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
-din & Analog & Input waveform \\
+signal & Analog & Input waveform \\
+\thinhline
+mag & Analog & S-parameter magnitude channel \\
+\thinhline
+ang & Analog & S-parameter angle channel \\
 \thickhline
 \end{tabularx}
 
@@ -517,9 +518,11 @@ din & Analog & Input waveform \\
 \thickhline
 \textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
-Path & Enum & The S-parameter path (S11, S12, S21, or S22)\\
+Max Gain & Float & Maximum gain to apply\\
 \thinhline
-S-Parameters & Filename vector & List of S-parameter files describing the channel\\
+Group Delay Truncation & Int & Group delay override for manual mode\\
+\thinhline
+Group Delay Truncation Mode & Enum & Specifies manual or automatically estimated group delay\\
 \thickhline
 \end{tabularx}
 
@@ -547,8 +550,11 @@ When the optional clock gating input is low, the output does not toggle and any 
 As soon as the gate goes high, the PLL will phase shift the internal NCO to align with the next transition in the input
 signal and then begin running closed-loop.
 
-The edge detector uses a single threshold suitable for NRZ inputs. When using a multi-level modulation such as PAM-4 or
-MLT-3, set the threshold to the highest or lowest crossing level.
+NOTE: The current edge detector uses a single threshold suitable for NRZ inputs. When using a multi-level modulation
+such as PAM-4 or MLT-3, set the threshold to the highest or lowest crossing level. This will work fine for MLT-3 but
+introduces some data-dependent jitter in PAM signals (since the slew rate for an 00-11 transition is different than
+that for a 10-11 transition). The resulting recovered clock should still be adequate for protocol decoding, however a
+better edge detector will need to be implemented in order to do adequate jitter measurements on PAM waveforms.
 
 \begin{figure}[h]
 \centering
@@ -634,8 +640,42 @@ This filter outputs an analog waveform with one sample for each sample in the in
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{DDJ}
+\label{filter:ddj}
 
-Calculates data-dependent jitter for a serial data stream.
+Calculates the peak-to-peak data-dependent jitter for a serial data stream.
+
+This filter uses the non-repeating-pattern method, which allows DDJ to be computed for arbitrary waveforms rather than
+requiring a short, repeating PRBS. In this method, per-UI jitter (TIE) measurements are split across $2^n$ histogram
+bins, one for each possible combination of the preceding $n$ bits. The jitter samples for each bin are then averaged to
+remove the effects of other jitter, leaving only the DDJ.  The final DDJ value is reported as the difference between
+the minimum and maximum histogram bins.
+
+The current implementation uses a fixed window size of $n=8$ UI. If the channel has significant memory effects or
+reflections with delays of more than 8 UI, DDJ maybe underestimated.
+
+The current implementation only supports NRZ signals and cannot measure DDJ for MLT3 or PAM waveforms.
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+TIE & Analog & TIE waveform computed by the \hyperref[filter:tie]{TIE} filter\\
+\thinhline
+Threshold & Digital & Thresholded digital sample values\\
+\thinhline
+Clock & Digital & Double rate, center aligned sampling clock for threshold values\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs an analog waveform with a single sample containing the computed DDJ value.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
