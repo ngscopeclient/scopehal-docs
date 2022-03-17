@@ -193,7 +193,49 @@ Digital Discovery & digilent & twinlan & No digital channel support,\newline so 
 
 \section{DreamSource Lab}
 
-TODO (\issue{scopehal}{452})
+DreamSourceLabs oscilloscopes supported in their fork of sigrok (``libsigrok4DSL'' distributed as part of their
+``DSView'' software package) are supported through the ``dslabs'' driver in libscopehal. This driver connects using
+the ``twinlan'' transport to a \href{http://todo.com/}{socket server} which links against libsigrok4DSL. This provides network
+transparency, and allows the DSLabs bridge server to be packaged separately for distribution and only installed
+by users who require it.
+
+As of 2022-03-17, only a DSCope U3P100 has been tested and works adequately. Other DSCope-line products may work
+also, but are untested. DSLogic devices are unlikely to work without further hacking on the bridge code.
+
+Only edge triggers are supported (by the hardware.) ``Ch0 \&\& Ch1'' and ``Ch0 || Ch1'' trigger modes are not supported.
+
+Known issues pending fixes/refactoring:
+\begin{itemize}
+	\item Interleaved sample rates are not correctly reported in the timebase dialog (but are in the waveform display)
+	\item Trigger position is quantized to multiples of 1\% of total capture
+	\item Some sample rate / depth configurations produce trigger position misreporting (seemingly from hardware) by
+	       $\pm5$ samples.
+	\item Non-localhost performance, and responsiveness in general may suffer as a result of hacky flow control on waveform capture
+\end{itemize}
+
+\subsection{dslabs}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Family / Device} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+DSCope U3P100 & dslabs & twinlan & Tested, works (known issues)\\
+\thinhline
+DSCope (others) & dslabs & twinlan & Not tested, but probably works\\
+\thinhline
+DSLogic & dslabs & twinlan & Not tested, won't work\\
+\thickhline
+\end{tabularx}
+
+\subsubsection{Typical Performance (DSCope U3P100, USB3 -> LAN)}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Channels} & \textbf{Memory depth} & \textbf{Sample Rate} & \textbf{WFM/s}\\
+\thickhline
+2 & 1M & 100MS/s & 50+\footnote{Largely limited by glscopeclient ingest rate in testing.}\\
+\thickhline
+\end{tabularx}
 
 \section{Enjoy Digital}
 TODO (\issue{scopehal}{79})
