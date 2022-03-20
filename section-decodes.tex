@@ -1043,14 +1043,20 @@ frequency.
 \pagebreak
 \section{Horizontal Bathtub}
 
+Calculates a bathtub curve across a horizontal slice through an eye pattern.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{HDMI}
 \label{filter:hdmi}
 
+Decodes HDMI
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{$I^2C$}
+
+Decodes the Phillips $I^2C$ bus protocol.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -1062,11 +1068,52 @@ Decodes common $I^2C$ EEPROM memory devices
 \pagebreak
 \section{IBIS Driver}
 
-Converts a digital waveform and clock to an analog waveform using the rising and falling edge waveforms from an IBIS
-model.
+Converts a digital waveform and double-rate clock to an analog waveform using the rising and falling edge waveforms
+from an IBIS model.
 
-This filter assumes a perfect $50\Omega$ load; clamp behavior of the driver in response to channels with significant
-reflection is not currently modeled. IBIS-AMI is not currently supported.
+This filter assumes a perfect $50\Omega$ load or other matched load as specified in the IBIS model; clamp behavior of
+the driver in response to channels with significant reflection is not currently modeled.
+
+IBIS-AMI is not currently supported, however this is planned (\issue{scopehal}{192}).
+
+Model name and termination conditions are dynamically created enumerations; the set of legal values for these fields
+depends on the specific .ibs file loaded.
+
+Note that IBIS corners specify minimum, typical, or maximum \emph{output voltage}, not timing or other properties.
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Digital & Digital waveform to transmit\\
+\thinhline
+clk & Digital & Transmit clock (double rate)\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Corner & Enum & Name of the corner to use\\
+\thinhline
+File Path & String & Filesystem path to the IBIS model\\
+\thinhline
+Model Name & Enum & Name of the I/O cell model within the IBIS model to use\\
+\thinhline
+Sample Rate & Int & Sample rate to use for the output waveform\\
+\thinhline
+Termination & Enum & Name of the termination condition to use\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an analog waveform containing uniformly spaced samples at the specified rate.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -1079,6 +1126,8 @@ management controllers (BMCs) and embedded controllers (ECs).
 \pagebreak
 \section{IPv4}
 
+Internet Protocol version 4
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Jitter}
@@ -1089,9 +1138,13 @@ Adds random and/or periodic jitter to a digital waveform by displacing each samp
 \pagebreak
 \section{Jitter Spectrum}
 
+Calculates an FFT of a TIE waveform.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{JTAG}
+
+Joint Test Action Group
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -1143,6 +1196,8 @@ Converts two streams of D-Phy Symbol's (one data and one clock) into MIPI DSI pa
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Moving Average}
+
+Calculates a moving average (box filter) over an analog waveform.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
