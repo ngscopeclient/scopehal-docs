@@ -1067,6 +1067,7 @@ Decodes common $I^2C$ EEPROM memory devices
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{IBIS Driver}
+\label{filter:ibisdriver}
 
 Converts a digital waveform and double-rate clock to an analog waveform using the rising and falling edge waveforms
 from an IBIS model.
@@ -1131,8 +1132,44 @@ Internet Protocol version 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Jitter}
+\label{filter:jitter}
 
-Adds random and/or periodic jitter to a digital waveform by displacing each sample according to specified distribution.
+Adds random and/or periodic jitter to a digital waveform by displacing each sample.
+
+Random jitter is unbounded and has a Gaussian distribution with a user-specified standard deviation. Periodic jitter is
+sinusoidal and has a bounded range of -1 to +1 times the specified amplitude. Only a single frequency of Pj is
+supported, however several instances of this filter may be chained in order to inject Pj at multiple frequencies. The
+starting phase of the Pj sinusoid is random.
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Digital & Input waveform\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Rj Stdev & Float & Standard deviation of random jitter\\
+\thinhline
+Pj Frequency & Float & Frequency of periodic jitter\\
+\thinhline
+Pj Amplitude & Float & Amplitude of periodic jitter\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs a digital waveform with one sample per sample in the input waveform, with sample time shifted by
+the sum of random and periodic jitter terms. The output waveform will have 1fs timebase resolution and not be dense
+packed, regardless of the input timebase configuration.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
