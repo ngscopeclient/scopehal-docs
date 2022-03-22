@@ -193,7 +193,8 @@ Error & Malformed data & \cellcolor{error}\textcolor{white}{Error} & ERROR \\
 \section{8B/10B (TMDS)}
 \label{filter:tmds}
 
-Decodes the 8-to-10 Transition Minimized Differential Signalling line code used in \hyperref[filter:dvi]{DVI} and HDMI.
+Decodes the 8-to-10 Transition Minimized Differential Signalling line code used in \hyperref[filter:dvi]{DVI} and
+\hyperref[filter:hdmi]{HDMI}.
 
 Like the \hyperref[filter:8b10b]{8B/10B (IBM)} line code, TMDS is an 8-to-10 bit serial line code. TMDS, however, is
 designed to \emph{minimize} the number of toggles in the data stream for EMC reasons, rendering it difficult to
@@ -401,7 +402,8 @@ the average value of the zero level for the middle 50\% of the low period.
 Decodes the Control Area Network (CAN) bus, commonly used in vehicle control systems. Both standard (11 bit) and
 extended (29 bit) IDs are supported.
 
-CAN-FD frames are detected and flagged as such, but the current decode cannot parse them fully.
+CAN-FD frames are detected and flagged as such, but the current decode cannot parse them fully. Full support is planned
+(\issue{scopehal}{334}).
 
 \begin{figure}[h]
 \centering
@@ -624,7 +626,39 @@ Simple DLL suitable for displaying eye patterns of RS232 and similar protocols.
 \pagebreak
 \section{Complex Import}
 
-Loads waveform data from a raw binary file containing interleaved I/Q samples in one of several formats.
+Loads waveform data from a raw binary file containing I/Q samples in one of several formats. Regardless of sample
+format, the samples must be in I-Q-I-Q order.
+
+Supported formats (native endianness, no byte swapping is performed):
+\begin{itemize}
+\item Signed int8
+\item Unsigned int8
+\item Signed int16
+\item Float32
+\item Float64
+\end{itemize}
+
+\subsection{Inputs}
+
+This filter takes no inputs.
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Complex File & String & Path to the input file\\
+\thinhline
+File Format & Enum & Data type of the samples\\
+\thinhline
+Sample Rate & Int & Sampling frequency\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs two streams named ``I" and ``Q" containing the I/Q waveform data.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
