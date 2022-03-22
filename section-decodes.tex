@@ -766,7 +766,7 @@ time domain.
 
 The group delay of the channel is then estimated and samples are discarded from the end of the waveform to prevent
 causality violations. For example, when performing a de-embed using a network with a 1ns group delay, the output
-waveform will end 1ns before the input (since the channel output after this depends on input samples before the start
+waveform will end 1ns before the input does (since the channel output after this depends on input samples after the end
 of the stimulus waveform). Note that the automatic group delay estimation uses points from roughly the center of the
 S-parameter dataset in the current implementation; channels which do not have a significant passband around this
 frequency will give incorrect group delay estimates. The ``Group Delay Truncation Mode" parameter can be set to manual
@@ -816,6 +816,7 @@ This filter outputs an analog waveform with the same timebase as the input, with
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Deskew}
+\label{filter:deskew}
 
 Moves an analog waveform earlier or later in time to compensate for trigger offsets, probe length mismatch, etc.
 It is generally preferable to deskew using the skew adjustment on the channel during acquisition; this filter is
@@ -849,14 +850,93 @@ offset.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Digital to NRZ}
+\label{filter:digitaltonrz}
 
-Convert a digital signal (and associated clock) to an analog NRZ waveform.
+Convert a digital signal (and associated clock) to an analog NRZ waveform. This filter uses a simplistic piecewise
+linear rise/fall time model: the output stays at the logic low/high voltage until the input changes, then ramps at a
+constant rate to then new value. For more accurate modeling of edge shape use the \hyperref[filter:ibisdriver]{IBIS
+Driver} filter with the appropriate IBIS model for your DUT.
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Digital & Digital data to send\\
+\thinhline
+clk & Digital & Clock for data\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Level 0 & Float & Voltage to send when the input is a logic 0\\
+\thinhline
+Level 1 & Float & Voltage to send when the input is a logic 1\\
+\thinhline
+Sample Rate & Int & Sample rate for the generated waveform\\
+\thinhline
+Transition Time & Int & Rising and falling edge time\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an analog NRZ version of the provided digital input, sampled uniformly at the specified rate.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Digital to PAM4}
+\label{filter:digitaltopam4}
 
-Convert a digital signal (and associated clock) to an analog PAM-4 waveform.
+Convert a digital signal (and associated clock) to an analog PAM-4 waveform. This filter uses a simplistic piecewise
+linear rise/fall time model: the output stays at the current symbol's voltage until the input changes, then ramps at a
+constant rate to then new value. For more accurate modeling of edge shape use the \hyperref[filter:ibisdriver]{IBIS
+Driver} filter with the appropriate IBIS model for your DUT.
+
+The input data is a digital serial bit stream at twice the PAM4 symbol rate. Two consecutive input bits map to a single
+PAM-4 output sample.
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Digital & Serial digital data to send\\
+\thinhline
+clk & Digital & Clock for data\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Level 00 & Float & Voltage to send when the input is a logic 0-0\\
+\thinhline
+Level 01 & Float & Voltage to send when the input is a logic 0-1\\
+\thinhline
+Level 10 & Float & Voltage to send when the input is a logic 1-0\\
+\thinhline
+Level 11 & Float & Voltage to send when the input is a logic 1-1\\
+\thinhline
+Sample Rate & Int & Sample rate for the generated waveform\\
+\thinhline
+Transition Time & Int & Rising and falling edge time\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an analog PAM-4 version of the provided digital input, sampled uniformly at the specified rate.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -887,9 +967,13 @@ Given a DRAM command bus and a DQS strobe, produce separate gated DQ clock strea
 \pagebreak
 \section{DRAM Trcd}
 
+Calculates $T_{rcd}$ (RAS-to-CAS delay) for each newly opened row in a DRAM command bus stream.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{DRAM Trfc}
+
+Calculates $T_{rfc}$ (refresh-to-refresh delay) for each refresh operation in a DRAM command bus stream.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -902,6 +986,8 @@ state divided by the period.
 \pagebreak
 \section{DVI}
 \label{filter:dvi}
+
+Decodes Digital Visual Interface (DVI) video signals.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -919,16 +1005,20 @@ Removes pre/de emphasis from a signal.
 \pagebreak
 \section{Ethernet - 10baseT}
 
+Decodes the 10base-T Ethernet PCS/PMA as specified in IEEE 802.3-2018 clause 14.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - 100baseTX}
+
+Decodes the 100base-TX Ethernet PMA/PCS as specified in IEEE 802.3-2018 clause 24 and 25, and the ANSI X3T12 FDDI PHY.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - 1000baseX}
 \label{proto:1000basex}
 
-Decodes the 1000base-X Ethernet PCS as specified in IEEE 802.3 clause 36.
+Decodes the 1000base-X Ethernet PCS as specified in IEEE 802.3-2018 clause 36.
 
 \begin{tabularx}{16cm}{llX}
 \thickhline
@@ -976,49 +1066,73 @@ TODO: Document protocol analyzer output
 \pagebreak
 \section{Ethernet - GMII}
 
+Decodes the Gigabit Media Independent Interface as specified in IEEE 802.3-2018 clause 35.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - RGMII}
+
+Decodes the Reduced Gigabit Media Independent Interface as specified in the RGMII 2.0 specification.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - RMII}
 
+Decodes the Reduced Media Independent Interface as specified in the RMII specification.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet Autonegotiation}
+
+Decodes the Base-T autonegotiation signaling for Ethernet as specified in IEEE 802.3-2018 clause 28.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye Bit Rate}
 
+Measures the bit rate of an eye pattern.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye Height}
+
+Measures the vertical opening of an eye pattern.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye P-P Jitter}
 
+Measures the peak-to-peak jitter of an eye pattern.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye Pattern}
+
+Calculates an eye pattern.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye Period}
 
+Measures the UI width of an eye pattern.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye Width}
+
+Measures the horizontal opening of an eye pattern.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Fall}
 
+Measures the fall time of each falling edge in a waveform.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{FFT}
+
+Calculates a Fast Fourier Transform and displays the magnitude response.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -1029,6 +1143,8 @@ Applies a finite-impulse-response filter to a signal.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Frequency}
+
+Measures the frequency of each cycle in a waveform.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
