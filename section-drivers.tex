@@ -193,24 +193,28 @@ Digital Discovery & digilent & twinlan & No digital channel support,\newline so 
 
 \section{DreamSource Lab}
 
-DreamSourceLabs oscilloscopes supported in their fork of sigrok (``libsigrok4DSL'' distributed as part of their
-``DSView'' software package) are supported through the ``dslabs'' driver in libscopehal. This driver connects using
-the ``twinlan'' transport to a \href{http://todo.com/}{socket server} which links against libsigrok4DSL. This provides network
-transparency, and allows the DSLabs bridge server to be packaged separately for distribution and only installed
-by users who require it.
+DreamSourceLabs oscilloscopes and logic analyzers supported in their fork of sigrok (``libsigrok4DSL'' distributed as part of
+their ``DSView'' software package) are supported through the ``dslabs'' driver in libscopehal. This driver connects using
+the ``twinlan'' transport to a \href{https://github.com/glscopeclient/scopehal-sigrok-bridge}{socket server} which links 
+against libsigrok4DSL. This provides network transparency, and allows the DSLabs bridge server to be packaged separately for
+distribution and only installed by users who require it.
 
-As of 2022-03-17, only a DSCope U3P100 has been tested and works adequately. Other DSCope-line products may work
-also, but are untested. DSLogic devices are unlikely to work without further hacking on the bridge code.
+As of 2022-03-22, a DSCope U3P100 and a DSLogic U3Pro16has been tested and works adequately. Other products may work
+also, but are untested.
 
-Only edge triggers are supported (by the hardware.) ``Ch0 \&\& Ch1'' and ``Ch0 || Ch1'' trigger modes are not supported.
+On DSCope: Only edge triggers are supported. `Any' edge is not supported. ``Ch0 \&\& Ch1'' and ``Ch0 || Ch1'' trigger modes
+are not supported.
+
+On DSLogic: Only edge triggers are supported. All edges are supported. There is currently no way to configure a trigger on more
+than one channel. Serial / multi-stage triggers are not supported.
 
 Known issues pending fixes/refactoring:
 \begin{itemize}
 	\item Interleaved sample rates are not correctly reported in the timebase dialog (but are in the waveform display)
 	\item Trigger position is quantized to multiples of 1\% of total capture
-	\item Some sample rate / depth configurations produce trigger position misreporting (seemingly from hardware) by
-	       $\pm5$ samples.
 	\item Non-localhost performance, and responsiveness in general may suffer as a result of hacky flow control on waveform capture
+	\item DSLogic depth configuration is confusing and performance could be improved (currently only buffered more is supported)
+	\item DSLogic devices trigger even if pre-trigger buffer has not been filled, leading to a small pre-trigger waveform in some cases
 \end{itemize}
 
 \subsection{dslabs}
@@ -219,21 +223,39 @@ Known issues pending fixes/refactoring:
 \thickhline
 \textbf{Family / Device} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
-DSCope U3P100 & dslabs & twinlan & Tested, works (known issues)\\
+DSCope U3P100 & dslabs & twinlan & Tested, works\\
+\thinhline
+DSLogic U3P16 & dslabs & twinlan & Tested, works\\
 \thinhline
 DSCope (others) & dslabs & twinlan & Not tested, but probably works\\
 \thinhline
-DSLogic & dslabs & twinlan & Not tested, won't work\\
+DSLogic (others) & dslabs & twinlan & Not tested, but probably works\\
 \thickhline
 \end{tabularx}
 
-\subsubsection{Typical Performance (DSCope U3P100, USB3 -> LAN)}
+\subsubsection{Typical DSCope Performance (DSCope U3P100, USB3, localhost)}
 
-\begin{tabularx}{16cm}{lllX}
+\begin{tabularx}{16cm}{lllXX}
 \thickhline
-\textbf{Channels} & \textbf{Memory depth} & \textbf{Sample Rate} & \textbf{WFM/s}\\
+\textbf{Channels} & \textbf{Memory depth} & \textbf{Sample Rate} & \textbf{WFM/s} & \textbf{UI-unconstrained WFM/s}\\
 \thickhline
-2 & 1M & 100MS/s & 50+\footnote{Largely limited by glscopeclient ingest rate in testing.}\\
+2 & 1M & 100MS/s & 14 & 50\\
+\thinhline
+2 & 5M & 500MS/s & 4.5 & 14\\
+\thinhline
+1 & 5M & 1GS/s & 8.3 & 32\\
+\thickhline
+\end{tabularx}
+
+\subsubsection{Typical DSLogic Performance (DSLogic U3Pro16, USB3, localhost)}
+
+\begin{tabularx}{16cm}{lllXX}
+\thickhline
+\textbf{Channels} & \textbf{Memory depth} & \textbf{Sample Rate} & \textbf{WFM/s} & \textbf{UI-unconstrained WFM/s}\\
+\thickhline
+16 & 500k & 100MS/s & 16 & 44\\
+\thinhline
+16 & 500k & 500MS/s & 16 & 55\\
 \thickhline
 \end{tabularx}
 
