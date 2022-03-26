@@ -5,6 +5,7 @@ set(DOC_LIST
 	section-copyright.tex
 	section-decodes.tex
 	section-drivers.tex
+	section-exports.tex
 	section-gettingstarted.tex
 	section-grapheditor.tex
 	section-history.tex

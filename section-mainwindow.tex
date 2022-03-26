@@ -22,10 +22,6 @@ Loads a .scopesession file. Checkboxes at the bottom of the file browser dialog 
 settings, and waveform data to be individually loaded or ignored. If reconnecting to an instrument, settings from the
 saved session will be applied and overwrite the current channel and timebase configuration.
 
-\item \menustyle{Import}\\
-Imports a data file from an external source. See Sec. \ref{import} for details on supported import file formats and
-extensions.
-
 \item \menustyle{Save}\\
 The UI layout may be saved to a session file so that a common instrument and analysis setup can be returned to in the
 future. Waveform data may optionally be saved in the session as well.
@@ -36,8 +32,14 @@ channels.
 
 Note that both the .scopesession and the \_data directory must be copied if moving the session to a new location.
 
+\item \menustyle{Export}\\
+
+Saves some or all of the data in the active session to a file in another format.
+
+For more detail see the \hyperref[chap:exports]{Export Formats} chapter.
+
 \item \menustyle{Close}\\
-Close the current session without exiting glscopeclient
+Close the current session without exiting glscopeclient.
 
 \item \menustyle{Quit}\\
 Exits the application
