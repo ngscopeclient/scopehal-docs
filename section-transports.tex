@@ -15,7 +15,7 @@ If port number is not specified, uses TCP port 5025 (IANA assigned) by default. 
 non-standard port 5555, not 5025, so the port number must always be specified when using a Rigol instrument.
 
 Example:
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[language=sh, numbers=none]
 glscopeclient myscope:rigol:lan:192.0.2.9:5555
 \end{lstlisting}
 
@@ -28,7 +28,7 @@ requests to an instrument when using this transport. Some instruments may experi
 as the transport.
 
 Example:
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[language=sh, numbers=none]
 glscopeclient myscope:tektronix:lxi:192.0.2.9
 \end{lstlisting}
 
@@ -40,7 +40,7 @@ NOTE: Due to limitations of the current command line argument parsing code, an a
 including this one. Since the argument is ignored, any non-empty string may be used.
 
 Example:
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[language=sh, numbers=none]
 glscopeclient sim:demo:null:blah
 \end{lstlisting}
 
@@ -63,7 +63,7 @@ This transport takes two arguments: device path (required) and baud rate (option
 defaults to 115200.
 
 Example:
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[language=sh, numbers=none]
 glscopeclient myscope:rigol:uart:/dev/ttyUSB0:115200
 \end{lstlisting}
 
@@ -76,7 +76,7 @@ This transport takes two arguments: hostname/IP and port number.
 If port number is not specified, uses TCP port 1861 (IANA assigned) by default.
 
 Example:
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[language=sh, numbers=none]
 glscopeclient myscope:lecroy:vicp:192.0.2.9
 \end{lstlisting}
 
@@ -90,7 +90,7 @@ NOTE: The current implementation of this driver only works on Linux. There is cu
 Windows (see scopehal:301)
 
 Example:
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[language=sh, numbers=none]
 glscopeclient myscope:siglent:usbtmc:/dev/usbtmc0
 \end{lstlisting}
 
