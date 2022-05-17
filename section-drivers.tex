@@ -195,7 +195,7 @@ Digital Discovery & digilent & twinlan & No digital channel support,\newline so 
 
 DreamSourceLabs oscilloscopes and logic analyzers supported in their fork of sigrok (``libsigrok4DSL'' distributed as part of
 their ``DSView'' software package) are supported through the ``dslabs'' driver in libscopehal. This driver connects using
-the ``twinlan'' transport to a \href{https://github.com/glscopeclient/scopehal-sigrok-bridge}{socket server} which links 
+the ``twinlan'' transport to a \href{https://github.com/glscopeclient/scopehal-sigrok-bridge}{socket server} which links
 against libsigrok4DSL. This provides network transparency, and allows the DSLabs bridge server to be packaged separately for
 distribution and only installed by users who require it.
 
@@ -379,9 +379,7 @@ TODO (scopehal:16)
 
 A driver for SDS2000X+ is available in the codebase which has been developed according to Siglent offical documentation
 (Programming Guide PG01-E11A). This driver should be functional across the 'next generation' SDS2000X+, SDS5000X and
-SDS6000X scopes . It has been developed using the SDS2000X+.
-
-An old Siglent driver with significant bitrot is available in the git archive if required.\\
+SDS6000X scopes . It has been developed using the SDS2000X+. Some older generation scopes are supported as well.
 
 \begin{tabularx}{16cm}{lllX}
 \thickhline
@@ -395,14 +393,9 @@ SDS2000X+ series & siglent & lan & Basic functionality complete. Digital channel
 \thickhline
 SDS5000X series & siglent & lan & Initialises, triggers and downloads waveforms. More testing needed \\
 \thickhline
-SDS6000X series & siglent & lan & Untested. Not available in Western Markets. \\
+SDS6000X series & siglent & lan & Untested. 12 bit version is not available in western markets. \\
 \thickhline
 \end{tabularx}
-
-No other Siglent scopes are supported at the moment.
-
-The only exception to this is the SDS3000X series which is expected to work using the LeCroy driver over vicp interface
-as if it were a WaveSurfer 3000. User feedback appreciated.\\
 
 \subsubsection{Typical Performance (SDS2104X+, LAN)}
 
