@@ -1010,6 +1010,40 @@ Removes pre/de emphasis from a signal.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Enhanced Resolution}
+\label{filter:eres}
+
+Applies a FIR low-pass filter to a signal to increase the vertical resolution and reduce noise at the cost of reduced
+bandwidth. This technique assumes a small amount of Gaussian noise is present in the input waveform, such that a signal
+whose true value is midway between two ADC codes will randomly fluctuate between the two quantized values, with an
+average equal to the true value.
+
+Each half bit of resolution reduces the bandwidth by an additional factor of two beyond the Nyquist limit. For example,
+a 1.5 bit resolution improvement reduces the bandwith to Fnyquist / 8. The filter properties dialog displays the
+calculated -3 dB bandwidth based on the current input sample rate.
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+in & Analog & Input signal\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Bits & Enum & Number of additional bits of resolution to add\\
+\thickhline
+\end{tabularx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Ethernet - 10baseT}
 
 Decodes the 10base-T Ethernet PCS/PMA as specified in IEEE 802.3-2018 clause 14.
