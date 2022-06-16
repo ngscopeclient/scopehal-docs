@@ -10,7 +10,7 @@ history view is closed, history continues to be captured up to the configured ma
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=5cm]{images/history-view.png}
+\includegraphics[width=7cm]{images/history-view.png}
 \caption{Waveform history view}
 \label{historyview}
 \end{figure}
@@ -20,6 +20,17 @@ positive integer value. Older waveforms beyond the history limit are deleted as 
 
 The status bar at the bottom of the history view displays the total number of waveforms in the history, as well as an
 estimate of the amount of RAM used by the history.
+
+\section{Pinning}
+
+Interesting waveforms may be ``pinned" in the history by checking the box in the ``pin" column of the history view.
+Pinned waveforms are guaranteed to remain in the history buffer even when new waveforms arrive; only unpinned waveforms
+are eligible for automatic deletion to make space for incoming data.
+
+\section{Labeling}
+
+Arbitrary text names may be assigned to a waveform by double-clicking the corresponding cell in the ``label" column.
+Waveforms with a label are automatically pinned, since assigning a label implies the waveform is important.
 
 \section{Estimating Waveform Memory Usage}
 
