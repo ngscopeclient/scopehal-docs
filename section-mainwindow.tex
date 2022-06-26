@@ -17,20 +17,27 @@ Displays the ``connect to instrument" dialog.
 \item \menustyle{Recent Instruments}\\
 Contains a list of up to ten recently used instruments.
 
-\item \menustyle{Open}\\
-Loads a .scopesession file. Checkboxes at the bottom of the file browser dialog allow the UI configuration, instrument
-settings, and waveform data to be individually loaded or ignored. If reconnecting to an instrument, settings from the
-saved session will be applied and overwrite the current channel and timebase configuration.
+\item \menustyle{Open Online...}\\
+Loads a .scopesession file and reconnects to the instrument(s) to continue existing work. Settings from the saved
+session will be applied and overwrite the current channel and timebase configuration of the instrument, if different.
+
+\item \menustyle{Open Offline...}\\
+Loads a .scopesession file in offline mode, allowing you to work with saved waveform data without connecting to the
+instrument(s) the data was captured from.
 
 \item \menustyle{Save}\\
-The UI layout may be saved to a session file so that a common instrument and analysis setup can be returned to in the
-future. Waveform data may optionally be saved in the session as well.
+Saves UI configuration and waveform data (including history) to a session file for future use.
 
 A session consists of a YAML file called filename.scopesession containing instrument and UI configuration, as well
 as a directory called filename\_data which contains waveform metadata and sample values for all enabled instrument
 channels.
 
-Note that both the .scopesession and the \_data directory must be copied if moving the session to a new location.
+Note that both the .scopesession and the \_data directory must be copied if moving the session to a new location in
+order to preserve waveform data. If you only wish to restore the filter graph and UI configuration without waveform
+content, the \_data directory is not required.
+
+\item \menustyle{Save As...}\\
+Saves the session to a new file, rather than the current one.
 
 \item \menustyle{Export}\\
 
