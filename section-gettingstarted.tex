@@ -277,9 +277,6 @@ Sets the verbosity level to ``verbose" (4).
 The file extension is used to determine the format. File extensions are case sensitive and must be lowercase to be
 correctly interpreted.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% FIXME for filter model
-
 \begin{itemize}
 \item \texttt{[file.scopesession]}
 Loads a saved session.
@@ -288,16 +285,11 @@ Loads a saved session.
 Imports waveform data from the binary format used by Agilent, Keysight, and Rigol oscilloscopes.
 
 \item \texttt{[file.complex]} \\
-Imports complex I/Q data from a file. The file must contain interleaved (I, Q) pairs in either 8-bit signed integer,
-16-bit signed integer, 32-bit normalized floating point, or 64-bit normalized floating point format.
+Imports complex I/Q data from a file. The file must contain interleaved (I, Q) pairs in either 8-bit signed/unsigned
+integer, 16-bit signed integer, 32-bit normalized floating point, or 64-bit normalized floating point format.
 
-glscopeclient uses a heuristic to determine the correct sample format. The first 1024 bytes of the file are loaded
-using all four possible formats, and the average I/Q magnitude is used to create a score. After excluding floating
-point formats with a maximum magnitude less than 1e-6, the score closest to zero is considered the correct format and
-the remainder of the file is parsed using this format.
-
-If the file name contains the string "MSps" (case sensitive), digits left of the string are assumed to be a sample rate
-in millions of samples per second. If this string is not found, the sample rate is assumed to be 1 Msps.
+The default format is 8 bit signed integer and may be changed from the filter graph editor or channel properties dialog
+once the file is loaded. There is currently no way to specify other formats on the command line.
 
 \item \texttt{[file.csv]} \\
 Imports sample data from a CSV (comma-separated-value) file. More than one CSV file can be loaded at once (displayed as
@@ -318,13 +310,19 @@ interval, the waveform is assumed to be uniformly sampled and timestamps are rou
 average interval. If the deviation is greater, the waveform is assumed to be sparsely sampled and timestamps are not
 modified.
 
+\item \texttt{[file.trc]} \\
+Imports waveform data from a Teledyne LeCroy .trc binary waveform file.
+
 \item \texttt{[file.vcd]} \\
 Imports digital waveform data from a VCD (value change dump) file, typically created by a logic analyzer or HDL
 simulator.
 
 \item \texttt{[file.wav]} \\
-Imports sample data from a WAV file. More than one WAV file can be loaded at once (displayed as separate points in
-history) by specifying multiple file names as long as they have identical sample rates and channel counts.
+Imports sample data from a WAV file.
+
+\item \texttt{[file.wfm]} \\
+Imports sample data from a Tektronix .wfm file. This import filter is still experimental and may not support all
+features of the .wfm file format yet. If you have trouble importing some .wfm files please file a ticket on GitHub.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
