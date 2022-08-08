@@ -3,7 +3,17 @@
 
 \section{gpib}
 
-Not yet implemented: SCPI over GPIB
+SCPI over GPIB.
+
+This transport takes up to four arguments: GPIB board index, primary address, secondary address, and timeout value.
+Only board index and primary address are required.
+
+NOTE: The current implementation of this driver only works on Linux, using the linux-gpib library.
+
+Example:
+\begin{lstlisting}[language=sh, numbers=none]
+glscopeclient myscope:keysightdca:gpib:0:7
+\end{lstlisting}
 
 \section{lan}
 
