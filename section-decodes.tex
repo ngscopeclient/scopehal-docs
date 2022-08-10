@@ -1428,8 +1428,21 @@ Decodes the MIL-STD-1553 avionics data bus.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{MIPI D-Phy Data}
+\label{filter:dphydata}
 
-Converts two streams of D-Phy Symbol's (one data and one clock) into bytes and control events
+Converts two streams of D-Phy Symbols (one data and one clock) into bytes and control events.
+
+Only a single data lane is supported at the moment, but multi-lane support will be added in the future.
+
+This filter only supports high speed data; escape mode data is handled by the \hyperref[filter:dphyescape]{D-PHY Escape
+Mode} filter.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{MIPI D-Phy Escape Mode}
+\label{filter:dphyescape}
+
+Converts a stream of D-PHY Symbols for a data lane into low-power data.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
