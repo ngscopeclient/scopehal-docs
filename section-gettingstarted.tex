@@ -109,9 +109,33 @@ make -j4
 sudo make install
 \end{lstlisting}
 
+
+\item Install Vulkan SDK:
+
+\begin{lstlisting}[language=sh, numbers=none]
+cd ~
+mkdir vulkan
+cd vulkan
+wget https://sdk.lunarg.com/sdk/download/1.3.224.1/linux/vulkansdk-linux-x86_64-1.3.224.1.tar.gz
+tar xf vulkansdk-linux-x86_64-1.3.224.1.tar.gz
+export VULKAN_SDK=~/vulkan/1.3.224.1/x86_64
+sudo cp -r $VULKAN_SDK/include/vulkan/ /usr/local/include/
+sudo cp -P $VULKAN_SDK/lib/libvulkan.so* /usr/local/lib/
+sudo cp $VULKAN_SDK/lib/libVkLayer_*.so /usr/local/lib/
+sudo mkdir -p /usr/local/share/vulkan/explicit_layer.d
+sudo cp $VULKAN_SDK/etc/vulkan/explicit_layer.d/VkLayer_*.json /usr/local/share/vulkan/explicit_layer.d
+sudo ldconfig
+\end{lstlisting}
+
 \item Build scopehal and scopehal-apps:
 
 \begin{lstlisting}[language=sh, numbers=none]
+export VULKAN_SDK=~/vulkan/1.3.224.1/x86_64
+export PATH=$VULKAN_SDK/bin:$PATH
+export VULKAN_SDK=$VULKAN_SDK
+export LD_LIBRARY_PATH=$VULKAN_SDK/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+export VK_LAYER_PATH=$VULKAN_SDK/etc/vulkan/explicit_layer.d
+
 git clone https://github.com/glscopeclient/scopehal-apps.git --recurse-submodules
 cd scopehal-apps
 mkdir build
@@ -161,6 +185,14 @@ which also get installed by the MSYS2 installer).
 pacman -S git mingw-w64-x86_64-toolchain
 \end{lstlisting}
 
+\item Install Vulkan SDK:
+
+Launch MSYS2 or MINGW64 as Administrator only for this step (it is mandatory to do the install in default path C:\VulkanSDK ...)
+\begin{lstlisting}[language=sh, numbers=none]
+wget https://sdk.lunarg.com/sdk/download/1.3.224.1/windows/VulkanSDK-1.3.224.1-Installer.exe
+./VulkanSDK-1.3.224.1-Installer.exe --accept-licenses --default-answer --confirm-command install
+\end{lstlisting}
+
 \item Check out the code
 
 \begin{lstlisting}[language=sh, numbers=none]
@@ -172,6 +204,10 @@ cd scopehal-apps
 
 \begin{lstlisting}[language=sh, numbers=none]
 cd msys2
+export VK_SDK_PATH=/c/VulkanSDK/1.3.224.1
+export VULKAN_SDK=$VK_SDK_PATH
+export PATH=$VK_SDK_PATH/Bin:$PATH
+
 MINGW_ARCH=mingw64 makepkg-mingw --noconfirm --noprogressbar -sCLf
 \end{lstlisting}
 
