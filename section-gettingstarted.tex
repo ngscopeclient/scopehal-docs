@@ -54,9 +54,6 @@ glxinfo | grep GL_EXT_blend_equation_separate
 glxinfo | grep "OpenGL version string"
 \end{lstlisting}
 
-If OpenCL 1.2 or higher is present, some filters may make use of GPU acceleration. As of this writing the first
-detected GPU is automatically used; there may be a way to select specific devices in the future.
-
 The minimum RAM requirement to actually launch glscopeclient is relatively small (the default demo configuration uses
 under 512 MB) however history mode and deep captures can easily consume many GB of RAM very rapidly. We suggest 8GB as
 a reasonable minimum, with 32 or more encouraged for deep history.
@@ -83,7 +80,7 @@ On Debian/Ubuntu:
 sudo apt install build-essential cmake pkg-config libglm-dev \
 	libgtkmm-3.0-dev libsigc++-2.0-dev libyaml-cpp-dev \
 	liblxi-dev texlive texlive-fonts-extra libglew-dev \
-	catch2 libclfft-dev libvulkan-dev
+	catch2 libvulkan-dev
 \end{lstlisting}
 
 On Fedora:
@@ -270,8 +267,8 @@ Do not use AVX512F vector optimizations even if the CPU supports it.
 \item \texttt{--noglint64}\\
 Do not use \texttt{GL\_ARB\_gpu\_shader\_int64} even if the GPU supports it.
 
-\item \texttt{--noopencl}\\
-Do not use OpenCL even if a supported GPU or accelerator is present.
+\item \texttt{--nogpufilter}\\
+Do not use Vulkan (GPU accelerated) implementations of filter blocks, revert to software fallback.
 
 \end{itemize}
 
