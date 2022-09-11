@@ -80,10 +80,10 @@ On Debian/Ubuntu:
 sudo apt install build-essential cmake pkg-config libglm-dev \
 	libgtkmm-3.0-dev libsigc++-2.0-dev libyaml-cpp-dev \
 	liblxi-dev texlive texlive-fonts-extra libglew-dev \
-	catch2 libvulkan-dev
+	catch2 libvulkan-dev glslang-dev libglfw3-dev
 \end{lstlisting}
 
-On Fedora:
+On Fedora(this section is out of date):
 
 \begin{lstlisting}[language=sh, numbers=none]
 sudo dnf install gtkmm30-devel cmake pkg-config glm-devel \
@@ -129,15 +129,15 @@ sudo ldconfig
 \begin{lstlisting}[language=sh, numbers=none]
 export VULKAN_SDK=~/vulkan/1.3.224.1/x86_64
 export PATH=$VULKAN_SDK/bin:$PATH
-export VULKAN_SDK=$VULKAN_SDK
 export LD_LIBRARY_PATH=$VULKAN_SDK/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 export VK_LAYER_PATH=$VULKAN_SDK/etc/vulkan/explicit_layer.d
 
+cd ~
 git clone https://github.com/glscopeclient/scopehal-apps.git --recurse-submodules
 cd scopehal-apps
 mkdir build
 cd build
-cmake ../ -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=/usr
+cmake ../ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
 make -j4
 \end{lstlisting}
 
@@ -179,7 +179,30 @@ which also get installed by the MSYS2 installer).
 \item Install git and the toolchain:
 
 \begin{lstlisting}[language=sh, numbers=none]
-pacman -S git mingw-w64-x86_64-toolchain
+pacman -S git wget mingw-w64-x86_64-cmake mingw-w64-x86_64-toolchain
+\end{lstlisting}
+
+\item Build glslang tags/sdk-1.3.224.1:
+
+Launch MSYS2 or MINGW64 as Administrator only for this step (it is mandatory to do the install in default path C:\\VulkanSDK ...)
+\begin{lstlisting}[language=sh, numbers=none]
+# Windows mingw64 glslang build (as it is not fully integrated in VulkanSDK-1.3.224.1 for Windows and built with Visual Studio 2017)
+cd ~
+git clone https://github.com/KhronosGroup/glslang.git
+cd glslang
+git checkout tags/sdk-1.3.224.1
+git clone https://github.com/google/googletest.git External/googletest
+cd External/googletest
+git checkout 0c400f67fcf305869c5fb113dd296eca266c9725
+cd ../..
+./update_glslang_sources.py
+
+SOURCE_DIR=~/glslang
+BUILD_DIR=$SOURCE_DIR/build
+mkdir -p $BUILD_DIR
+cd $BUILD_DIR
+cmake -DCMAKE_BUILD_TYPE=Debug -G"MinGW Makefiles" $SOURCE_DIR -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
+cmake --build . --config Debug --target install
 \end{lstlisting}
 
 \item Install Vulkan SDK:
@@ -202,8 +225,9 @@ cd scopehal-apps
 \begin{lstlisting}[language=sh, numbers=none]
 cd msys2
 export VK_SDK_PATH=/c/VulkanSDK/1.3.224.1
-export VULKAN_SDK=$VK_SDK_PATH
 export PATH=$VK_SDK_PATH/Bin:$PATH
+export VULKAN_SDK=$VK_SDK_PATH
+export GLSLANG_BUILD_PATH=~/glslang/build/install
 
 MINGW_ARCH=mingw64 makepkg-mingw --noconfirm --noprogressbar -sCLf
 \end{lstlisting}
