@@ -201,8 +201,8 @@ SOURCE_DIR=~/glslang
 BUILD_DIR=$SOURCE_DIR/build
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
-cmake -DCMAKE_BUILD_TYPE=Debug -G"MinGW Makefiles" $SOURCE_DIR -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
-cmake --build . --config Debug --target install
+cmake -DCMAKE_BUILD_TYPE=Release -G"MinGW Makefiles" $SOURCE_DIR -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
+cmake --build . --config Release --target install
 \end{lstlisting}
 
 \item Install Vulkan SDK:
