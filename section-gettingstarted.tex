@@ -134,7 +134,7 @@ export LD_LIBRARY_PATH=$VULKAN_SDK/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 export VK_LAYER_PATH=$VULKAN_SDK/etc/vulkan/explicit_layer.d
 
 cd ~
-git clone https://github.com/glscopeclient/scopehal-apps.git --recurse-submodules
+git clone --recursive https://github.com/glscopeclient/scopehal-apps.git
 cd scopehal-apps
 mkdir build
 cd build
@@ -145,6 +145,7 @@ make -j4
 \item Install scopehal and scopehal-apps:
 
 \begin{lstlisting}[language=sh, numbers=none]
+cd ~/scopehal-apps/build
 make install
 \end{lstlisting}
 
@@ -210,6 +211,7 @@ cmake --build . --config Release --target install
 
 Launch MSYS2 or MINGW64 as Administrator only for this step (it is mandatory to do the install in default path C:\\VulkanSDK ...)
 \begin{lstlisting}[language=sh, numbers=none]
+cd ~
 wget https://sdk.lunarg.com/sdk/download/1.3.224.1/windows/VulkanSDK-1.3.224.1-Installer.exe
 ./VulkanSDK-1.3.224.1-Installer.exe --accept-licenses --default-answer --confirm-command install
 rm -f VulkanSDK-1.3.224.1-Installer.exe
@@ -220,14 +222,12 @@ rm -f VulkanSDK-1.3.224.1-Installer.exe
 \begin{lstlisting}[language=sh, numbers=none]
 cd ~
 git clone --recursive https://github.com/glscopeclient/scopehal-apps
-cd scopehal-apps
 \end{lstlisting}
 
 \item Execute makepkg-mingw in subdir MSYS2:
 
 \begin{lstlisting}[language=sh, numbers=none]
-cd ~
-cd msys2
+cd ~/scopehal-apps/msys2
 export VK_SDK_PATH=/c/VulkanSDK/1.3.224.1
 export PATH=$VK_SDK_PATH/Bin:$PATH
 export VULKAN_SDK=$VK_SDK_PATH
