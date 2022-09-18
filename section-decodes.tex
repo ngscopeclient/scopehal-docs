@@ -410,6 +410,45 @@ Loads an Agilent / Keysight / Rigol binary waveform file.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Burst Width}
+
+Measures the burst width of each burst in a waveform. A Burst is a sequence of adjacent crossings of the mid level reference 
+of the waveform. Burst width is the duration of this sequence. Bursts are separated by a user-defined idle time that can be 
+provided as a parameter to this filter. The measurement is made on each burst in the waveform.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=16cm]{images/filters/burst-width.png}
+	\caption{Example of burst width measurement}
+	\label{filter_burstwidth}
+	\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Idle Time & Integer & Minimum idle time with no toggles, before declaring start of a new burst\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an analog waveform with one sample for each burst in the input signal.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{CAN}
 \label{filter:can}
 
