@@ -1859,6 +1859,45 @@ NOTE: this filter is still under development and not suitable for general use.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Time Outside Level}
+
+Measures the time a signal remains above a high reference level or below a low reference level or both.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=16cm]{images/filters/time-outside-level.png}
+	\caption{Example of time outside high level measurement with a high level threshold of 0mV}
+	\label{filter_timeoutsidelevel}
+	\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+High Level & Float & High level reference voltage\\
+\thickhline
+Low Level & Float & Low level reference voltage\\
+\thickhline
+Measurement Type & Enum &
+	\textbf{High Level}: Measure the time the signal is above high level reference voltage \newline
+	\textbf{Low Level}: Measure the time the signal is below low level reference voltage \newline
+	\textbf{Both}: Measure both the times the signal is above and below high level and low level reference voltages respectively\\
+\thickhline
+\end{tabularx}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Threshold}
 
 Converts an analog waveform to digital by thresholding at a constant level (no hysteresis).
