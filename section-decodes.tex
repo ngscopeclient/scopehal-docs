@@ -1861,7 +1861,7 @@ NOTE: this filter is still under development and not suitable for general use.
 \pagebreak
 \section{Time Outside Level}
 
-Measures the time a signal remains above a high reference level or below a low reference level or both.
+Measures the total integrated time a signal remains above a high reference level or below a low reference level or both.
 
 \begin{figure}[h]
 	\centering
@@ -1891,9 +1891,9 @@ High Level & Float & High level reference voltage\\
 Low Level & Float & Low level reference voltage\\
 \thickhline
 Measurement Type & Enum &
-	\textbf{High Level}: Measure the time the signal is above high level reference voltage \newline
-	\textbf{Low Level}: Measure the time the signal is below low level reference voltage \newline
-	\textbf{Both}: Measure both the times the signal is above and below high level and low level reference voltages respectively\\
+	\textbf{High Level}: Measure the total time the signal is above high level reference voltage \newline
+	\textbf{Low Level}: Measure the total time the signal is below low level reference voltage \newline
+	\textbf{Both}: Measure the total time the signal is both above and below high level and low level reference voltages respectively\\
 \thickhline
 \end{tabularx}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
