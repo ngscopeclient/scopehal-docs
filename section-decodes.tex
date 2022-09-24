@@ -297,6 +297,46 @@ at zero volts.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{AC RMS}
+\label{filter:accouple}
+
+Measures the Root Mean Square value of the waveform after removing any DC offset. This measurement can be made averaged 
+across the entire waveform, or on each cycle in the waveform.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/ac-rms.png}
+\caption{Example of an AC RMS Measurement of a Sinewave with 1V peak voltage}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Measurement Type & Enum &
+	\textbf{Average}: Measure the average AC RMS value\newline
+	\textbf{Per Cycle}: Measure the per cycle AC RMS value\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter produces an output waveform only for the per cycle measurement type. This displays the AC RMS value of every cycle.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{ADL5205}
 \label{filter:adl5205}
 
