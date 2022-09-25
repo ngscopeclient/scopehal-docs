@@ -1,0 +1,29 @@
+\chapter{Power Supply Drivers}
+\label{sec:powersupply-drivers}
+
+\section{GW Instek}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+GPD-X303S series & gwinstek_gpdx303s & uart & 9600 Baud default. Tested with GPD-3303S. No support for tracking modes yet.\\
+\thickhline
+\end{tabularx}
+
+\subsection{gwinstek_gpdx303s}
+
+Supported models should include GPD-2303S, GPD-3303S, GPD-4303S, and GPD-3303D.
+
+\section{Rohde & Schwarz}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+HMC804x series & rs_hmc804x & uart, usbtmc, lan & No support for tracking modes yet.\\
+\thickhline
+\end{tabularx}
+
+\subsection{rs_hmc804x}
+
