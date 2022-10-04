@@ -337,6 +337,52 @@ This filter produces an output waveform only for the per cycle measurement type.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Area Under Curve}
+\label{filter:AreaUnderCurve}
+
+Measures the area under the curve by integrating the data points. By default, area measured above ground is considered
+as positive and area measured below the ground is considered negative. The negative area can also be considered as positive
+by changing filter parameter. The measurement can be performed on the full record or on each cycle.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/ac-rms.png}
+\caption{Example of area under the curve measurement}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Measurement Type & Enum &
+	\textbf{Full Record}: Measure the area of entire waveform \newline
+	\textbf{Per Cycle}: Measure the area of each cycle in the waveform\\
+\thickhline
+Area Type & Enum &
+	\textbf{True Area}: Consider area below ground as negative\newline
+	\textbf{Absolute Area}: Consider area below ground as positive\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+For full record measurement, this filter outputs a waveform indicating total area measured till the time on the waveform.
+For per cycle measurement, this filter outputs waveform representing area of each cycle.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{ADL5205}
 \label{filter:adl5205}
 
