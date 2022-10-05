@@ -644,6 +644,41 @@ This filter outputs an analog waveform with the same timebase as the input, with
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Clip}
+\label{filter:clip}
+
+This filter limits the maximum or minimum value of a waveform to a given value. It can be configured
+to clip "above" in which case it imposes an upper limit or "below" in which case it imposes a lower
+limit.
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Behavior & Enum & Select between clipping values above or below selected value\\
+\thinhline
+Level & Float & Maximum/minimum signal level\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an analog waveform with the same timebase as the input, with discussed clipping applied.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Clock Recovery (D-PHY HS Mode)}
 
 Extracts a double-rate clock from a MIPI D-PHY clock+data stream, which is gated to only toggle when the data input
@@ -1337,6 +1372,47 @@ frequency.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Histogram}
+\label{filter:histogram}
+
+Computes a histogram from incoming data. Histogram counts are accumulated across multiple processed waveforms and cleared
+on "Clear Sweeps." Number of histogram bins is determined from the bin size parameter and the max/min values configured.
+Default behavior is to autorange the input and have 100fs bins. Samples outside a configured manual range will fall into
+the highest/lowest bin and the "CLIPPING" flag will be set on the output waveform.
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Analog & Input data. Usually in units of fs.\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Autorange & Bool & If the filter should automatically range the maximum and minimum bins\\
+\thinhline
+Min Value & Float & Lower end of the lowest bin when Autorange disabled\\
+\thinhline
+Max Value & Float & Higher end of the highest bin when Autorange disabled\\
+\thinhline
+Bin Size & Float & Size of a bin. Number of bins is determined from this and max/min values\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an analog waveform with one sample per bin and a value in counts. The "CLIPPING" flag on a waveform
+indicates that input samples fell outside the configured range of bins (when not using Autoranging.)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Horizontal Bathtub}
 
 Calculates a bathtub curve across a horizontal slice through an eye pattern.
@@ -1642,6 +1718,28 @@ Displays the relative phase of a signal as a function of time. Typically used fo
 
 Generates a pseudorandom bit sequence, and double rate bit clock, with a specified bit rate from a list of standard
 polynomials.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Pulse Width Measurement}
+\label{filter:pulsewidth}
+
+This filter measures the length of pulses and outputs that as a waveform. It auto-thresholds analog inputs at 50\%.
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an sparse analog waveform with the same timebase as the input, containing one sample per pulse with
+a duration and value equal to the length of the pulse.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2098,3 +2196,37 @@ This will produce maximal response for a signal which has periodicity with the s
 For example, period 4 and block size 2 will match aa**aa**.
 
 This can be used to identify OFDM symbols.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Window}
+
+Selects a temporal subset of an input waveform. Useful for running intensive analyses only on a region of interest.
+Start and end times are rounded to the sample that starts at or nearest after the given time.
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog or Digital & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Start Time & Float & Start of selected window \\
+\thinhline
+Duration & Float & Length of selected window \\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs a subset of the input signal. If the input is sparse, so is the output and vice versa. No samples
+are added.
