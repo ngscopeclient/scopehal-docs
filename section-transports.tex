@@ -77,19 +77,6 @@ Example:
 glscopeclient myscope:rigol:uart:/dev/ttyUSB0:115200
 \end{lstlisting}
 
-\section{vicp}
-
-SCPI over Teledyne LeCroy Virtual Instrument Control Protocol.
-
-This transport takes two arguments: hostname/IP and port number.
-
-If port number is not specified, uses TCP port 1861 (IANA assigned) by default.
-
-Example:
-\begin{lstlisting}[language=sh, numbers=none]
-glscopeclient myscope:lecroy:vicp:192.0.2.9
-\end{lstlisting}
-
 \section{usbtmc}
 
 SCPI over USB Test \& Measurement Class protocol.
@@ -102,6 +89,19 @@ Windows (see scopehal:301)
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
 glscopeclient myscope:siglent:usbtmc:/dev/usbtmc0
+\end{lstlisting}
+
+\section{vicp}
+
+SCPI over Teledyne LeCroy Virtual Instrument Control Protocol.
+
+This transport takes two arguments: hostname/IP and port number.
+
+If port number is not specified, uses TCP port 1861 (IANA assigned) by default.
+
+Example:
+\begin{lstlisting}[language=sh, numbers=none]
+glscopeclient myscope:lecroy:vicp:192.0.2.9
 \end{lstlisting}
 
 

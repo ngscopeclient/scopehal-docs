@@ -300,7 +300,7 @@ at zero volts.
 \section{AC RMS}
 \label{filter:accouple}
 
-Measures the Root Mean Square value of the waveform after removing any DC offset. This measurement can be made averaged 
+Measures the Root Mean Square value of the waveform after removing any DC offset. This measurement can be made averaged
 across the entire waveform, or on each cycle in the waveform.
 
 \begin{figure}[h]
@@ -512,8 +512,8 @@ Loads an Agilent / Keysight / Rigol binary waveform file.
 \pagebreak
 \section{Burst Width}
 
-Measures the burst width of each burst in a waveform. A Burst is a sequence of adjacent crossings of the mid level reference 
-of the waveform. Burst width is the duration of this sequence. Bursts are separated by a user-defined idle time that can be 
+Measures the burst width of each burst in a waveform. A Burst is a sequence of adjacent crossings of the mid level reference
+of the waveform. Burst width is the duration of this sequence. Bursts are separated by a user-defined idle time that can be
 provided as a parameter to this filter. The measurement is made on each burst in the waveform.
 
 \begin{figure}[h]
@@ -708,7 +708,7 @@ This filter outputs an analog waveform with the same timebase as the input, with
 \label{filter:clip}
 
 This filter limits the maximum or minimum value of a waveform to a given value. It can be configured
-to clip "above" in which case it imposes an upper limit or "below" in which case it imposes a lower
+to clip ``above" in which case it imposes an upper limit or ``below" in which case it imposes a lower
 limit.
 
 \subsection{Inputs}
@@ -735,7 +735,7 @@ Level & Float & Maximum/minimum signal level\\
 
 \subsection{Output Signal}
 
-This filter outputs an analog waveform with the same timebase as the input, with discussed clipping applied.
+This filter outputs an analog waveform with the same timebase as the input, clipped as specified by the parameters.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -968,10 +968,10 @@ frequency will give incorrect group delay estimates. The ``Group Delay Truncatio
 in this case, selecting the ``Group Delay Truncation" parameter instead of the automatically estimated value.
 
 Note that only the single S-parameter path provided is considered, and reflections elsewhere in the system are not
-modeled. As a result, multiple applications of this filter to de-embed a large circuit piecewise (for example, a
-cable followed by a probe) may give inaccurate results since reflections between the two networks are not considered.
-In this situation, it is preferable to use a circuit simulator to calculate combined S-parameters of the entire circuit
-and then perform a single de-embed.
+modeled. As a result, multiple applications of this filter to de-embed a large circuit piecewise (for example, a cable
+followed by a probe) may give inaccurate results since reflections between the two networks are not considered. In this
+situation, it is preferable to use a circuit simulator or the \hyperref[filter:sparamcascade]{S-Parameter Cascade}
+filter to calculate combined S-parameters of the entire circuit and then perform a single de-embed.
 
 The maximum gain the de-embed applies is capped (default 20 dB) in order to prevent amplifying noise outside the
 passband of the network being de-embedded.
@@ -1781,7 +1781,7 @@ polynomials.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
-\section{Pulse Width Measurement}
+\section{Pulse Width}
 \label{filter:pulsewidth}
 
 This filter measures the length of pulses and outputs that as a waveform. It auto-thresholds analog inputs at 50\%.
@@ -1834,6 +1834,7 @@ Calculates the rise time for each cycle of a waveform
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{S-Parameter Cascade}
+\label{filter:sparamcascade}
 
 Cascades two two-port networks and outputs a two-port network equivalent to the two input networks in series.
 
