@@ -342,12 +342,26 @@ This filter produces an output waveform only for the per cycle measurement type.
 
 Measures the area under the curve by integrating the data points. By default, area measured above ground is considered
 as positive and area measured below the ground is considered negative. The negative area can also be considered as positive
-by changing filter parameter. The measurement can be performed on the full record or on each cycle.
+by changing a filter parameter. The measurement can be performed on the full record or on each cycle.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=16cm]{images/filters/ac-rms.png}
-\caption{Example of area under the curve measurement}
+\includegraphics[width=16cm]{images/filters/true-area.png}
+\caption{Example of true area under the curve measurement (Integral)}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/absolute-area.png}
+\caption{Example of absolute area under the curve measurement}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/per-cycle-absolute-area.png}
+\caption{Example of per-cycle absolute area under the curve measurement}
 \end{figure}
 
 \subsection{Inputs}
