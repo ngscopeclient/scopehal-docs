@@ -1774,6 +1774,53 @@ Displays the relative phase of a signal as a function of time. Typically used fo
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Phase Nonlinearity}
+
+Given a phase angle waveform, outputs the difference between the actual phase and linear phase. A perfectly linear
+network will be displayed as a horizontal line at Y=0; leading or lagging phase will show up as spikes above or below
+zero.
+
+The nominal linear phase response is calculated based on the averge group delay between two user-supplied frequencies.
+Moving the reference frequencies further apart reduces the impact of phase noise in the data (since more points are
+being averaged) however both points must be located well within the linear region of the network in order to give
+accurate results.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/phase-nonlinearity.png}
+\caption{Example of nonlinear phase of a filter in the stopband}
+\label{phase_nonlinearity_example}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Phase & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Ref Freq Low & Float & Lower reference frequency\\
+\thickhline
+Ref Freq High & Float & Upper reference frequency\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an analog waveform with one sample for each sample in the input, containing the deviation from
+linear phase.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{PRBS}
 
 Generates a pseudorandom bit sequence, and double rate bit clock, with a specified bit rate from a list of standard
