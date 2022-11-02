@@ -1498,6 +1498,17 @@ Decodes common $I^2C$ EEPROM memory devices
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{$I^2C$ Register}
+
+Decodes low level $I^2C$ bus traffic into a series of register read-write transactions targeting a specific device
+address.
+
+This filter assumes that the device has a fixed sized address pointer. Register writes consist of a write to the
+device's address, the register address, then write data. Reads consist of a write to the device's address, the register
+address, a read from the device's address, and read data.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{IBIS Driver}
 \label{filter:ibisdriver}
 
