@@ -4,7 +4,8 @@ set(DOC_LIST
 	glscopeclient-manual.tex
 	section-copyright.tex
 	section-decodes.tex
-	section-drivers.tex
+	section-scope-drivers.tex
+	section-powersupply-drivers.tex
 	section-exports.tex
 	section-gettingstarted.tex
 	section-grapheditor.tex
