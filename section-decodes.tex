@@ -1334,6 +1334,20 @@ Decodes Serial GMII data at 10, 100, or 1000 Mbps rates to Ethernet frames.
 
 Decodes the Base-T autonegotiation signaling for Ethernet as specified in IEEE 802.3-2018 clause 28.
 
+This filter outputs a stream of 16-bit negotiation codewords, which is typically fed to the Ethernet Autonegotiation
+Page filter.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Ethernet Autonegotiation Page}
+
+Decodes a stream of 16-bit negotiation codewords to ability values, as specified in IEEE 802.3-2018 annex 28A, 28B, and
+28C.
+
+Note that the autonegotiation protocol is stateful, so it is not possible to definitively decode a single code word or
+small group of them in isolation. For accurate decoding, the input waveform should start with the Base Page (sent
+during the link-down state before a link partner has been detected).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye Bit Rate}
