@@ -1602,6 +1602,13 @@ Internet Protocol version 4
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{IQ Squelch}
+
+Gates I/Q data to eliminate noise between packets. Signal regions with amplitude below the squelch threshold are
+replaced with an equal number of zero-valued samples.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Jitter}
 \label{filter:jitter}
 
@@ -1971,8 +1978,7 @@ Flash memory attached to a SPI or quad SPI bus. Typically these chips have part 
 \pagebreak
 \section{Squelch}
 
-Gates I/Q data to eliminate noise between packets. Signal regions with amplitude below the squelch threshold are
-replaced with an equal number of zero-valued samples.
+Detects periods with no signal.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
