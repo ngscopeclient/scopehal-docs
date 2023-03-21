@@ -337,6 +337,14 @@ This filter produces an output waveform only for the per cycle measurement type.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Add}
+\label{filter:add}
+
+This filter adds two inputs. Either input may be a vector (waveform) or scalar. If both inputs are vectors, they must
+have the same timebase.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Area Under Curve}
 \label{filter:AreaUnderCurve}
 
@@ -847,6 +855,13 @@ Sample Rate & Int & Sampling frequency\\
 \subsection{Output Signal}
 
 This filter outputs two streams named ``I" and ``Q" containing the I/Q waveform data.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Constant}
+\label{filter:constant}
+
+This filter outputs a scalar with a constant value, which may be used as input to other filter graph blocks.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
