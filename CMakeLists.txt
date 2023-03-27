@@ -44,8 +44,11 @@ set(NGDOC_LIST
 	section-ng-gettingstarted.tex
 	section-transports.tex
 	section-funcgen-drivers.tex
+	section-load-drivers.tex
+	section-meter-drivers.tex
 	section-scope-drivers.tex
 	section-powersupply-drivers.tex
+	section-rfgen-drivers.tex
 #	section-decodes.tex
 #	section-exports.tex
 #	section-grapheditor.tex
