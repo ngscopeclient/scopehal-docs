@@ -1,0 +1,22 @@
+\chapter{Function Generator Drivers}
+\label{sec:funcgen-drivers}
+
+This chapter describes all of the available drivers for standalone function generators.
+
+Function generators which are part of an oscilloscope are described in the \hyperref[sec:scope-drivers]{Oscilloscope
+Drivers} section.
+
+\section{Rigol}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+DG4000 series & rigol\_awg & lan & Only tested via lan transport, but USBTMC and serial are available too\\
+\thickhline
+\end{tabularx}
+
+\subsection{rigol\_awg}
+
+This driver supports all DG4000 series function / arbitrary waveform generators.
+

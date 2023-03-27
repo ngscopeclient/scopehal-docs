@@ -1,6 +1,8 @@
 \chapter{Oscilloscope Drivers}
 \label{sec:scope-drivers}
 
+This chapter describes all of the available drivers for oscilloscopes and logic analyzers.
+
 \section{Agilent}
 
 Agilent devices support a similar similar SCPI command set across most device families.
@@ -121,7 +123,7 @@ hardware.
 
 It ignores any transport provided, and is normally used with the ``null" transport.
 
-The demo instrument is intended to illustrate the usage of glscopeclient for various types of analysis and to aid in
+The demo instrument is intended to illustrate the usage of ngscopeclient for various types of analysis and to aid in
 automated testing on computers which do not have a connection to a real oscilloscope, and is not intended to accurately
 model the response or characteristics of real world scope frontends or signals.
 
@@ -148,7 +150,7 @@ Simulator & demo & null & \\
 \section{Digilent}
 
 Digilent oscilloscopes using the WaveForms SDK are all supported using the ``digilent" driver in libscopehal. This
-driver connects using the ``twinlan" transport to a \href{https://github.com/azonenberg/scopehal-waveforms-bridge}
+driver connects using the ``twinlan" transport to a \href{https://github.com/glscopeclient/scopehal-waveforms-bridge}
 {socket server} which links against the Digilent WaveForms SDK. This provides network transparency, and allows the
 Digilent bridge server to be packaged separately for distribution and only installed by users who require it.
 
@@ -259,6 +261,10 @@ DSLogic (others) & dslabs & twinlan & Not tested, but probably works\\
 \thickhline
 \end{tabularx}
 
+\section{EEVengers}
+
+TODO: document WIP ThunderScope driver
+
 \section{Enjoy Digital}
 TODO (\issue{scopehal}{79})
 
@@ -287,7 +293,7 @@ MSOX-3000T series & agilent &  \\
 \thickhline
 \end{tabularx}
 
-\section{Keysight DCA}
+\subsection{keysightdca}
 
 A driver for the Keysight/Agilent/HP DCA series of equivalent-time sampling oscilloscopes.
 
@@ -302,8 +308,9 @@ A driver for the Keysight/Agilent/HP DCA series of equivalent-time sampling osci
 \section{Pico Technologies}
 
 Pico oscilloscopes all have slightly different command sets, but are supported using the ``pico" driver in libscopehal.
-This driver connects via a TCP socket to a socket server (azonenberg/scopehal-pico-bridge) which connects to the
-appropriate instrument using Pico's binary SDK.
+This driver connects via a TCP socket to a socket server
+\href{https://github.com/glscopeclient/scopehal-pico-bridge}{scopehal-pico-bridge} which connects to the appropriate
+instrument using Pico's binary SDK.
 
 \begin{tabularx}{16cm}{llX}
 \thickhline
@@ -380,12 +387,18 @@ MSO5000 & rigol & \\
 
 \section{Rohde \& Schwarz}
 
+\subsection{rs}
+
 There is partial support for RTM3000 (and possibly others, untested) however it appears to have bitrotted.
 
-TODO (scopehal:59)
+TODO (\issue{scopehal}{59})
+
+\subsection{rs\_rto6}
+
+This driver supports the newer RTO6 family scopes (and possibly others, untested).
 
 \section{Saleae}
-TODO (scopehal:16)
+TODO (\issue{scopehal}{16})
 
 \section{Siglent}
 
@@ -468,7 +481,7 @@ LabMaster & lecroy & vicp & Untested, but should work for 4-channel setups\\
 \thickhline
 MDA & lecroy & vicp & Untested, but should work\\
 \thickhline
-SDA & lecroy & vicp & Tested on SDA 8Zi series\\
+SDA & lecroy & vicp & Tested on SDA 8Zi and 8Zi-A series\\
 \thickhline
 T3DSO & ??? & ??? & Untested\\
 \thickhline
@@ -478,7 +491,7 @@ WaveJet & ??? & ??? & Untested\\
 \thickhline
 WaveMaster & lecroy & vicp & Same hardware as SDA/DDA\\
 \thickhline
-WaveRunner & lecroy & vicp & Tested on WaveRunner Xi and 8000 series\\
+WaveRunner & lecroy & vicp & Tested on WaveRunner Xi, 8000, and 9000 series\\
 \thickhline
 WaveSurfer & lecroy & vicp & Tested on WaveSurfer 3000 series \\
 \thickhline
@@ -611,4 +624,4 @@ commands. To remove the prompts and help text, go to Utility | I/O, then under t
 \end{tabularx}
 
 \section{Xilinx}
-TODO (scopehal:40)
+TODO (\issue{scopehal}{40})

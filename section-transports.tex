@@ -1,6 +1,14 @@
 \chapter{Transports}
 \label{sec:transports}
 
+Libscopehal uses a ``transport" driver in order to pass commands and data to instruments, in order to decouple the
+specifics of LXI, USBTMC, etc. from individual instrument drivers. This section describes the supported transports and
+their usage and limitations.
+
+Not all transports are possible to use with any given driver due to hardware limitations or software/firmware quirks.
+For details on which transport(s) are usable with a particular instrument, consult the documentation for that device's
+driver.
+
 \section{gpib}
 
 SCPI over GPIB.
@@ -35,7 +43,8 @@ SCPI over LXI VXI-11.
 
 Note that due to the remote procedure call paradigm used by LXI, it is not possible to batch multiple outstanding
 requests to an instrument when using this transport. Some instruments may experience reduced performance when using LXI
-as the transport.
+as the transport. Drivers which require command batching may not be able to use LXI VXI-11 as the transport even if the
+instrument supports it.
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
@@ -46,8 +55,9 @@ glscopeclient myscope:tektronix:lxi:192.0.2.9
 
 This transport does nothing, and is used as a placeholder for development simulations or non-SCPI instruments.
 
-NOTE: Due to limitations of the current command line argument parsing code, an argument must be provided to all transports,
-including this one. Since the argument is ignored, any non-empty string may be used.
+NOTE: Due to limitations of the current command line argument parsing code, an argument must be provided to all
+transports, including this one, when connecting via the command line. Since the argument is ignored, any non-empty
+string may be used.
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
