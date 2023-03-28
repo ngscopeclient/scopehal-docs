@@ -42,6 +42,7 @@ set(NGDOC_LIST
 	section-ng-revision.tex
 	section-ng-legal.tex
 	section-ng-gettingstarted.tex
+	section-ng-mainwindow.tex
 	section-transports.tex
 	section-funcgen-drivers.tex
 	section-load-drivers.tex
@@ -49,12 +50,11 @@ set(NGDOC_LIST
 	section-scope-drivers.tex
 	section-powersupply-drivers.tex
 	section-rfgen-drivers.tex
-#	section-decodes.tex
+	section-decodes.tex
 #	section-exports.tex
 #	section-grapheditor.tex
 #	section-history.tex
 #	section-internals.tex
-#	section-mainwindow.tex
 #	section-protoanalyzer.tex
 #	section-timeline.tex
 #	section-triggers.tex
