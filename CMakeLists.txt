@@ -43,6 +43,7 @@ set(NGDOC_LIST
 	section-ng-legal.tex
 	section-ng-gettingstarted.tex
 	section-ng-mainwindow.tex
+	section-ng-waveformgroups.tex
 	section-transports.tex
 	section-funcgen-drivers.tex
 	section-load-drivers.tex
@@ -58,7 +59,6 @@ set(NGDOC_LIST
 #	section-protoanalyzer.tex
 #	section-timeline.tex
 #	section-triggers.tex
-#	section-waveformgroups.tex
 #	section-waveformviews.tex
 )
 # Save ourselves from having to manually paste this in front of every filename
