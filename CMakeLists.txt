@@ -44,6 +44,7 @@ set(NGDOC_LIST
 	section-ng-gettingstarted.tex
 	section-ng-mainwindow.tex
 	section-ng-waveformgroups.tex
+	section-ng-waveformviews.tex
 	section-transports.tex
 	section-funcgen-drivers.tex
 	section-load-drivers.tex
@@ -51,6 +52,7 @@ set(NGDOC_LIST
 	section-scope-drivers.tex
 	section-powersupply-drivers.tex
 	section-rfgen-drivers.tex
+	section-triggers.tex
 	section-decodes.tex
 #	section-exports.tex
 #	section-grapheditor.tex
@@ -58,8 +60,6 @@ set(NGDOC_LIST
 #	section-internals.tex
 #	section-protoanalyzer.tex
 #	section-timeline.tex
-#	section-triggers.tex
-#	section-waveformviews.tex
 )
 # Save ourselves from having to manually paste this in front of every filename
 list(TRANSFORM NGDOC_LIST PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
