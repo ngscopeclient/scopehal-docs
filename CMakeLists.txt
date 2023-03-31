@@ -46,6 +46,7 @@ set(NGDOC_LIST
 	section-ng-waveformgroups.tex
 	section-ng-waveformviews.tex
 	section-ng-history.tex
+	section-ng-grapheditor.tex
 	section-transports.tex
 	section-funcgen-drivers.tex
 	section-load-drivers.tex
@@ -55,8 +56,7 @@ set(NGDOC_LIST
 	section-rfgen-drivers.tex
 	section-triggers.tex
 	section-decodes.tex
-#	section-exports.tex
-#	section-grapheditor.tex
+
 #	section-internals.tex
 #	section-protoanalyzer.tex
 #	section-timeline.tex
