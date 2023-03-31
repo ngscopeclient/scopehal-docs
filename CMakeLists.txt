@@ -45,6 +45,7 @@ set(NGDOC_LIST
 	section-ng-mainwindow.tex
 	section-ng-waveformgroups.tex
 	section-ng-waveformviews.tex
+	section-ng-history.tex
 	section-transports.tex
 	section-funcgen-drivers.tex
 	section-load-drivers.tex
@@ -56,7 +57,6 @@ set(NGDOC_LIST
 	section-decodes.tex
 #	section-exports.tex
 #	section-grapheditor.tex
-#	section-history.tex
 #	section-internals.tex
 #	section-protoanalyzer.tex
 #	section-timeline.tex
