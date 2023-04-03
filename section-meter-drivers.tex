@@ -1,0 +1,21 @@
+\chapter{Multimeter Drivers}
+\label{sec:meter-drivers}
+
+This chapter describes all of the available drivers for multimeters.
+
+Multimeters which are part of an oscilloscope are described in the \hyperref[sec:scope-drivers]{Oscilloscope
+Drivers} section.
+
+\section{Rohde \& Schwarz}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+HMC8012 & rs\_hmc8012 & lan & Only tested via lan transport, but USBTMC and serial are available too\\
+\thickhline
+\end{tabularx}
+
+\subsection{rs\_hmc8012}
+
+This driver supports the HMC8012 multimeter, which is the only device in the family.

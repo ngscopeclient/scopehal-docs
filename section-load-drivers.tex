@@ -1,0 +1,18 @@
+\chapter{Electronic Load Drivers}
+\label{sec:load-drivers}
+
+This chapter describes all of the available drivers for electronic loads.
+
+\section{Siglent}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+DSL1000X/X-E series & siglent\_load & lan & Only tested via lan transport, but USBTMC and serial are available too\\
+\thickhline
+\end{tabularx}
+
+\subsection{siglent\_load}
+
+This driver supports all SDL1000 family loads (SDL1020X-E, SDL1020X, SDL1030X-E, SDL1030X).

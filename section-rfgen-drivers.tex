@@ -1,0 +1,22 @@
+\chapter{RF Generator Drivers}
+\label{sec:rfgen-drivers}
+
+This chapter describes all of the available drivers for RF synthesizers, vector signal generators, and similar devices.
+
+\section{Siglent}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+SSG3000X & Unknown & Unknown & May be compatible with the siglent\_ssg driver, but not tested\\
+SSG5000A & Unknown & Unknown & May be compatible with the siglent\_ssg driver, but not tested\\
+SSG5000X & siglent\_ssg & lan & Only tested via lan transport, but USBTMC and serial are available too\\
+\thickhline
+\end{tabularx}
+
+\subsection{siglent\_ssg}
+
+This driver was developed on a SSG5060X-V and should support the other models in the SSG5000X family (SSG5040X,
+SSG5060X, and SSG5040X-V). It is unknown whether it will function at all with the SSG3000X or 5000A families in its
+current state; additional development will likely be needed for full support.
