@@ -1432,6 +1432,45 @@ TODO: re-histogram any time we break squelch?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Full Width at Half Maximum}
+\label{filter:FullWidthHalfMaximum}
+
+Calculates the full width at the half of maximum value of all peaks in a signal.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/full-width-half-max.png}
+\caption{Example of full width at half maximum of a Sinewave input waveform. }
+\label{filter_cdrpll}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Peak Threshold & Float & Pulses with peak values below this threshold are not considered\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs two analog waveforms. One shows the value of full width at half maximum value of all the peaks in the signal. 
+Another output waveform shows the amplitude of all the corresponding peaks.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Glitch Removal}
 
 This filter removes `glitches' from a digital waveform. A Minimum Width is specified, and any `pulse' (period during which the waveform has the same value) shorter than that pulse is ignored, the previous pulse continuing. Common use is to remove glitches from a $f$ Hz signal by filtering pulses shorter than $\frac{1}{1.1f}$ s.
