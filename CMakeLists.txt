@@ -64,6 +64,8 @@ set(NGDOC_LIST
 # Save ourselves from having to manually paste this in front of every filename
 list(TRANSFORM NGDOC_LIST PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
 
+# ngscopeclient manual depends on glscopeclient manual as a hack to avoid parallel building of both
+# which can cause race conditions when building the .aux files
 add_custom_command(
 	OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/ngscopeclient-manual.pdf
 	COMMAND pdflatex -halt-on-error -interaction batchmode
@@ -72,7 +74,7 @@ add_custom_command(
 	COMMAND pdflatex -halt-on-error -interaction batchmode
 		--output-directory ${CMAKE_CURRENT_BINARY_DIR}
 		${CMAKE_CURRENT_SOURCE_DIR}/ngscopeclient-manual.tex > ${CMAKE_CURRENT_BINARY_DIR}/run2.log 2>&1
-	DEPENDS ${NGDOC_LIST}
+	DEPENDS ${NGDOC_LIST} ${CMAKE_CURRENT_BINARY_DIR}/glscopeclient-manual.pdf
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	VERBATIM)
 
