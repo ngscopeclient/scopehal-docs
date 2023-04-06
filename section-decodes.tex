@@ -114,11 +114,11 @@ a 128-bit data block.
 \thickhline
 \textbf{Type} & \textbf{Description} & \textbf{Color} & \textbf{Format} \\
 \thickhline
-Ordered set & Block with type 2'b10 & \cellcolor{control}\textcolor{white}{Control} & \%016x \\
+Ordered set & Block with type 2'b10 & \cellcolor{control}\textcolor{white}{Control} & \%032x \\
 \thickhline
-Data & Block with type 2'b01 & \cellcolor{data}\textcolor{white}{Data} & \%016x \\
+Data & Block with type 2'b01 & \cellcolor{data}\textcolor{white}{Data} & \%032x \\
 \thickhline
-Error & Block with type 2'b00 or 2'b11 & \cellcolor{error}\textcolor{white}{Error} & \%016x \\
+Error & Block with type 2'b00 or 2'b11 & \cellcolor{error}\textcolor{white}{Error} & \%032x \\
 \thickhline
 \end{tabularx}
 
@@ -240,9 +240,9 @@ data.
 \thickhline
 \textbf{Type} & \textbf{Description} & \textbf{Color} & \textbf{Format} \\
 \thickhline
-Control & Control codes & \cellcolor{control}\textcolor{white}{Control} & K\%d.\%d+ \\
+Control & Control codes & \cellcolor{control}\textcolor{white}{Control} & K\%d.\%d+ or K\%02x\\
 \thickhline
-Data & Upper layer protocol data & \cellcolor{data}\textcolor{white}{Data} & D\%d.\%d+ \\
+Data & Upper layer protocol data & \cellcolor{data}\textcolor{white}{Data} & D\%d.\%d+ or \%02x\\
 \thickhline
 Error & Malformed data & \cellcolor{error}\textcolor{white}{Error} & ERROR \\
 \thickhline
@@ -352,8 +352,7 @@ at zero volts.
 \section{AC RMS}
 \label{filter:accouple}
 
-Measures the Root Mean Square value of the waveform after removing any DC offset. This measurement can be made averaged
-across the entire waveform, or on each cycle in the waveform.
+Measures the Root Mean Square value of the waveform after removing any DC offset.
 
 \begin{figure}[h]
 \centering
@@ -373,32 +372,70 @@ din & Analog & Input waveform \\
 
 \subsection{Parameters}
 
-\begin{tabularx}{16cm}{llX}
-\thickhline
-\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
-\thickhline
-Measurement Type & Enum &
-	\textbf{Average}: Measure the average AC RMS value\newline
-	\textbf{Per Cycle}: Measure the per cycle AC RMS value\\
-\thickhline
-\end{tabularx}
+This filter takes no parameters.
 
 \subsection{Output Signal}
 
-This filter produces an output waveform only for the per cycle measurement type. This displays the AC RMS value of every cycle.
+This filter has two output streams.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Stream name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+trend & Sparse analog & One sample per cycle of the input waveform containing the RMS value across that cycle \\
+\thinhline
+avg & Scalar & RMS value across the entire waveform \\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Add}
 \label{filter:add}
 
-This filter adds two inputs. Either input may be a vector (waveform) or scalar. If both inputs are vectors, they must
-have the same timebase.
+This filter adds two inputs. Either input may be a vector (waveform) or scalar.
+
+%\begin{figure}[h]
+%\centering
+%\includegraphics[width=16cm]{images/filters/ac-rms.png}
+%\caption{Example of an AC RMS Measurement of a Sinewave with 1V peak voltage}
+%\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+a & Analog waveform or scalar & First input waveform\\
+\thinhline
+b & Analog waveform or scalar & Second input waveform\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+If both inputs are vectors, this filter outputs a waveform containing the pairwise sum; i.e. sample $i$ of the output
+is $a[i] + b[i]$. No resampling is performed on the inputs so incorrect or unexpected results may occur if they do not
+share the same timebase.
+
+If both inputs are scalars, this filter outputs their sum.
+
+If one input is a vector and the other is a scalar, this filter outputs the sum  of the scalar and each element of the
+waveform, i.e. sample $i$ of the output is $a + b[i]$ for the scalar + vector case and $a[i] + b$ for the vector +
+scalar.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Area Under Curve}
 \label{filter:AreaUnderCurve}
+
+TODO: needs to be updated when we port to scalar interface
 
 Measures the area under the curve by integrating the data points. By default, area measured above ground is considered
 as positive and area measured below the ground is considered negative. The negative area can also be considered as positive
@@ -530,6 +567,8 @@ This filter outputs an analog waveform with the same timebase as the input, one 
 \section{Base}
 \label{filter:base}
 
+TODO: needs to be updated when we port to scalar interface
+
 Calculates the base (logical zero level) of each cycle in a digital waveform.
 
 It is most commonly used as an input to statistics, to view the average base of the entire waveform. At times, however,
@@ -567,6 +606,32 @@ the average value of the zero level for the middle 50\% of the low period.
 \section{BIN Import}
 
 Loads an Agilent / Keysight / Rigol binary waveform file.
+
+%\begin{figure}[h]
+%\centering
+%\includegraphics[width=16cm]{images/filters/autocorrelation.png}
+%\caption{Example of autocorrelation on a serial data stream}
+%\label{filter_accouple}
+%\end{figure}
+
+\subsection{Inputs}
+
+This filter takes no inputs.
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+BIN File & Filename & Path to the file being imported\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs a uniformly sampled analog waveform for each channel in the file. The number of output streams is
+variable based on how many channels are present in the file.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -725,10 +790,10 @@ output):
 \end{itemize}
 
 Note that only the single S-parameter path provided is considered, and reflections elsewhere in the system are not
-modeled. As a result, multiple applications of this filter to emulate a large circuit piecewise (for example, a
-cable followed by a fixture) may give inaccurate results since reflections between the two networks are not considered.
-In this situation, it is preferable to use a circuit simulator to calculate combined S-parameters of the entire circuit
-and then perform the channel emulation once.
+modeled. As a result, multiple applications of this filter to emulate a large circuit piecewise (for example, a cable
+followed by a fixture) may give inaccurate results since reflections between the two networks are not considered. In
+this situation, it is preferable to use a circuit simulator or the S-Parameter Cascade filter to calculate combined
+S-parameters of the entire circuit and then perform the channel emulation once.
 
 \subsection{Inputs}
 
