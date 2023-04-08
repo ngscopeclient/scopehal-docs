@@ -2126,7 +2126,14 @@ polynomials.
 \section{Pulse Width}
 \label{filter:pulsewidth}
 
-This filter measures the length of pulses and outputs that as a waveform. It auto-thresholds analog inputs at 50\%.
+This filter measures the length and amplitude of pulses and outputs that as a waveform. It auto-thresholds analog inputs at 50\%.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{images/filters/pulse-width.png}
+\caption{Example of pulse width measurement of a clipped sinewave input waveform.}
+\label{filter_pulsewidth}
+\end{figure}
 
 \subsection{Inputs}
 
@@ -2140,8 +2147,9 @@ din & Analog & Input waveform \\
 
 \subsection{Output Signal}
 
-This filter outputs an sparse analog waveform with the same timebase as the input, containing one sample per pulse with
-a duration and value equal to the length of the pulse.
+This filter outputs two output waveforms. One is a sparse analog waveform with the same timebase as the input, containing one sample per pulse with
+a duration and value equal to the length of the pulse. Other is a similar sparse analog waveform, but its values are equal to the amplitude of the pulses. In case,
+the input is uniform or sparse digital, this second output waveform is uniform or sparse digital respectively instead of analog.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
