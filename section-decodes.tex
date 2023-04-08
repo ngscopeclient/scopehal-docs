@@ -980,11 +980,63 @@ This filter outputs two streams named ``I" and ``Q" containing the I/Q waveform 
 
 This filter outputs a scalar with a constant value, which may be used as input to other filter graph blocks.
 
+\subsection{Inputs}
+
+This filter takes no inputs.
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Value & Float & The value to output\\
+\thinhline
+Unit & Enum & Data type of the constant value\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs a single scalar with a constant value.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{CSV Export}
 
 Saves waveform data to a comma-separated-value file.
+
+The Update Mode parameter specifies how and when the file is modified:
+\begin{itemize}
+\item \textbf{Append (continuous):} Every time the filter graph runs, the inputs are appended to the end of the file.
+\item \textbf{Append (manual):} When the ``Export" button in the filter properties box is clicked,
+the inputs are appended to the end of the file.
+\item \textbf{Overwrite (continuous):} Every time the filter graph runs, the input waveforms replace the current contents
+of the file.
+\item \textbf{Overwrite (manual):} When the ``Export" button in the filter properties box is clicked,
+the input waveforms replace the current contents of the file.
+\end{itemize}
+
+\subsection{Inputs}
+
+This filter takes a variable number of inputs, named ``column1", ``column2", etc, which may be of analog, digital, or
+arbitrary protocol type. 2D persistence maps are not supported.
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+File name & String & Path to the CSV file\\
+\thinhline
+Update mode & Enum & Specifies how and when to update the file)\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter stores its output to a file and has no filter graph output ports.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
