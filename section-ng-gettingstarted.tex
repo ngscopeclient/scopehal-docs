@@ -240,6 +240,8 @@ cd External/googletest
 git checkout 0c400f67fcf305869c5fb113dd296eca266c9725
 cd ../..
 ./update_glslang_sources.py
+wget https://github.com/glscopeclient/scopehal-apps/raw/master/msys2/gslang_MachineIndependent_SymbolTable_cstdint.patch
+git apply gslang_MachineIndependent_SymbolTable_cstdint.patch
 
 SOURCE_DIR=~/glslang
 BUILD_DIR=$SOURCE_DIR/build
