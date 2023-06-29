@@ -1,6 +1,8 @@
 \chapter{Oscilloscope Drivers}
 \label{sec:scope-drivers}
 
+This chapter describes all of the available drivers for oscilloscopes and logic analyzers.
+
 \section{Agilent}
 
 Agilent devices support a similar similar SCPI command set across most device families.
@@ -121,7 +123,7 @@ hardware.
 
 It ignores any transport provided, and is normally used with the ``null" transport.
 
-The demo instrument is intended to illustrate the usage of glscopeclient for various types of analysis and to aid in
+The demo instrument is intended to illustrate the usage of ngscopeclient for various types of analysis and to aid in
 automated testing on computers which do not have a connection to a real oscilloscope, and is not intended to accurately
 model the response or characteristics of real world scope frontends or signals.
 
@@ -148,7 +150,7 @@ Simulator & demo & null & \\
 \section{Digilent}
 
 Digilent oscilloscopes using the WaveForms SDK are all supported using the ``digilent" driver in libscopehal. This
-driver connects using the ``twinlan" transport to a \href{https://github.com/azonenberg/scopehal-waveforms-bridge}
+driver connects using the ``twinlan" transport to a \href{https://github.com/glscopeclient/scopehal-waveforms-bridge}
 {socket server} which links against the Digilent WaveForms SDK. This provides network transparency, and allows the
 Digilent bridge server to be packaged separately for distribution and only installed by users who require it.
 
@@ -259,6 +261,10 @@ DSLogic (others) & dslabs & twinlan & Not tested, but probably works\\
 \thickhline
 \end{tabularx}
 
+\section{EEVengers}
+
+TODO: document WIP ThunderScope driver
+
 \section{Enjoy Digital}
 TODO (\issue{scopehal}{79})
 
@@ -287,7 +293,7 @@ MSOX-3000T series & agilent &  \\
 \thickhline
 \end{tabularx}
 
-\section{Keysight DCA}
+\subsection{keysightdca}
 
 A driver for the Keysight/Agilent/HP DCA series of equivalent-time sampling oscilloscopes.
 
@@ -302,8 +308,9 @@ A driver for the Keysight/Agilent/HP DCA series of equivalent-time sampling osci
 \section{Pico Technologies}
 
 Pico oscilloscopes all have slightly different command sets, but are supported using the ``pico" driver in libscopehal.
-This driver connects via a TCP socket to a socket server (azonenberg/scopehal-pico-bridge) which connects to the
-appropriate instrument using Pico's binary SDK.
+This driver connects via a TCP socket to a socket server
+\href{https://github.com/glscopeclient/scopehal-pico-bridge}{scopehal-pico-bridge} which connects to the appropriate
+instrument using Pico's binary SDK.
 
 \begin{tabularx}{16cm}{llX}
 \thickhline
@@ -380,12 +387,18 @@ MSO5000 & rigol & \\
 
 \section{Rohde \& Schwarz}
 
+\subsection{rs}
+
 There is partial support for RTM3000 (and possibly others, untested) however it appears to have bitrotted.
 
-TODO (scopehal:59)
+TODO (\issue{scopehal}{59})
+
+\subsection{rs\_rto6}
+
+This driver supports the newer RTO6 family scopes (and possibly others, untested).
 
 \section{Saleae}
-TODO (scopehal:16)
+TODO (\issue{scopehal}{16})
 
 \section{Siglent}
 
@@ -464,11 +477,11 @@ DDA & lecroy & vicp & Tested on DDA5000A series \\
 \thickhline
 HDO & lecroy & vicp & Tested on HDO9000 series \\
 \thickhline
-LabMaster & lecroy & vicp & Untested, but should work\\
+LabMaster & lecroy & vicp & Untested, but should work for 4-channel setups\\
 \thickhline
 MDA & lecroy & vicp & Untested, but should work\\
 \thickhline
-SDA & lecroy & vicp & Tested on SDA 8Zi series\\
+SDA & lecroy & vicp & Tested on SDA 8Zi and 8Zi-A series\\
 \thickhline
 T3DSO & ??? & ??? & Untested\\
 \thickhline
@@ -476,9 +489,9 @@ WaveAce & ??? & ??? & Untested\\
 \thickhline
 WaveJet & ??? & ??? & Untested\\
 \thickhline
-WaveMaster & lecroy & vicp & Untested but should be same as SDA/DDA\\
+WaveMaster & lecroy & vicp & Same hardware as SDA/DDA\\
 \thickhline
-WaveRunner & lecroy & vicp & Tested on WaveRunner Xi and 8000 series\\
+WaveRunner & lecroy & vicp & Tested on WaveRunner Xi, 8000, and 9000 series\\
 \thickhline
 WaveSurfer & lecroy & vicp & Tested on WaveSurfer 3000 series \\
 \thickhline
@@ -535,6 +548,40 @@ Teledyne LeCroy or LeCroy oscilloscope running Windows XP or newer and the MAUI 
 \thickhline
 \end{tabularx}
 
+\subsection{lecroy\_fwp}
+
+This is a special performance-enhanced extension of the base ``lecroy" driver which takes advantage of the FastWavePort
+feature of the instrument to gain high speed access to waveform data via shared memory. Waveforms are pulled from
+shared memory when a synchronization event fires, then pushed to the client via a separate TCP socket on port 1862.
+
+On low latency LANs, typical performance increases observed with SDA 8Zi series instruments are on the order of 2x
+throughput vs using the base driver downloading waveforms via SCPI. On higher latency connections such as VPNs, the
+performance increase is likely to be even higher because the push-based model eliminates the need for polling (which
+performs increasingly poorly as latency increases).
+
+To use this driver, your instrument must have the XDEV software option installed and the
+\href{https://github.com/glscopeclient/scopehal-fwp-bridge}{scopehal-fwp-bridge} server application running. If the
+bridge or option are not detected, the driver falls back to SCPI waveform download and will behave identically to the
+base ``lecroy" driver.
+
+There are some limitations to be aware of with this driver:
+\begin{itemize}
+
+\item Maxmimum memory depth is limited to no more than 40M samples per channel, regardless of installed instrument
+memory. This is an architectural limitation of the FastWavePort API; the next generation FastMultiWavePort API eliminates
+this restriction however scopehal-fwp-bridge does not yet support it due to poor documentation.
+
+\item MSO channels are not supported, because neither FastWavePort nor FastMultiWavePort provide shared memory access to
+digital channel data. There is no known workaround for this given current instrument APIs.
+
+\item A maximum of four analog channels are supported even if the instrument actually has eight. There are no major
+technical blockers to fixing this under FastWavePort however no 8-channel instruments are available to the developers as
+of this writing, so there is no way to test potential fixes. FastMultiWavePort has a limit of four channels per instance,
+but it may be possible to instantiate multiple copies of the FastMultiWavePort block to work around this.
+
+\item Math functions F9-F12 are used by the FastWavePort blocks and cannot be used for other math functions.
+
+\end{itemize}
 
 \section{Tektronix}
 
@@ -577,4 +624,4 @@ commands. To remove the prompts and help text, go to Utility | I/O, then under t
 \end{tabularx}
 
 \section{Xilinx}
-TODO (scopehal:40)
+TODO (\issue{scopehal}{40})

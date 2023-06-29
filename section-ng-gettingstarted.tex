@@ -18,56 +18,58 @@ repository:ticket, for example \issue{scopehal-apps}{3}.
 
 \section{Host System Requirements}
 
-\emph{NOTE: This section needs to be rewritten once the Vulkan port is complete!!}
+The majority of development is performed on Linux operating systems (primarily Debian and Arch) so this is the most well
+tested platform, however Windows and Mac OS are also supported.
 
-The majority of development is performed on Linux operating systems (primarily Debian and Arch), although experimental
-Windows support is available. glscopeclient uses gtkmm as the UI toolkit. Current development mostly uses 3.24 but any
-recent 3.x version should work.
-
-Any 64-bit Intel or AMD processor should be able to run glscopeclient. If AVX2 and/or AVX512F support is present
-glscopeclient will use special optimized versions of some signal processing functions, however neither instruction set
-is required. Compiling in 32-bit mode is not supported due to the significant RAM requirements.
+Any 64-bit Intel or AMD processor, or Apple Silicon Mac, should be able to run ngscopeclient. If AVX2 and/or AVX512F
+support is present ngscopeclient will use special optimized versions of some signal processing functions, however
+neither instruction set is required. Other (non Apple Silicon) ARM64 platforms may work if a compatible GPU is
+available, but have not been tested. 32-bit platforms are not supported due to the significant RAM requirements.
 
 A mouse with scroll wheel, or touchpad with scroll gesture support, is mandatory to enable full use of the UI. We may
 explore alternative input methods for some UI elements in the future.
 
-OpenGL 4.2 or later is required, as well as several extensions:
+Any GPU with Vulkan support should be able to run ngscopeclient, however Vulkan 1.2 will deliver better performance.
+The minimum supported GPUs are:
 \begin{itemize}
-\item GL\_ARB\_arrays\_of\_arrays (or OpenGL 4.3)
-\item GL\_ARB\_compute\_shader (or OpenGL 4.3)
-\item GL\_ARB\_shader\_storage\_buffer\_object (or OpenGL 4.3)
-\item GL\_EXT\_blend\_equation\_separate
+\item AMD: GCN based (Radeon HD 7000 and newer, January 2012)
+\item Apple: all Apple Silicon devices (M1 and newer)
+\item Intel: Iris Plus 540 or HD Graphics 520 (Skylake, August 2015)
+\item NVIDIA: Maxwell architecture (GeForce GTX 700 series and newer, February 2014)
 \end{itemize}
 
-The corresponding minimum hardware requirement is an AMD Radeon HD 5000, NVIDIA GeForce GTX 6xx series discrete GPU, or
-Intel Skylake or newer integrated GPU, plus suitably up-to-date drivers. On Linux with recent Mesa, Intel integrated
-GPUs as old as Ivy Bridge may be used.
+The minimum RAM requirement to actually launch ngscopeclient is relatively small, however actual memory consumption is
+heavily dependent on workload and can easily reach into the tens of gigabytes when doing complex analysis on many
+channels with deep history.
 
-TODO: what AMD integrated/ARM GPUs started supporting GL 4.2?
+Typical RAM consumption examples:
+\begin{itemize}
+\item Default configuration with demo scope (4 channels 100K points, 10 waveforms of history, no analysis): 250 MB
+\item 4M point live streaming with 10 waveforms of history, eye pattern, 8B/10B decode, and jitter histogram: 650 MB
+\item Single 512M point waveform, no analysis or history: 2.1 GB
+\item 512M point P/N channel waveforms with CDR and eye pattern, no history: 8.3 GB
+\end{itemize}
 
-To check for necessary graphics card support on Linux:
-\begin{lstlisting}[language=sh, numbers=none]
-glxinfo | grep GL_ARB_arrays_of_arrays
-glxinfo | grep GL_ARB_compute_shader
-glxinfo | grep GL_ARB_shader_storage_buffer_object
-glxinfo | grep GL_EXT_blend_equation_separate
-glxinfo | grep "OpenGL version string"
-\end{lstlisting}
-
-The minimum RAM requirement to actually launch glscopeclient is relatively small (the default demo configuration uses
-under 512 MB) however history mode and deep captures can easily consume many GB of RAM very rapidly. We suggest 8GB as
-a reasonable minimum, with 32 or more encouraged for deep history.
+Large amounts of GPU RAM are required for working with deep waveforms, especially if you intend to perform
+complex analysis on them. Analog waveforms are stored in 32-bit floating point format internally, so a single 256
+megapoint waveform will consume 1GB of GPU memory. Intermediate results in multi-step filter pipelines require GPU
+memory as well, even if not displayed.
 
 \section{Instrument Support}
 
-glscopeclient uses the libscopehal library to communicate with oscilloscopes, so any libscopehal-compatible hardware
-should work with glscopeclient. See the \hyperref[sec:scope-drivers]{Oscilloscope Drivers} section for more details on which
-hardware is supported and how to configure specific drivers.
+ngscopeclient uses the libscopehal library to communicate with instruments, so any libscopehal-compatible hardware
+should work with ngscopeclient. See the \hyperref[sec:scope-drivers]{Oscilloscope Drivers} section for more details on
+which hardware is supported and how to configure specific drivers.
 
 \section{Compilation}
 
-glscopeclient can be compiled on Linux, macOS, and Windows, but the specific steps that have to be taken differ quite a
+ngscopeclient can be compiled on Linux, macOS, and Windows, but the specific steps that have to be taken differ quite a
 lot between these the three.
+
+TODO: rewrite and simplify this section once glscopeclient is deprecated and we've removed all remaining vestiges of
+GTK dependencies
+
+TODO: update URLs for most recent tested Vulkan SDK revision
 
 \subsection{Linux}
 \begin{enumerate}
@@ -113,10 +115,10 @@ sudo make install
 cd ~
 mkdir vulkan
 cd vulkan
-wget https://sdk.lunarg.com/sdk/download/1.3.250.0/linux/vulkansdk-linux-x86_64-1.3.250.0.tar.gz
-tar xf vulkansdk-linux-x86_64-1.3.250.0.tar.gz
-rm -f vulkansdk-linux-x86_64-1.3.250.0.tar.gz
-export VULKAN_SDK=~/vulkan/1.3.250.0/x86_64
+wget https://sdk.lunarg.com/sdk/download/1.3.224.1/linux/vulkansdk-linux-x86_64-1.3.224.1.tar.gz
+tar xf vulkansdk-linux-x86_64-1.3.224.1.tar.gz
+rm -f vulkansdk-linux-x86_64-1.3.224.1.tar.gz
+export VULKAN_SDK=~/vulkan/1.3.224.1/x86_64
 sudo cp -r $VULKAN_SDK/include/vulkan/ /usr/local/include/
 sudo cp -P $VULKAN_SDK/lib/libvulkan.so* /usr/local/lib/
 sudo cp $VULKAN_SDK/lib/libVkLayer_*.so /usr/local/lib/
@@ -128,13 +130,13 @@ sudo ldconfig
 \item Build scopehal and scopehal-apps:
 
 \begin{lstlisting}[language=sh, numbers=none]
-export VULKAN_SDK=~/vulkan/1.3.250.0/x86_64
+export VULKAN_SDK=~/vulkan/1.3.224.1/x86_64
 export PATH=$VULKAN_SDK/bin:$PATH
 export LD_LIBRARY_PATH=$VULKAN_SDK/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 export VK_LAYER_PATH=$VULKAN_SDK/etc/vulkan/explicit_layer.d
 
 cd ~
-git clone --recursive https://github.com/glscopeclient/scopehal-apps.git
+git clone -{}-recursive https://github.com/ngscopeclient/scopehal-apps.git
 cd scopehal-apps
 mkdir build
 cd build
@@ -171,10 +173,8 @@ Download and install the Vulkan SDK from \href{https://sdk.lunarg.com/sdk/downlo
 \begin{lstlisting}[language=sh, numbers=none]
 export VULKAN_SDK=~/VulkanSDK/1.3.231.1/macOS
 export PATH=${PATH}:${VULKAN_SDK}/bin:/opt/homebrew/bin
-export VK_ICD_FILENAMES=$VULKAN_SDK/share/vulkan/icd.d/MoltenVK_icd.json
-export VK_LAYER_PATH=$VULKAN_SDK/etc/vulkan/explicit_layer.d
 cd ~
-git clone --recursive https://github.com/glscopeclient/scopehal-apps.git
+git clone -{}-recursive https://github.com/ngscopeclient/scopehal-apps.git
 cd scopehal-apps
 mkdir build
 cd build
@@ -192,7 +192,7 @@ The binaries can be found in the build directory, such as ngscopeclient in \$HOM
 \subsection{Windows}
 
 On Windows, we make use of the MSYS2 development environment, which gives us access to the MingGW-w64 toolchain.
-Since this toolchain allows glscopeclient to be compiled as a native Windows application, the project might be run
+Since this toolchain allows ngscopeclient to be compiled as a native Windows application, the project might be run
 outside of MSYS2.
 
 \subsubsection{Installing from the package manager}
@@ -226,15 +226,15 @@ https://wixtoolset.org/docs/wix3/
 pacman -S git wget mingw-w64-x86_64-cmake mingw-w64-x86_64-toolchain
 \end{lstlisting}
 
-\item Build glslang tags/sdk-1.3.250.0:
+\item Build glslang tags/sdk-1.3.224.1:
 
 Launch MSYS2 or MINGW64 as Administrator only for this step (it is mandatory to do the install in default path C:\\VulkanSDK ...)
 \begin{lstlisting}[language=sh, numbers=none]
-# Windows mingw64 glslang build (as it is not fully integrated in VulkanSDK-1.3.250.0 for Windows and built with Visual Studio 2019)
+# Windows mingw64 glslang build (as it is not fully integrated in VulkanSDK-1.3.224.1 for Windows and built with Visual Studio 2017)
 cd ~
 git clone https://github.com/KhronosGroup/glslang.git
 cd glslang
-git checkout tags/sdk-1.3.250.0
+git checkout tags/sdk-1.3.224.1
 git clone https://github.com/google/googletest.git External/googletest
 cd External/googletest
 git checkout 0c400f67fcf305869c5fb113dd296eca266c9725
@@ -245,8 +245,8 @@ SOURCE_DIR=~/glslang
 BUILD_DIR=$SOURCE_DIR/build
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
-cmake -DCMAKE_BUILD_TYPE=Release -G"Ninja" $SOURCE_DIR -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
-cmake --build . --config Release --target install
+cmake -DCMAKE_BUILD_TYPE=Release -G"MinGW Makefiles" $SOURCE_DIR -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
+cmake -{}-build . -{}-config Release -{}-target install
 \end{lstlisting}
 
 \item Install Vulkan SDK:
@@ -254,37 +254,37 @@ cmake --build . --config Release --target install
 Launch MSYS2 or MINGW64 as Administrator only for this step (it is mandatory to do the install in default path C:\\VulkanSDK ...)
 \begin{lstlisting}[language=sh, numbers=none]
 cd ~
-wget https://sdk.lunarg.com/sdk/download/1.3.250.0/windows/VulkanSDK-1.3.250.0-Installer.exe
-./VulkanSDK-1.3.250.0-Installer.exe --accept-licenses --default-answer --confirm-command install
-rm -f VulkanSDK-1.3.250.0-Installer.exe
+wget https://sdk.lunarg.com/sdk/download/1.3.224.1/windows/VulkanSDK-1.3.224.1-Installer.exe
+./VulkanSDK-1.3.224.1-Installer.exe -{}-accept-licenses -{}-default-answer -{}-confirm-command install
+rm -f VulkanSDK-1.3.224.1-Installer.exe
 \end{lstlisting}
 
 \item Check out the code
 
 \begin{lstlisting}[language=sh, numbers=none]
 cd ~
-git clone --recursive https://github.com/glscopeclient/scopehal-apps
+git clone -{}-recursive https://github.com/ngscopeclient/scopehal-apps
 \end{lstlisting}
 
 \item Execute makepkg-mingw in subdir MSYS2:
 
 \begin{lstlisting}[language=sh, numbers=none]
 cd ~/scopehal-apps/msys2
-export VK_SDK_PATH=/c/VulkanSDK/1.3.250.0
+export VK_SDK_PATH=/c/VulkanSDK/1.3.224.1
 export PATH=$VK_SDK_PATH/Bin:$PATH
 export VULKAN_SDK=$VK_SDK_PATH
 export GLSLANG_BUILD_PATH=~/glslang/build/install
 
-MINGW_ARCH=mingw64 makepkg-mingw --noconfirm --noprogressbar -sCLf
+MINGW_ARCH=mingw64 makepkg-mingw -{}-noconfirm -{}-noprogressbar -sCLf
 \end{lstlisting}
 
 The unit tests will not be run as part of this build - if you would like to run them, you will need to provide catch2
 (https://github.com/catchorg/Catch2), and remove the -DBUILD\_TESTING=OFF flag from the PKGBUILD recipe in subdir
 msys2.
 
-\item Installing, copying binaries and running glscopeclient.
+\item Installing, copying binaries and running ngscopeclient.
 
-Since glscopeclient is built using the MinGW toolchain, it depends on a rather large number of dynamic libraries.
+Since ngscopeclient is built using the MinGW toolchain, it depends on a rather large number of dynamic libraries.
 The recommended procedure is to install the package generated by makepkg-mingw on a MinGW64 shell:
 
 \begin{lstlisting}[language=sh, numbers=none]
@@ -298,30 +298,34 @@ instead of the pinned version available from MSYS2 repositories.
 
 The \lstinline{*.zst} package includes metadata about the dependencies.
 Therefore, when installed through \lstinline{pacman}, those will be installed automatically.
-However, some users might want to use glscopeclient outside of MSYS2.
+However, some users might want to use ngscopeclient outside of MSYS2.
 In those cases, it needs to be installed first, and then a tarball/zipfile can be created by collecting all the dependencies.
 This last approach is not officially supported yet.
 
 \end{enumerate}
 
-\section{Running glscopeclient}
+\section{Running ngscopeclient}
 
-When running glscopeclient with no arguments, an empty session (Fig. \ref{empty-window}) is created. To perform useful
+When running ngscopeclient with no arguments, an empty session (Fig. \ref{empty-window}) is created. To perform useful
 work, you can:
 \begin{itemize}
-\item Open a saved session (\menustyle{File | Open})
+\item Open a saved session and reconnect to the instruments (\menustyle{File | Open Online})
+\item Open a saved session without reconnecting to the instruments (\menustyle{File | Open Offline})
 \item Open a recently used session (\menustyle{File | Recent Files})
 \item Import waveforms from a third party file format(\menustyle{Add | Import})
-\item Connect to an instrument (\menustyle{Add | Oscilloscope}, \menustyle{Add | Multimeter})
+\item Connect to an instrument (\menustyle{Add | Oscilloscope}, \menustyle{Add | Multimeter}, etc.)
 \item Generate a synthetic waveform (\menustyle{Add | Generate})
 \end{itemize}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=10cm]{images/empty-window.png}
-\caption{Empty glscopeclient session}
+	\includegraphics[width=12cm]{ng-images/empty-window.png}
+\caption{Empty ngscopeclient session}
 \label{empty-window}
 \end{figure}
+
+% TODO: add this section once these are implemented
+\begin{comment}
 
 \subsection{Configuration arguments}
 
@@ -329,54 +333,58 @@ Most of these arguments are intended for developers, but they can help troublesh
 
 \begin{itemize}
 
-\item \texttt{--noavx2}\\
+\item \texttt{-{}-noavx2}\\
 Do not use AVX2 vector optimizations even if the CPU supports it.
 
-\item \texttt{--noavx512f}\\
+\item \texttt{-{}-noavx512f}\\
 Do not use AVX512F vector optimizations even if the CPU supports it.
 
-\item \texttt{--noglint64}\\
+\item \texttt{-{}-noglint64}\\
 Do not use \texttt{GL\_ARB\_gpu\_shader\_int64} even if the GPU supports it.
 
-\item \texttt{--nogpufilter}\\
+\item \texttt{-{}-nogpufilter}\\
 Do not use Vulkan (GPU accelerated) implementations of filter blocks, revert to software fallback.
 
 \end{itemize}
 
+\end{comment}
+
 \subsection{Console verbosity arguments}
 
-glscopeclient takes standard liblogtools arguments for controlling console debug verbosity.
+ngscopeclient takes standard liblogtools arguments for controlling console debug verbosity.
 
-If no verbosity level is specified, the default is ``notice" (3). (We suggest using \texttt{--debug} for routine use
+If no verbosity level is specified, the default is ``notice" (3). (We suggest using \texttt{-{}-debug} for routine use
 until the v1.0 release to aid in troubleshooting.)
 
 \begin{itemize}
 
-\item \texttt{--debug}\\
+\item \texttt{-{}-debug}\\
 Sets the verbosity level to ``debug" (5).
 
-\item \texttt{-l [file]}, \texttt{--logfile [file]}\\
+\item \texttt{-l [file]}, \texttt{-{}-logfile [file]}\\
 Writes a copy of all log messages to \texttt{file}. This is preferred over simply redirecting output with pipes, as
 console escape sequences are stripped from the file log output.
 
-\item \texttt{-L [file]}, \texttt{--logfile-lines [file]}\\
-Same as \texttt{--logfile} except line buffering is turned on.
+\item \texttt{-L [file]}, \texttt{-{}-logfile-lines [file]}\\
+Same as \texttt{-{}-logfile} except line buffering is turned on.
 
-\item \texttt{-q}, \texttt{--quiet}\\
+\item \texttt{-q}, \texttt{-{}-quiet}\\
 Reduces the verbosity level by one. Can be specified more than once to lower verbosity by several steps.
 
-\item \texttt{--trace [class]}, \texttt{--trace [class::function]} \\
+\item \texttt{-{}-trace [class]}, \texttt{-{}-trace [class::function]} \\
 Enables extra debug output from the class \texttt{class} or the function \texttt{class::function}. Has no effect unless
-\texttt{--debug} is also specified.
+\texttt{-{}-debug} is also specified.
 
-\item \texttt{--stdout-only}\\
+\item \texttt{-{}-stdout-only}\\
 Sends all logging output to stdout. By default, error (level 1) and warning (level 2) messages go to stderr.
 
-\item \texttt{--verbose}\\
+\item \texttt{-{}-verbose}\\
 Sets the verbosity level to ``verbose" (4).
 
 \end{itemize}
 
+% TODO: add this section once these are implemented
+\begin{comment}
 \subsection{File arguments}
 \label{import}
 
@@ -410,7 +418,7 @@ timestamp column is ignored; headers in other columns are used as channel names 
 The first column of the CSV must contain sample timestamps, in seconds. Scientific notation is supported. Timestamps
 must be monotonic (each row must have a timestamp strictly greater than that of the previous row).
 
-glscopeclient uses a heuristic to detect uniformly sampled waveforms, which enabled certain optimizations for display
+ngscopeclient uses a heuristic to detect uniformly sampled waveforms, which enabled certain optimizations for display
 and signal processing. If the standard deviation of intervals between samples is less than 1\% of the average sample
 interval, the waveform is assumed to be uniformly sampled and timestamps are rounded to the nearest multiple of the
 average interval. If the deviation is greater, the waveform is assumed to be sparsely sampled and timestamps are not
@@ -432,15 +440,15 @@ features of the .wfm file format yet. If you have trouble importing some .wfm fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\item \texttt{--nodata}\\
+\item \texttt{-{}-nodata}\\
 When loading a .scopesession file, load settings only and not saved waveform data.
 
-\item \texttt{--reconnect}\\
+\item \texttt{-{}-reconnect}\\
 When loading a .scopesession file, reconnect to the instrument and resume remote control. Current instrument settings
 are overwritten with the configuration from the saved session.
 
-\item \texttt{--retrigger}\\
-When loading a .scopesession file, arm the trigger immediately. has no effect unless \texttt{--reconnect} is also
+\item \texttt{-{}-retrigger}\\
+When loading a .scopesession file, arm the trigger immediately. has no effect unless \texttt{-{}-reconnect} is also
 specified.
 
 \end{itemize}
@@ -449,7 +457,7 @@ specified.
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
-./glscopeclient --debug \
+./ngscopeclient -{}-debug \
 	mylecroy:lecroy:vicp:myscope.example.com:1234 \
 	myrigol:rigol:lan:rigol.example.com
 \end{lstlisting}
@@ -473,23 +481,4 @@ scopes from the same vendor will use the same command set or driver!
 typically a hostname:port combination, TTY device path, or similar.
 \end{itemize}
 
-\section{Design Philosophy}
-
-glscopeclient's UI is heavily mouse driven and context based. Space used by always-visible buttons, sliders, etc is
-kept to a minimum in order to keep as much screen real estate as possible usable for waveform display. Additional
-controls are displayed in menus or pop-up dialogs, then hidden as soon as they are not needed.
-
-Most UI elements can be interacted with by left clicking (select), left dragging (move), using the scroll wheel (zoom),
-double clicking (open properties dialog), or right clicking (context menu).
-
-If you have a multi-button gaming mouse, button 8 stops the trigger and button 9 starts. These bindings are not
-currently configurable.
-
-Most text fields allow SI prefixes for scaling values (mV, us, GHz, etc).
-
-\section{Troubleshooting}
-
-\subsection{Corrupted or no graphical output in waveform areas}
-
-Some users have reported problems with libglvnd under Linux. Changing the CMP0072 declaration in
-glscopeclient/CMakeLists.txt from NEW to OLD may fix it.
+\end{comment}
