@@ -1,0 +1,28 @@
+\chapter{VNA Drivers}
+\label{sec:load-drivers}
+
+This chapter describes all of the available drivers for vector network analyzers.
+
+\section{Copper Mountain}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+Planar & coppermt & lan & Not tested, but docs say same command set \\
+S5xxx  & coppermt & lan & Tested on S5180B \\
+S7530 & coppermt & lan & Not tested, but docs say same command set \\
+SC50xx & coppermt & lan & Not tested, but docs say same command set \\
+C1xxx & coppermt & lan & Not tested, but docs say same command set \\
+C2xxx & coppermt & lan & Not tested, but docs say same command set \\
+C4xxx & coppermt & lan & Not tested, but docs say same command set \\
+M5xxx & coppermt & lan & Not tested, but docs say same command set \\
+\thickhline
+\end{tabularx}
+
+\subsection{coppermt}
+
+This driver supports the S2VNA and S4VNA software from Copper Mountain.
+
+As of this writing, only 2-port VNAs are supported. 4-port VNAs will probably work using only the first two ports,
+but this has not been tested.
