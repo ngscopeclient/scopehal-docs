@@ -44,3 +44,12 @@ SPD3303X series & siglent\_spd & lan & Tested with SPD3303X-E\\
 \subsection{siglent\_spd}
 
 Supported models should include SPD3303X, SPD3303X-E.
+
+NOTE: Channel 3 of the SPD3303x series does not support software voltage/current adjustment. It has a fixed current
+limit of 3.2A, and output voltage selectable to 2.5, 3.3, or 5V via a mechanical switch. While channel 3 can be turned
+on and off under software control, there is no readback capability whatsoever for channel 3 in the SCPI API.
+
+As a result - regardless of actual hardware state - the driver will report channel 3 as being in constant voltage mode.
+Additionally, the driver will report channel 3 as being off until it is turned on by software. Once the output has been
+turned on, the driver will track the state and report a correct on/off state as long as no front panel control buttons
+are touched.
