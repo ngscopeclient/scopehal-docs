@@ -1,5 +1,5 @@
 \chapter{VNA Drivers}
-\label{sec:load-drivers}
+\label{sec:vna-drivers}
 
 This chapter describes all of the available drivers for vector network analyzers.
 
@@ -26,3 +26,19 @@ This driver supports the S2VNA and S4VNA software from Copper Mountain.
 
 As of this writing, only 2-port VNAs are supported. 4-port VNAs will probably work using only the first two ports,
 but this has not been tested.
+
+\section{Pico Technology}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+PicoVNA 106 & picovna & lan & \\
+PicoVNA 108 & picovna & lan & \\
+\thickhline
+\end{tabularx}
+
+\subsection{picovna}
+
+This driver supports the PicoVNA 5 software from Pico Technology. The older PicoVNA 3 software does not provides a SCPI
+interface and is not compatible with this driver.
