@@ -48,6 +48,7 @@ set(NGDOC_LIST
 	section-ng-history.tex
 	section-ng-grapheditor.tex
 	section-transports.tex
+	section-bert-drivers.tex
 	section-funcgen-drivers.tex
 	section-load-drivers.tex
 	section-meter-drivers.tex

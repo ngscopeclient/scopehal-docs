@@ -1,0 +1,23 @@
+\chapter{BERT Drivers}
+\label{sec:bert-drivers}
+
+This chapter describes all of the available drivers for bit error rate testers (BERTs)
+
+\section{MultiLANE}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+ML4039 & mlbert & lan & Use \href{https://github.com/glscopeclient/scopehal-mlbert-bridge}{scopehal-mlbert-bridge} \\
+\thickhline
+\end{tabularx}
+
+\subsection{mlbert}
+
+This driver is intended to connect via the
+\href{https://github.com/glscopeclient/scopehal-mlbert-bridge}{scopehal-mlbert-bridge} server for network transparency
+and does not directly link to the MultiLANE SDK or talk directly to the instrument. The bridge requires a Windows PC
+since MultiLANE's SDK is Windows only, however the libscopehal clientside driver can run on any supported OS.
+
+It was developed using a ML4039 but may work with other similar models as well.
