@@ -123,7 +123,8 @@ sudo cp -r $VULKAN_SDK/include/vulkan/ /usr/local/include/
 sudo cp -P $VULKAN_SDK/lib/libvulkan.so* /usr/local/lib/
 sudo cp $VULKAN_SDK/lib/libVkLayer_*.so /usr/local/lib/
 sudo mkdir -p /usr/local/share/vulkan/explicit_layer.d
-sudo cp $VULKAN_SDK/etc/vulkan/explicit_layer.d/VkLayer_*.json /usr/local/share/vulkan/explicit_layer.d
+sudo cp $VULKAN_SDK/etc/vulkan/explicit_layer.d/VkLayer_*.json \
+	/usr/local/share/vulkan/explicit_layer.d
 sudo ldconfig
 \end{lstlisting}
 
@@ -136,7 +137,7 @@ export LD_LIBRARY_PATH=$VULKAN_SDK/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 export VK_LAYER_PATH=$VULKAN_SDK/etc/vulkan/explicit_layer.d
 
 cd ~
-git clone -{}-recursive https://github.com/glscopeclient/scopehal-apps.git
+git clone --recursive https://github.com/glscopeclient/scopehal-apps.git
 cd scopehal-apps
 mkdir build
 cd build
@@ -174,11 +175,12 @@ Download and install the Vulkan SDK from \href{https://sdk.lunarg.com/sdk/downlo
 export VULKAN_SDK=~/VulkanSDK/1.3.231.1/macOS
 export PATH=${PATH}:${VULKAN_SDK}/bin:/opt/homebrew/bin
 cd ~
-git clone -{}-recursive https://github.com/glscopeclient/scopehal-apps.git
+git clone --recursive https://github.com/glscopeclient/scopehal-apps.git
 cd scopehal-apps
 mkdir build
 cd build
-cmake ../ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_PREFIX_PATH="/opt/homebrew;/opt/homebrew/opt/libomp"
+cmake ../ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr \
+	-DCMAKE_PREFIX_PATH="/opt/homebrew;/opt/homebrew/opt/libomp"
 make -j4
 \end{lstlisting}
 
@@ -230,7 +232,8 @@ pacman -S git wget mingw-w64-x86_64-cmake mingw-w64-x86_64-toolchain
 
 Launch MSYS2 or MINGW64 as Administrator only for this step (it is mandatory to do the install in default path C:\\VulkanSDK ...)
 \begin{lstlisting}[language=sh, numbers=none]
-# Windows mingw64 glslang build (as it is not fully integrated in VulkanSDK-1.3.224.1 for Windows and built with Visual Studio 2017)
+# Windows mingw64 glslang build (as it is not fully integrated in
+# VulkanSDK-1.3.224.1 for Windows and built with Visual Studio 2017)
 cd ~
 git clone https://github.com/KhronosGroup/glslang.git
 cd glslang
@@ -245,8 +248,9 @@ SOURCE_DIR=~/glslang
 BUILD_DIR=$SOURCE_DIR/build
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
-cmake -DCMAKE_BUILD_TYPE=Release -G"MinGW Makefiles" $SOURCE_DIR -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
-cmake -{}-build . -{}-config Release -{}-target install
+cmake -DCMAKE_BUILD_TYPE=Release -G"MinGW Makefiles" $SOURCE_DIR \
+	-DCMAKE_INSTALL_PREFIX="$(pwd)/install"
+cmake --build . --config Release --target install
 \end{lstlisting}
 
 \item Install Vulkan SDK:
@@ -255,7 +259,8 @@ Launch MSYS2 or MINGW64 as Administrator only for this step (it is mandatory to 
 \begin{lstlisting}[language=sh, numbers=none]
 cd ~
 wget https://sdk.lunarg.com/sdk/download/1.3.224.1/windows/VulkanSDK-1.3.224.1-Installer.exe
-./VulkanSDK-1.3.224.1-Installer.exe -{}-accept-licenses -{}-default-answer -{}-confirm-command install
+./VulkanSDK-1.3.224.1-Installer.exe --accept-licenses --default-answer \
+	--confirm-command install
 rm -f VulkanSDK-1.3.224.1-Installer.exe
 \end{lstlisting}
 
@@ -263,7 +268,7 @@ rm -f VulkanSDK-1.3.224.1-Installer.exe
 
 \begin{lstlisting}[language=sh, numbers=none]
 cd ~
-git clone -{}-recursive https://github.com/glscopeclient/scopehal-apps
+git clone --recursive https://github.com/glscopeclient/scopehal-apps
 \end{lstlisting}
 
 \item Execute makepkg-mingw in subdir MSYS2:
@@ -275,7 +280,7 @@ export PATH=$VK_SDK_PATH/Bin:$PATH
 export VULKAN_SDK=$VK_SDK_PATH
 export GLSLANG_BUILD_PATH=~/glslang/build/install
 
-MINGW_ARCH=mingw64 makepkg-mingw -{}-noconfirm -{}-noprogressbar -sCLf
+MINGW_ARCH=mingw64 makepkg-mingw --noconfirm --noprogressbar -sCLf
 \end{lstlisting}
 
 The unit tests will not be run as part of this build - if you would like to run them, you will need to provide catch2
@@ -333,16 +338,16 @@ Most of these arguments are intended for developers, but they can help troublesh
 
 \begin{itemize}
 
-\item \texttt{-{}-noavx2}\\
+\item \texttt{--noavx2}\\
 Do not use AVX2 vector optimizations even if the CPU supports it.
 
-\item \texttt{-{}-noavx512f}\\
+\item \texttt{--noavx512f}\\
 Do not use AVX512F vector optimizations even if the CPU supports it.
 
-\item \texttt{-{}-noglint64}\\
+\item \texttt{--noglint64}\\
 Do not use \texttt{GL\_ARB\_gpu\_shader\_int64} even if the GPU supports it.
 
-\item \texttt{-{}-nogpufilter}\\
+\item \texttt{--nogpufilter}\\
 Do not use Vulkan (GPU accelerated) implementations of filter blocks, revert to software fallback.
 
 \end{itemize}
@@ -353,32 +358,32 @@ Do not use Vulkan (GPU accelerated) implementations of filter blocks, revert to 
 
 ngscopeclient takes standard liblogtools arguments for controlling console debug verbosity.
 
-If no verbosity level is specified, the default is ``notice" (3). (We suggest using \texttt{-{}-debug} for routine use
+If no verbosity level is specified, the default is ``notice" (3). (We suggest using \texttt{--debug} for routine use
 until the v1.0 release to aid in troubleshooting.)
 
 \begin{itemize}
 
-\item \texttt{-{}-debug}\\
+\item \texttt{--debug}\\
 Sets the verbosity level to ``debug" (5).
 
-\item \texttt{-l [file]}, \texttt{-{}-logfile [file]}\\
+\item \texttt{-l [file]}, \texttt{--logfile [file]}\\
 Writes a copy of all log messages to \texttt{file}. This is preferred over simply redirecting output with pipes, as
 console escape sequences are stripped from the file log output.
 
-\item \texttt{-L [file]}, \texttt{-{}-logfile-lines [file]}\\
-Same as \texttt{-{}-logfile} except line buffering is turned on.
+\item \texttt{-L [file]}, \texttt{--logfile-lines [file]}\\
+Same as \texttt{--logfile} except line buffering is turned on.
 
-\item \texttt{-q}, \texttt{-{}-quiet}\\
+\item \texttt{-q}, \texttt{--quiet}\\
 Reduces the verbosity level by one. Can be specified more than once to lower verbosity by several steps.
 
-\item \texttt{-{}-trace [class]}, \texttt{-{}-trace [class::function]} \\
+\item \texttt{--trace [class]}, \texttt{--trace [class::function]} \\
 Enables extra debug output from the class \texttt{class} or the function \texttt{class::function}. Has no effect unless
-\texttt{-{}-debug} is also specified.
+\texttt{--debug} is also specified.
 
-\item \texttt{-{}-stdout-only}\\
+\item \texttt{--stdout-only}\\
 Sends all logging output to stdout. By default, error (level 1) and warning (level 2) messages go to stderr.
 
-\item \texttt{-{}-verbose}\\
+\item \texttt{--verbose}\\
 Sets the verbosity level to ``verbose" (4).
 
 \end{itemize}
@@ -440,15 +445,15 @@ features of the .wfm file format yet. If you have trouble importing some .wfm fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\item \texttt{-{}-nodata}\\
+\item \texttt{--nodata}\\
 When loading a .scopesession file, load settings only and not saved waveform data.
 
-\item \texttt{-{}-reconnect}\\
+\item \texttt{--reconnect}\\
 When loading a .scopesession file, reconnect to the instrument and resume remote control. Current instrument settings
 are overwritten with the configuration from the saved session.
 
-\item \texttt{-{}-retrigger}\\
-When loading a .scopesession file, arm the trigger immediately. has no effect unless \texttt{-{}-reconnect} is also
+\item \texttt{--retrigger}\\
+When loading a .scopesession file, arm the trigger immediately. has no effect unless \texttt{--reconnect} is also
 specified.
 
 \end{itemize}
@@ -457,7 +462,7 @@ specified.
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
-./ngscopeclient -{}-debug \
+./ngscopeclient --debug \
 	mylecroy:lecroy:vicp:myscope.example.com:1234 \
 	myrigol:rigol:lan:rigol.example.com
 \end{lstlisting}
