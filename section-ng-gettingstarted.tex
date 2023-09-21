@@ -85,12 +85,15 @@ sudo apt install build-essential cmake pkg-config libglm-dev \
 	catch2 libvulkan-dev glslang-dev libglfw3-dev
 \end{lstlisting}
 
-On Fedora(this section is out of date):
+On Fedora:
 
 \begin{lstlisting}[language=sh, numbers=none]
-sudo dnf install gtkmm30-devel cmake pkg-config glm-devel \
-	texlive libyaml-devel yaml-cpp-devel glew-devel \
-	catch-devel vulkan-devel
+sudo dnf install gcc-g++ ccache make cmake pkg-config glm-devel \
+	gtkmm3.0-devel libsigc++30-devel libyaml-devel yaml-cpp-devel \
+	liblxi-devel libtirpc-devel texlive glew-devel \
+	catch2-devel vulkan-loader-devel glslang-devel glfw-devel \
+	glslc libshaderc-devel libshaderc-static \
+	spirv-tools-devel
 \end{lstlisting}
 
 If you are using an older stable release (such as Debian Buster), you may need to install catch2 from source
@@ -115,6 +118,8 @@ If you are using Debian or Ubuntu, you may also install the
 \href{https://vulkan.lunarg.com/doc/sdk/1.3.261.1/linux/getting_started_ubuntu.html}{.deb packaged SDK release} instead
 of following the instructions below.
 
+On Fedora, the SDK is already installed above, and the following section should be skipped.
+
 \begin{lstlisting}[language=sh, numbers=none]
 cd ~
 mkdir vulkan
@@ -135,6 +140,7 @@ sudo ldconfig
 \item Build scopehal and scopehal-apps:
 
 \begin{lstlisting}[language=sh, numbers=none]
+# On Fedora, skip the following exports:
 export VULKAN_SDK=~/vulkan/1.3.250.1/x86_64
 export PATH=$VULKAN_SDK/bin:$PATH
 export LD_LIBRARY_PATH=$VULKAN_SDK/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
