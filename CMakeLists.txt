@@ -75,15 +75,17 @@ add_custom_command(
 	COMMAND pdflatex -halt-on-error -interaction batchmode
 		--output-directory ${CMAKE_CURRENT_BINARY_DIR}
 		${CMAKE_CURRENT_SOURCE_DIR}/ngscopeclient-manual.tex > ${CMAKE_CURRENT_BINARY_DIR}/run2.log 2>&1
-	DEPENDS ${NGDOC_LIST} ${CMAKE_CURRENT_BINARY_DIR}/glscopeclient-manual.pdf
+	DEPENDS ${NGDOC_LIST} # ${CMAKE_CURRENT_BINARY_DIR}/glscopeclient-manual.pdf
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	VERBATIM)
 
 add_custom_target(doc ALL
-	DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/glscopeclient-manual.pdf ${CMAKE_CURRENT_BINARY_DIR}/ngscopeclient-manual.pdf)
+	DEPENDS
+		#${CMAKE_CURRENT_BINARY_DIR}/glscopeclient-manual.pdf
+		${CMAKE_CURRENT_BINARY_DIR}/ngscopeclient-manual.pdf)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/glscopeclient-manual.pdf
-	DESTINATION doc/glscopeclient)
+#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/glscopeclient-manual.pdf
+#	DESTINATION doc/glscopeclient)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ngscopeclient-manual.pdf
 	DESTINATION doc/ngscopeclient)
