@@ -41,9 +41,24 @@ add_custom_command(
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	VERBATIM)
 
+add_custom_command(
+	OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/html/ngscopeclient-manual.html
+
+	# Copy entire source directory and subfolders to build directory,
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
+
+	# Actual building
+	COMMAND make4ht -uf html5 --output-dir html ngscopeclient-manual.tex 2 > makehtml.log 2>&1
+
+	DEPENDS ${NGDOC_LIST}
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	VERBATIM)
+
 add_custom_target(doc ALL
 	DEPENDS
-		${CMAKE_CURRENT_BINARY_DIR}/ngscopeclient-manual.pdf)
+		${CMAKE_CURRENT_BINARY_DIR}/ngscopeclient-manual.pdf
+		${CMAKE_CURRENT_BINARY_DIR}/html/ngscopeclient-manual.html)
 
+# TODO: install HTML docs?
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ngscopeclient-manual.pdf
 	DESTINATION doc/ngscopeclient)
