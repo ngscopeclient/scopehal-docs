@@ -525,7 +525,7 @@ This filter outputs one ADL5205 sample object for each write transaction, format
 \label{filter:autocorrelation}
 
 This filter calculates the autocorrelation of an analog waveform. Autocorrelation is a measure of self-similarity
-calculated by multiplying the signal with a time-shifted copy of itself. In Fig. \ref{filter_accouple}, strong peaks
+calculated by multiplying the signal with a time-shifted copy of itself. In Fig. \ref{filter_autocorr}, strong peaks
 can be seen at multiples of the 8b/10b symbol rate.
 
 For best performance, it is crucial to keep the maximum offset as low as possible, since filter run time grows linearly
@@ -535,7 +535,7 @@ with offset range.
 \centering
 \includegraphics[width=16cm]{images/filters/autocorrelation.png}
 \caption{Example of autocorrelation on a serial data stream}
-\label{filter_accouple}
+\label{filter_autocorr}
 \end{figure}
 
 \subsection{Inputs}
@@ -561,6 +561,42 @@ Max offset & Integer & Maximum shift (in samples)\\
 \subsection{Output Signal}
 
 This filter outputs an analog waveform with the same timebase as the input, one sample for each correlation offset.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Average}
+\label{filter:average}
+
+This filter calculates the average of its input.
+
+\subsection{Inputs}
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+in & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+latest & Scalar & Average of the filter's current input \\
+\thinhline
+cumulative & Scalar & Average of all input since the last clear-sweeps\\
+\thinhline
+totalSamples & Scalar & Total number of integrated samples \\
+\thinhline
+totalWaveforms & Scalar & Total number of integrated waveforms \\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -1954,6 +1990,42 @@ Calculates the magnitude of a complex valued signal
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Maximum}
+\label{filter:maximum}
+
+This filter calculates the maximum of its input.
+
+\subsection{Inputs}
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+in & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+latest & Scalar & Maximum of the filter's current input \\
+\thinhline
+cumulative & Scalar & Maximum of all input since the last clear-sweeps\\
+\thinhline
+totalSamples & Scalar & Total number of integrated samples \\
+\thinhline
+totalWaveforms & Scalar & Total number of integrated waveforms \\
+\thickhline
+\end{tabularx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{MDIO}
 
 Decodes the Management Data Input/Output interface on Ethernet PHYs. At the moment, only Clause 22 format is supported.
@@ -1970,6 +2042,42 @@ present values of a signal on the same plot.
 \section{MIL-STD-1553}
 
 Decodes the MIL-STD-1553 avionics data bus.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Minimum}
+\label{filter:minimum}
+
+This filter calculates the minimum of its input.
+
+\subsection{Inputs}
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+in & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+latest & Scalar & Minimum of the filter's current input \\
+\thinhline
+cumulative & Scalar & Minimum of all input since the last clear-sweeps\\
+\thinhline
+totalSamples & Scalar & Total number of integrated samples \\
+\thinhline
+totalWaveforms & Scalar & Total number of integrated waveforms \\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
