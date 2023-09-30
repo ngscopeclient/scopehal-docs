@@ -20,7 +20,7 @@ NOTE: The current implementation of this driver only works on Linux, using the l
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
-glscopeclient myscope:keysightdca:gpib:0:7
+ngscopeclient myscope:keysightdca:gpib:0:7
 \end{lstlisting}
 
 \section{lan}
@@ -34,7 +34,7 @@ non-standard port 5555, not 5025, so the port number must always be specified wh
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
-glscopeclient myscope:rigol:lan:192.0.2.9:5555
+ngscopeclient myscope:rigol:lan:192.0.2.9:5555
 \end{lstlisting}
 
 \section{lxi}
@@ -48,7 +48,7 @@ instrument supports it.
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
-glscopeclient myscope:tektronix:lxi:192.0.2.9
+ngscopeclient myscope:tektronix:lxi:192.0.2.9
 \end{lstlisting}
 
 \section{null}
@@ -61,7 +61,7 @@ string may be used.
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
-glscopeclient sim:demo:null:blah
+ngscopeclient sim:demo:null:blah
 \end{lstlisting}
 
 \section{twinlan}
@@ -84,7 +84,7 @@ defaults to 115200.
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
-glscopeclient myscope:rigol:uart:/dev/ttyUSB0:115200
+ngscopeclient myscope:rigol:uart:/dev/ttyUSB0:115200
 \end{lstlisting}
 
 \section{usbtmc}
@@ -98,7 +98,7 @@ Windows (see scopehal:301)
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
-glscopeclient myscope:siglent:usbtmc:/dev/usbtmc0
+ngscopeclient myscope:siglent:usbtmc:/dev/usbtmc0
 \end{lstlisting}
 
 \section{vicp}
@@ -111,7 +111,7 @@ If port number is not specified, uses TCP port 1861 (IANA assigned) by default.
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
-glscopeclient myscope:lecroy:vicp:192.0.2.9
+ngscopeclient myscope:lecroy:vicp:192.0.2.9
 \end{lstlisting}
 
 

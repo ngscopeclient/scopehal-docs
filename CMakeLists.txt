@@ -41,17 +41,34 @@ add_custom_command(
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	VERBATIM)
 
+# Copy source to build directory
+add_custom_command(
+	OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/htmlbuild/ngscopeclient-manual.tex
+
+	# Copy entire source directory and subfolders to build directory
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/htmlbuild
+
+	DEPENDS ${NGDOC_LIST}
+	VERBATIM)
+
+
+# Make the HTML output
 add_custom_command(
 	OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/html/ngscopeclient-manual.html
 
-	# Copy entire source directory and subfolders to build directory,
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
+	# Copy entire source directory and subfolders to build directory
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/htmlbuild
+
+	# Get bounding box data for images
+	# this is ugly and might not work on non-Linux but is better than nothing for now?
+	COMMAND sh -c "ebb -x images/*.png images/filters/*.png ng-images/*.png"
 
 	# Actual building
-	COMMAND make4ht -uf html5 --output-dir html ngscopeclient-manual.tex 2 > makehtml.log 2>&1
+	COMMAND make4ht -uf html5 --output-dir ${CMAKE_CURRENT_BINARY_DIR}/html
+		ngscopeclient-manual.tex "2,sec-filename,fn-in,mathjax" > makehtml.log 2>&1
 
-	DEPENDS ${NGDOC_LIST}
-	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	DEPENDS ${NGDOC_LIST} ${CMAKE_CURRENT_BINARY_DIR}/htmlbuild/ngscopeclient-manual.tex
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/htmlbuild
 	VERBATIM)
 
 add_custom_target(doc ALL

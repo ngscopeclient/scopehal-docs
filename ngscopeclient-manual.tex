@@ -72,6 +72,14 @@
 % urls to issue trackers
 \newcommand{\issue}[2]{\href{https://github.com/glscopeclient/#1/issues/#2}{#1:#2}}
 
+% helper for largeish images
+\usepackage{ifpdf}
+\ifpdf
+	\newcommand{\bigimage}[1]{\includegraphics[width=16cm]{#1}}
+\else
+	\newcommand{\bigimage}[1]{\includegraphics[width=1024px]{#1}}
+\fi
+
 \begin{document}
 
 \title{ngscopeclient Operator Manual}
