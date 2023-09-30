@@ -56,11 +56,11 @@ din & Analog or digital & Input signal \\
 \textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 Edge & Enum & Specifies the polarity of edge to look for (rising or falling) \\
-\thickhline
+\thinhline
 Dropout Time & Int & Dropout time needed to trigger \\
-\thickhline
+\thinhline
 Level & Float & Voltage threshold\\
-\thickhline
+\thinhline
 Reset Mode & Enum & Specifies whether to reset the timer on the opposite edge \\
 \thickhline
 \end{tabularx}
@@ -90,7 +90,7 @@ din & Analog or digital & Input signal \\
 \textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 Edge & Enum & Specifies the polarity of edge to look for\\
-\thickhline
+\thinhline
 Level & Float & Voltage threshold\\
 \thickhline
 \end{tabularx}
@@ -111,6 +111,7 @@ Triggers when a high or low pulse meeting specified width criteria is seen.
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 din & Analog or digital & Input signal \\
+\thickhline
 \end{tabularx}
 
 \subsection{Parameters}
@@ -120,13 +121,13 @@ din & Analog or digital & Input signal \\
 \textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 Condition & Enum & Match condition (greater, less, between, or not between) \\
-\thickhline
+\thinhline
 Edge & Enum & Specifies the polarity of edge to look for\\
-\thickhline
+\thinhline
 Level & Float & Voltage threshold\\
-\thickhline
+\thinhline
 Lower Bound & Int & Lower width threshold\\
-\thickhline
+\thinhline
 Upper Bound & Int & Upper width threshold\\
 \thickhline
 \end{tabularx}
@@ -141,6 +142,7 @@ Triggers when a pulse of specified width crosses one threshold, but not a second
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 din & Analog & Input signal \\
+\thickhline
 \end{tabularx}
 
 \subsection{Parameters}
@@ -150,15 +152,15 @@ din & Analog & Input signal \\
 \textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 Condition & Enum & Match condition (greater, less, between, or not between) \\
-\thickhline
+\thinhline
 Edge Slope & Enum & Specifies the polarity of edge to look for\\
-\thickhline
+\thinhline
 Lower Interval & Int & Lower width threshold\\
-\thickhline
+\thinhline
 Lower Level & Float & Lower voltage threshold\\
-\thickhline
+\thinhline
 Upper Interval & Int & Upper width threshold\\
-\thickhline
+\thinhline
 Upper Level & Float & Upper voltage threshold\\
 \thickhline
 \end{tabularx}
@@ -173,6 +175,7 @@ Triggers when an edge is faster or slower than a specified rate.
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 din & Analog & Input signal \\
+\thickhline
 \end{tabularx}
 
 \subsection{Parameters}
@@ -182,15 +185,15 @@ din & Analog & Input signal \\
 \textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 Condition & Enum & Match condition (greater, less, between, or not between) \\
-\thickhline
+\thinhline
 Edge Slope & Enum & Specifies the polarity of edge to look for\\
-\thickhline
+\thinhline
 Lower Interval & Int & Lower width threshold\\
-\thickhline
+\thinhline
 Lower Level & Float & Lower voltage threshold\\
-\thickhline
+\thinhline
 Upper Interval & Int & Upper width threshold\\
-\thickhline
+\thinhline
 Upper Level & Float & Upper voltage threshold\\
 \thickhline
 \end{tabularx}
@@ -207,6 +210,7 @@ Triggers when a byte or byte sequence is seen on a UART.
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 din & Analog or digital & Input signal \\
+\thickhline
 \end{tabularx}
 
 \subsection{Parameters}
@@ -216,23 +220,23 @@ din & Analog or digital & Input signal \\
 \textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 Bit Rate & Int & Baud rate \\
-\thickhline
+\thinhline
 Condition & Enum & Match condition \\
-\thickhline
+\thinhline
 Level & Float & Voltage threshold\\
-\thickhline
+\thinhline
 Parity Mode & Enum & Odd, even, or no parity \\
-\thickhline
+\thinhline
 Pattern & String & First match pattern\\
-\thickhline
+\thinhline
 Pattern 2 & String & Second match pattern \\
-\thickhline
+\thinhline
 Polarity & Enum & Idle high (normal UART) or idle low (RS232)\\
-\thickhline
+\thinhline
 Radix & Enum & Radix for the patterns\\
-\thickhline
+\thinhline
 Stop Bits & Float & Number of stop bits\\
-\thickhline
+\thinhline
 Trigger Type & Enum & Match data pattern or parity error\\
 \thickhline
 \end{tabularx}
@@ -250,6 +254,7 @@ The available configuration settings for this trigger vary from instrument to in
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 din & Analog & Input signal \\
+\thickhline
 \end{tabularx}
 
 \subsection{Parameters}
@@ -260,11 +265,11 @@ din & Analog & Input signal \\
 \thickhline
 Condition & Enum & Specifies whether to trigger on entry or exit from the window, and whether to trigger immediately or
 after a time limit.\\
-\thickhline
+\thinhline
 Edge & Enum & Specifies which edge of the window to trigger on\\
-\thickhline
+\thinhline
 Lower Level & Float & Lower voltage threshold\\
-\thickhline
+\thinhline
 Upper Level & Float & Upper voltage threshold\\
 \thickhline
 \end{tabularx}
