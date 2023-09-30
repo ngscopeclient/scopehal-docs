@@ -16,6 +16,7 @@
 \usepackage{gensymb}
 \usepackage{verbatim}
 \usepackage[libertine,cmbraces]{newtxmath}
+\usepackage{booktabs}
 
 \setlength{\parskip}{2mm}
 
@@ -57,8 +58,10 @@
 \definecolor{protostatus}{HTML}{000080}
 
 % table lines
-\newcommand{\thinhline}{\Xhline{1\arrayrulewidth}}
-\newcommand{\thickhline}{\Xhline{2.5\arrayrulewidth}}
+\setlength{\heavyrulewidth}{0.12em}
+\setlength{\lightrulewidth}{0.04em}
+\newcommand{\thickhline}{\toprule[\heavyrulewidth]}
+\newcommand{\thinhline}{\midrule[\lightrulewidth]}
 
 % fonts for formatting commands
 \newcommand{\menustyle}[1]{\texttt{#1}}
