@@ -2730,6 +2730,58 @@ Loads waveform data from a Teledyne LeCroy TRC waveform file.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{UART}
+\label{filter:uart}
+
+Decodes ASCII characters from a digital UART signal with a known baud rate.
+
+The current filter implementation does not support handling of parity bits to detect errors.
+
+\begin{figure}[h]
+\centering
+\bigimage{images/filters/uart-decode.png}
+\caption{Example of UART bus decode}
+\label{uart_example}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Digital & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Baud rate & Float & Symbol rate, in bps \\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This UART decode filter outputs a time series of ASCII characters.
+
+\subsection{Protocol Analyzer}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Header name} & \textbf{Description} \\
+\thickhline
+Timestamp & Timestamp of the start of the data packet \\
+\thinhline
+Length & Length of data in bytes \\
+\thinhline
+ASCII & ASCII string representation of data \\
+\thinhline
+Data & Bytes of data in Hex \\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
