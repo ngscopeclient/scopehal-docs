@@ -2,7 +2,7 @@
 
 \section{Introduction}
 
-This chapter provides a high level overview of libscopehal and glscopeclient internals. It is intended for developers
+This chapter provides a high level overview of libscopehal and ngscopeclient internals. It is intended for developers
 to gain an understanding of the overall project architecture and how key pieces fit together, but is not a substitute
 for the low level API documentation (Doxygen).
 
@@ -52,7 +52,7 @@ control plane content (SCPI commands) and data plane content (waveform data), ho
 multiple physical streams (for example the \codestyle{SCPITwinLanTransport} transport). For these instruments, the
 command/reply APIs and raw data APIs may not go to the same place.
 
-All transports must be registered in order to be used by glscopeclient. To register a transport class, add the macro
+All transports must be registered in order to be used by ngscopeclient. To register a transport class, add the macro
 \codestyle{TRANSPORT\_INITPROC(FooTransport)} to your class declaration and call
 \codestyle{AddTransportClass(FooTransport)} in either the \texttt{TransportStaticInit} function within libscopehal or
 the \codestyle{PluginInit} function of a plugin, as appropriate.
@@ -196,7 +196,7 @@ TODO: write this section
 A plugin is a shared library which may contain transports, drivers, filters, and export wizards. All of these must be
 registered in a function called \codestyle{PluginInit} exported with extern "C" linkage.
 
-Plugins are automatically loaded at startup by glscopeclient, however standalone applications using libscopehal must
+Plugins are automatically loaded at startup by ngscopeclient, however standalone applications using libscopehal must
 explicitly call \codestyle{InitializePlugins()} to load them.
 
 \subsection{Linux}

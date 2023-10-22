@@ -150,7 +150,7 @@ Simulator & demo & null & \\
 \section{Digilent}
 
 Digilent oscilloscopes using the WaveForms SDK are all supported using the ``digilent" driver in libscopehal. This
-driver connects using the ``twinlan" transport to a \href{https://github.com/glscopeclient/scopehal-waveforms-bridge}
+driver connects using the ``twinlan" transport to a \href{https://github.com/ngscopeclient/scopehal-waveforms-bridge}
 {socket server} which links against the Digilent WaveForms SDK. This provides network transparency, and allows the
 Digilent bridge server to be packaged separately for distribution and only installed by users who require it.
 
@@ -197,7 +197,7 @@ Digital Discovery & digilent & twinlan & No digital channel support,\newline so 
 
 DreamSourceLabs oscilloscopes and logic analyzers supported in their fork of sigrok (``libsigrok4DSL'' distributed as part of
 their ``DSView'' software package) are supported through the ``dslabs'' driver in libscopehal. This driver connects using
-the ``twinlan'' transport to a \href{https://github.com/glscopeclient/scopehal-sigrok-bridge}{socket server} which links
+the ``twinlan'' transport to a \href{https://github.com/ngscopeclient/scopehal-sigrok-bridge}{socket server} which links
 against libsigrok4DSL. This provides network transparency, and allows the DSLabs bridge server to be packaged separately for
 distribution and only installed by users who require it.
 
@@ -309,7 +309,7 @@ A driver for the Keysight/Agilent/HP DCA series of equivalent-time sampling osci
 
 Pico oscilloscopes all have slightly different command sets, but are supported using the ``pico" driver in libscopehal.
 This driver connects via a TCP socket to a socket server
-\href{https://github.com/glscopeclient/scopehal-pico-bridge}{scopehal-pico-bridge} which connects to the appropriate
+\href{https://github.com/ngscopeclient/scopehal-pico-bridge}{scopehal-pico-bridge} which connects to the appropriate
 instrument using Pico's binary SDK.
 
 \begin{tabularx}{16cm}{llX}
@@ -558,7 +558,7 @@ performance increase is likely to be even higher because the push-based model el
 performs increasingly poorly as latency increases).
 
 To use this driver, your instrument must have the XDEV software option installed and the
-\href{https://github.com/glscopeclient/scopehal-fwp-bridge}{scopehal-fwp-bridge} server application running. If the
+\href{https://github.com/ngscopeclient/scopehal-fwp-bridge}{scopehal-fwp-bridge} server application running. If the
 bridge or option are not detected, the driver falls back to SCPI waveform download and will behave identically to the
 base ``lecroy" driver.
 
