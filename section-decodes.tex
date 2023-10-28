@@ -350,9 +350,10 @@ at zero volts.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{AC RMS}
-\label{filter:accouple}
+\label{filter:acrms}
 
-Measures the Root Mean Square value of the waveform after removing any DC offset.
+Measures the Root Mean Square value of the waveform after removing any DC offset. The DC offset is calculated by
+averaging all samples in the waveform.
 
 \begin{figure}[h]
 \centering
@@ -2319,6 +2320,48 @@ Given a set of S-parameters, shifts the reference plane on one or two ports and 
 \section{Rj + BUj}
 
 Removes data-dependent jitter (DDJ) from a TIE waveform, leaving uncorrelated jitter (Rj and BUj).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{RMS}
+\label{filter:rms}
+
+Measures the Root Mean Square value of the waveform, including any DC component
+
+%\begin{figure}[h]
+%\centering
+%\bigimage{images/filters/ac-rms.png}
+%\caption{Example of an AC RMS Measurement of a Sinewave with 1V peak voltage}
+%\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter has two output streams.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Stream name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+trend & Sparse analog & One sample per cycle of the input waveform containing the RMS value across that cycle \\
+\thinhline
+avg & Scalar & RMS value across the entire waveform \\
+\thickhline
+\end{tabularx}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
