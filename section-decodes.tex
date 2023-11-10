@@ -2937,3 +2937,12 @@ Duration & Float & Length of selected window \\
 
 This filter outputs a subset of the input signal. If the input is sparse, so is the output and vice versa. No samples
 are added.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{X-Y Sweep}
+
+This filter converts a sweeping X scalar value and a corresponding Y scalar value into a waveform plotting X against Y.
+
+Note that this filter assumes that the X value is sweeping in an upwards ramp, and is not intended for use with
+arbitrary X-Y data. In particular, the output is a standard sparse waveform type rather than an X-Y density map.
