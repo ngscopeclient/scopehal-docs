@@ -1726,6 +1726,13 @@ Another output waveform shows the amplitude of all the corresponding peaks.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Gate}
+
+This filter outputs a copy of its input with zero delay if the enable signal is high. If the enable signal is low,
+the output is either unchanged (latched) or no waveform is produced (gated).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Glitch Removal}
 
 This filter removes `glitches' from a digital waveform. A Minimum Width is specified, and any `pulse' (period during which the waveform has the same value) shorter than that pulse is ignored, the previous pulse continuing. Common use is to remove glitches from a $f$ Hz signal by filtering pulses shorter than $\frac{1}{1.1f}$ s.
