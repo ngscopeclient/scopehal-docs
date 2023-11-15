@@ -16,6 +16,7 @@ set(NGDOC_LIST
 	section-funcgen-drivers.tex
 	section-load-drivers.tex
 	section-meter-drivers.tex
+	section-misc-drivers.tex
 	section-scope-drivers.tex
 	section-powersupply-drivers.tex
 	section-rfgen-drivers.tex
