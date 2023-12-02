@@ -1011,8 +1011,50 @@ This filter outputs an digital waveform with one sample per transition of the re
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Clock Recovery (UART)}
+\label{filter:cdruart}
 
-Simple DLL suitable for displaying eye patterns of RS232 and similar protocols.
+This filter uses a DLL to recover a sampling clock from UART or similar protocol at a known baud rate. The single-rate
+recovered clock idles low and toggles for each bit in each frame and is phased 90\textdegree with respect to data, such
+that each bit can be sampled on the rising edge of the DLL output clock. This filter can be used for generating an eye
+pattern of the serial signal.
+
+The current implementation limits support to serial protocols with 10 bits/symbols per frame. Consider using the
+\hyperref[filter:cdrpll]{PLL-based clock recovery} for unsupported serial formats if applicable.
+
+The current implementation does not synchronize by aligning falling clock edges with symbol edges.
+
+\begin{figure}[h]
+\centering
+\bigimage{images/filters/cdruart.png}
+\caption{Example of UART CDR on two serial data frames separated by a short delay}
+\label{filter_cdruart}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Baud rate & Float & Symbol rate, in bps \\
+\thinhline
+Threshold & Float & Decision threshold for the edge detector, in volts \\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs a digital waveform with the sampling clock recovered from the analog stream.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
