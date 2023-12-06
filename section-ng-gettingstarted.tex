@@ -79,7 +79,7 @@ On Debian/Ubuntu:
 
 \begin{lstlisting}[language=sh, numbers=none]
 sudo apt install build-essential cmake pkg-config libglm-dev \
-	libgtkmm-3.0-dev libsigc++-2.0-dev libyaml-cpp-dev \
+	libcairomm-1.0-dev libsigc++-2.0-dev libyaml-cpp-dev \
 	liblxi-dev texlive texlive-fonts-extra texlive-extra-utils \
 	libglew-dev catch2 libvulkan-dev glslang-dev libglfw3-dev
 \end{lstlisting}
@@ -88,7 +88,7 @@ On Fedora:
 
 \begin{lstlisting}[language=sh, numbers=none]
 sudo dnf install gcc-g++ ccache make cmake pkg-config glm-devel \
-	gtkmm3.0-devel libsigc++30-devel libyaml-devel yaml-cpp-devel \
+	cairomm1.0-devel libsigc++30-devel libyaml-devel yaml-cpp-devel \
 	liblxi-devel libtirpc-devel texlive glew-devel \
 	catch2-devel vulkan-loader-devel glslang-devel glfw-devel \
 	glslc libshaderc-devel libshaderc-static \
@@ -171,17 +171,17 @@ sudo make install
 With Homebrew (\href{https://brew.sh}{brew.sh}):
 
 \begin{lstlisting}[language=sh, numbers=none]
-brew install pkg-config gtk+3 gtkmm3 glfw cmake yaml-cpp glew catch2 libomp
+brew install pkg-config cairomm glfw cmake yaml-cpp glew catch2 libomp
 \end{lstlisting}
 
 \item Install Vulkan SDK:
 
-Download and install the Vulkan SDK from \href{https://sdk.lunarg.com/sdk/download/1.3.231.1/mac/vulkansdk-macos-1.3.231.1.dmg}{sdk.lunarg.com/sdk/download/1.3.231.1/mac/vulkansdk-macos-1.3.231.1.dmg}.
+Download and install the Vulkan SDK from \href{https://sdk.lunarg.com/sdk/download/1.3.250.1/mac/vulkansdk-macos-1.3.250.1.dmg}{sdk.lunarg.com/sdk/download/1.3.250.1/mac/vulkansdk-macos-1.3.250.1.dmg}.
 
 \item Build scopehal and scopehal-apps:
 
 \begin{lstlisting}[language=sh, numbers=none]
-export VULKAN_SDK=~/VulkanSDK/1.3.231.1/macOS
+export VULKAN_SDK=~/VulkanSDK/1.3.250.1/macOS
 export PATH=${PATH}:${VULKAN_SDK}/bin:/opt/homebrew/bin
 cd ~
 git clone --recursive https://github.com/ngscopeclient/scopehal-apps.git
