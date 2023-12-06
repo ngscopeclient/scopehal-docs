@@ -7,6 +7,7 @@ set(NGDOC_LIST
 	section-ng-legal.tex
 	section-ng-gettingstarted.tex
 	section-ng-mainwindow.tex
+	section-dialogs.tex
 	section-ng-waveformgroups.tex
 	section-ng-waveformviews.tex
 	section-ng-history.tex
@@ -17,9 +18,10 @@ set(NGDOC_LIST
 	section-load-drivers.tex
 	section-meter-drivers.tex
 	section-misc-drivers.tex
-	section-scope-drivers.tex
 	section-powersupply-drivers.tex
 	section-rfgen-drivers.tex
+	section-scope-drivers.tex
+	section-spectrometer-drivers.tex
 	section-triggers.tex
 	section-decodes.tex
 
