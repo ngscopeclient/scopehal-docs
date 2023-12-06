@@ -23,11 +23,71 @@ them using an external tool while the session is open in ngscopeclient or your c
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{ng-images/dialog-labnotes.png}
+\bigimage{ng-images/dialog-labnotes.png}
 \caption{Lab notes dialog}
 \label{fig:labnotes}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Log Viewer}
+\label{dlg:logviewer}
+
+The Log Viewer dialog provides an alternate way to view log messages sent to stdout / stderr, which may be useful for
+debugging if the application was launched from a desktop icon or similar and there is no access to the console.
+
+It can be found under the \menustyle{Window | Log Viewer} menu.
+
+\begin{figure}[H]
+\centering
+\bigimage{ng-images/dialog-logviewer.png}
+\caption{Log Viewer dialog}
+\label{fig:logviewer}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Performance Metrics}
+\label{dlg:perfmetrics}
+
+The Performance Metrics dialog displays statistics on performance of rendering, waveform acquisition, and signal
+processing. This data is primarily intended for developers comparing before/after performance of optimizations and code
+changes.
+
+It can be found under the \menustyle{Window | Performance Metrics} menu.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=7cm]{ng-images/dialog-perfmetrics.png}
+\caption{Performance Metrics dialog}
+\label{fig:perfmetrics}
+\end{figure}
+
+\subsection{Rendering}
+
+Displays render loop framerate, monitor refresh rate, total time spent last frame in the rasterization and tone
+mapping shaders, and the number of vertices and indices drawn as Vulkan geometry. Note that waveforms are drawn by a
+compute shader and do not contribute towads the vertex/index totals, other than a single textured rectangle used for
+displaying the shader output.
+
+\subsection{Filter graph}
+Number of filter blocks in the current graph, and run time for the most recent evaluation of the
+filter graph.
+
+\subsection{Acquisition}
+
+Displays the acquisition rate, in waveforms per second. This data is collected using a rather simple mechanism and
+may not be usefully accurate if multiple trigger groups are in use.
+
+Additionally, this section displays the number of pending waveforms for each instrument (waveforms which have been
+acquired but not yet passed to the filter graph). This number should normally be flickering between zero and one if
+acquisition is active and zero otherwise; larger values indicate that the instrument is supplying data faster than
+ngscopeclient can process it.
+
+\subsection{Memory}
+
+Displays the total amount of available pinned memory (CPU-side memory eligible to be shared with the GPU) and local
+memory (memory attached to the GPU), as well as the amount of each currently in use.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
