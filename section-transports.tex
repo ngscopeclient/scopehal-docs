@@ -1,7 +1,7 @@
 \chapter{Transports}
 \label{sec:transports}
 
-Libscopehal uses a ``transport" driver in order to pass commands and data to instruments, in order to decouple the
+Libscopehal uses a ``transport" object in order to pass commands and data to instruments, in order to decouple the
 specifics of LXI, USBTMC, etc. from individual instrument drivers. This section describes the supported transports and
 their usage and limitations.
 
@@ -94,7 +94,7 @@ SCPI over USB Test \& Measurement Class protocol.
 This transport takes one argument: the path to the usbtmc kernel device object.
 
 NOTE: The current implementation of this driver only works on Linux. There is currently no support for USBTMC on
-Windows (see scopehal:301)
+Windows (\issue{scopehal}{301})
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]

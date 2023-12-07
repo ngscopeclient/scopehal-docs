@@ -9,7 +9,7 @@ This chapter describes all of the available drivers for bit error rate testers (
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
-ML4039 & mlbert & lan & Use \href{https://github.com/ngscopeclient/scopehal-mlbert-bridge}{scopehal-mlbert-bridge} \\
+ML4039-BTP & mlbert & lan & Use \href{https://github.com/ngscopeclient/scopehal-mlbert-bridge}{scopehal-mlbert-bridge} \\
 \thickhline
 \end{tabularx}
 
@@ -20,4 +20,4 @@ This driver is intended to connect via the
 and does not directly link to the MultiLANE SDK or talk directly to the instrument. The bridge requires a Windows PC
 since MultiLANE's SDK is Windows only, however the libscopehal clientside driver can run on any supported OS.
 
-It was developed using a ML4039 but may work with other similar models as well.
+It was developed using a ML4039-BTP but may work with other similar models as well.
