@@ -1652,6 +1652,42 @@ Also supports the extended autonegotiation used by SGMII.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Exponential Moving Average}
+\label{filter:ema}
+
+Calculates an exponential moving average of the input waveform, averaging the data at each sample index with the
+previous values of the same over multiple consecutive acquisitions.
+
+The average is calculated recursively; for sample value $S$ and half life $T$, the recurrence relation is:
+
+\begin{math}
+Out[i] =
+	\left(1-\frac{1}{\displaystyle{2^\frac{1}{x}}}\right)\left(Out[i-1]\right) +
+	\left(\frac{1}{\displaystyle{2^\frac{1}{x}}}\right)\left(S\right)
+\end{math}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input signal\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Half-life & Integer & Half life of the average, in waveforms\\
+\thickhline
+\end{tabularx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Eye Bit Rate}
 
 Measures the bit rate of an eye pattern.
