@@ -1,0 +1,28 @@
+\chapter{SDR Drivers}
+\label{sec:sdr-drivers}
+
+This chapter describes all of the available drivers for software-defined radios.
+
+\section{Ettus Research}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+USRP & uhd & twinlan & \\
+\thickhline
+\end{tabularx}
+
+\subsection{uhd}
+
+This driver connects via a TCP socket to a socket server
+\href{https://github.com/ngscopeclient/scopehal-uhd-bridge}{scopehal-uhd-bridge} which connects to the appropriate
+instrument using the UHD API.
+
+This provides network transparency for USB-attached instruments, as well as a license boundary between the BSD-licensed
+libscopehal core and the GPL-licensed UHD API.
+
+\section{Microphase}
+
+The AntSDR running antsdr\_uhd firmware is supported by the ``uhd" driver for Ettus Research SDRs. There is currently no
+support for the IIO firmware.
