@@ -18,13 +18,14 @@ repository:ticket, for example \issue{scopehal-apps}{3}.
 
 \section{Host System Requirements}
 
-The majority of development is performed on Linux operating systems (primarily Debian and Arch) so this is the most well
+The majority of development is performed on Linux operating systems (primarily Debian) so this is the most well
 tested platform, however Windows and Mac OS are also supported.
 
 Any 64-bit Intel or AMD processor, or Apple Silicon Mac, should be able to run ngscopeclient. If AVX2 and/or AVX512F
 support is present ngscopeclient will use special optimized versions of some signal processing functions, however
 neither instruction set is required. Other (non Apple Silicon) ARM64 platforms may work if a compatible GPU is
-available, but have not been tested. 32-bit platforms are not supported due to the significant RAM requirements.
+available, but have not been tested. 32-bit platforms are not supported due to the significant RAM requirements
+(but we won't stop you from trying).
 
 A mouse with scroll wheel, or touchpad with scroll gesture support, is mandatory to enable full use of the UI. We may
 explore alternative input methods for some UI elements in the future.
@@ -32,13 +33,14 @@ explore alternative input methods for some UI elements in the future.
 Any GPU with Vulkan support should be able to run ngscopeclient, however Vulkan 1.2 will deliver better performance.
 The minimum supported GPUs are:
 \begin{itemize}
-\item AMD: GCN based (Radeon HD 7000 and newer, January 2012)
-\item Apple: all Apple Silicon devices (M1 and newer)
-\item Intel: Iris Plus 540 or HD Graphics 520 (Skylake, August 2015)
 \item NVIDIA: Maxwell architecture (GeForce GTX 700 series and newer, February 2014)
+\item AMD: GCN based (Radeon HD 7000 and newer, January 2012)
+\item Intel: Iris Plus 540 or HD Graphics 520 (Skylake, August 2015)
+\item Apple: all Apple Silicon devices (M1 and newer). Newer Intel devices with Metal support should work but support
+is not guaranteed.
 \end{itemize}
 
-The minimum RAM requirement to actually launch ngscopeclient is relatively small, however actual memory consumption is
+The minimum RAM requirement to launch ngscopeclient is relatively small; however, actual memory consumption is
 heavily dependent on workload and can easily reach into the tens of gigabytes when doing complex analysis on many
 channels with deep history.
 
@@ -63,38 +65,119 @@ which hardware is supported and how to configure specific drivers.
 
 \section{Compilation}
 
-ngscopeclient can be compiled on Linux, macOS, and Windows, but the specific steps that have to be taken differ quite a
-lot between these the three.
+ngscopeclient can be compiled on Linux, macOS, and Windows. While the compilation process is generally similar, various
+steps differ among platform and distro.
 
 \subsection{Linux}
 \begin{enumerate}
 
 \item Install dependencies.
 
-On Debian/Ubuntu:
+\subsubsection{Debian}
 
+Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
-sudo apt install build-essential cmake pkg-config libglm-dev \
-	libgtk-3-dev libcairomm-1.0-dev libsigc++-2.0-dev libyaml-cpp-dev \
-	liblxi-dev texlive texlive-fonts-extra texlive-extra-utils \
-	libglew-dev catch2 libvulkan-dev glslang-dev libglfw3-dev
+sudo apt-get install build-essential git cmake pkgconf libgtkmm-3.0-dev \
+libcairomm-1.0-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip
 \end{lstlisting}
 
-On Fedora:
-
+On Debian bookworm and later, you can use system-provided Vulkan packages. Skip this on Debian bullseye, or if you
+choose to use the Vulkan SDK instead:
 \begin{lstlisting}[language=sh, numbers=none]
-sudo dnf install gcc-g++ ccache make cmake pkg-config glm-devel \
-	cairomm1.0-devel gtk3-devel libsigc++30-devel libyaml-devel yaml-cpp-devel \
-	liblxi-devel libtirpc-devel texlive glew-devel \
-	catch2-devel vulkan-loader-devel glslang-devel glfw-devel \
-	glslc libshaderc-devel libshaderc-static \
-	spirv-tools-devel
+sudo apt-get install libvulkan-dev glslang-dev glslang-tools spirv-tools glslc
 \end{lstlisting}
 
-If you are using an older stable release (such as Debian Buster), you may need to install catch2 from source
-(https://github.com/catchorg/Catch2). Alternatively, you may pass -DBUILD\_TESTING=OFF to CMake to disable unit testing.
+On Debian bullseye, you will need cmake from backports:
+\begin{lstlisting}[language=sh, numbers=none]
+sudo bash -c 'echo "deb http://deb.debian.org/debian bullseye-backports main" >> \
+/etc/apt/sources.list.d/bullseye-backports.list'
+sudo apt-get update
+sudo apt-get install cmake/bullseye-backports
+\end{lstlisting}
+
+To build the LXI component (needed if you have LXI- or VXI-11-based instruments):
+\begin{lstlisting}[language=sh, numbers=none]
+sudo apt install liblxi-dev libtirpc-dev
+\end{lstlisting}
+
+For GPIB, you will need to install Linux-GPIB; instructions for this are out of scope here.
+
+To build the documentation, you will also need LaTeX packages:
+\begin{lstlisting}[language=sh, numbers=none]
+sudo apt install texlive texlive-fonts-extra texlive-extra-utils
+\end{lstlisting}
+
+\subsubsection{Ubuntu}
+
+Basic requirements:
+\begin{lstlisting}[language=sh, numbers=none]
+sudo apt install build-essential git cmake pkgconf libgtkmm-3.0-dev \
+libcairomm-1.0-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip
+\end{lstlisting}
+
+On Ubuntu 22.10 and earlier (including 20.04 and 22.04), you will need to use the Vulkan SDK.
+Instructions for installing this are in a later step. On Ubuntu 23.04 and later, you can instead
+use system-provided Vulkan packages:
+\begin{lstlisting}[language=sh, numbers=none]
+sudo apt-get install libvulkan-dev glslang-dev glslang-tools spirv-tools glslc
+\end{lstlisting}
+
+
+To build the LXI component (needed if you have LXI- or VXI-11-based instruments):
+\begin{lstlisting}[language=sh, numbers=none]
+sudo apt install liblxi-dev libtirpc-dev
+\end{lstlisting}
+
+For GPIB, you will need to install Linux-GPIB; instructions for this are out of scope here.
+
+To build the documentation, you will also need LaTeX packages:
+\begin{lstlisting}[language=sh, numbers=none]
+sudo apt install texlive texlive-fonts-extra texlive-extra-utils
+\end{lstlisting}
+
+
+\subsubsection{Fedora}
+Basic requirements:
+\begin{lstlisting}[language=sh, numbers=none]
+sudo dnf install git gcc g++ cmake make pkgconf cairomm-devel gtk3-devel \
+libsigc++30-devel yaml-cpp-devel catch-devel glfw-devel
+\end{lstlisting}
+
+System-provided Vulkan packages. Skip these if you choose to use the Vulkan SDK instead:
+\begin{lstlisting}[language=sh, numbers=none]
+sudo dnf install vulkan-headers vulkan-loader-devel glslang-devel  glslc \
+libshaderc-devel spirv-tools-devel
+\end{lstlisting}
+
+To build the LXI component (needed if you have LXI- or VXI-11-based instruments):
+\begin{lstlisting}[language=sh, numbers=none]
+sudo dnf install liblxi-devel libtirpc-devel
+\end{lstlisting}
+
+For GPIB, you will need to install Linux-GPIB; instructions for this are out of scope here.
+
+To build the documentation, you will also need LaTeX packages:
+\begin{lstlisting}[language=sh, numbers=none]
+sudo dnf install texlive
+\end{lstlisting}
+
+\subsubsection{Alpine Linux}
+
+As Alpine Linux uses musl libc, you will need to use system-provided Vulkan packages, and not the Vulkan SDK.
+\begin{lstlisting}[language=sh, numbers=none]
+apk add git gcc g++ cmake make pkgconf cairomm-dev gtk+3.0-dev libsigc++-dev \
+yaml-cpp-dev catch2-3 vulkan-loader-dev glslang-dev glslang-static glfw-dev \
+shaderc-dev spirv-tools-dev
+\end{lstlisting}
+
+If you are using an older stable release (such as CentOS 7), you may need to install some dependencies from source.
+
 
 \item Install FFTS library:
+
+This installs the library into /usr/local. If you want to install it into a custom prefix, you will need to use
+CMAKE\_INSTALL\_PREFIX here and CMAKE\_PREFIX\_PATH when running cmake for scopehal-apps, which are out of scope
+for these instructions.
 
 \begin{lstlisting}[language=sh, numbers=none]
 cd ~
@@ -102,59 +185,57 @@ git clone https://github.com/anthonix/ffts.git
 cd ffts
 mkdir build
 cd build
-cmake .. -DENABLE_SHARED=ON -DCMAKE_INSTALL_PREFIX=/usr
+cmake .. -DENABLE\_SHARED=ON
 make -j4
 sudo make install
 \end{lstlisting}
 
 \item Install Vulkan SDK:
 
-If you are using Debian or Ubuntu, you may also install the
-\href{https://vulkan.lunarg.com/doc/sdk/1.3.261.1/linux/getting_started_ubuntu.html}{.deb packaged SDK release} instead
-of following the instructions below.
+In many cases, you can install the SDK components from distro-provided repositories, which is covered above. When
+possible, this is preferred over installing the Vulkan SDK. If you choose not to, or are running a Linux distro that
+does not provide these packages (for instance, Debian Bullseye, Ubuntu versions prior to 23.04, or other stable
+distros), the following instructions cover installing and loading the Vulkan SDK.
 
-On Fedora, the SDK is already installed above, and the following section should be skipped.
+The latest tested SDK at the time of documentation update is version 1.3.275.0. Newer SDKs are supported, but breaking
+changes sometimes take place.
+If you are using a newer SDK and run into problems, please file a bug report.
 
+If you are using Ubuntu 20.04 or 22.04, you may install the
+\href{https://packages.lunarg.com}{.deb packaged SDK release} instead of following the instructions below. This may
+work for Debian as well but is not supported.
+
+Alternatively, to use the tarball packaged SDK, download and unpack the tarball.
+\href{https://vulkan.lunarg.com/sdk/home}{You can manually download the SDK}, or do the following:
 \begin{lstlisting}[language=sh, numbers=none]
 cd ~
-mkdir vulkan
-cd vulkan
-wget https://sdk.lunarg.com/sdk/download/1.3.250.1/linux/vulkansdk-linux-x86_64-1.3.250.1.tar.gz
-tar xf vulkansdk-linux-x86_64-1.3.250.1.tar.gz
-rm -f vulkansdk-linux-x86_64-1.3.250.1.tar.gz
-export VULKAN_SDK=~/vulkan/1.3.250.1/x86_64
-sudo cp -r $VULKAN_SDK/include/vulkan/ /usr/local/include/
-sudo cp -P $VULKAN_SDK/lib/libvulkan.so* /usr/local/lib/
-sudo cp $VULKAN_SDK/lib/libVkLayer_*.so /usr/local/lib/
-sudo mkdir -p /usr/local/share/vulkan/explicit_layer.d
-sudo cp $VULKAN_SDK/etc/vulkan/explicit_layer.d/VkLayer_*.json \
-	/usr/local/share/vulkan/explicit_layer.d
-sudo ldconfig
+mkdir VulkanSDK
+cd VulkanSDK
+curl -LO 'https://vulkan.lunarg.com/sdk/download/1.3.275.0/linux/vulkansdk-linux-x86\_64-1.3.275.0.tar.xz'
+tar xfv vulkansdk-linux-x86\_64-1.3.275.0.tar.xz
+\end{lstlisting}
+
+And then source the `setup-env.sh` file:
+\begin{lstlisting}[language=sh, numbers=none]
+source "\$HOME/VulkanSDK/1.3.275.0/setup-env.sh"
+\end{lstlisting}
+
+When using the tarball-packaged SDK, you will need to source the `setup-env.sh` file any time you want to compile
+or run ngscopeclient. For convenience, you can add this to your `.bash\_profile` or equivalent:
+\begin{lstlisting}[language=sh, numbers=none]
+echo "source \\"\$HOME/VulkanSDK/1.3.275.0/setup-env.sh\\"" >> ~/.bash\_profile
 \end{lstlisting}
 
 \item Build scopehal and scopehal-apps:
 
 \begin{lstlisting}[language=sh, numbers=none]
-# On Fedora, skip the following exports:
-export VULKAN_SDK=~/vulkan/1.3.250.1/x86_64
-export PATH=$VULKAN_SDK/bin:$PATH
-export LD_LIBRARY_PATH=$VULKAN_SDK/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-export VK_LAYER_PATH=$VULKAN_SDK/etc/vulkan/explicit_layer.d
-
 cd ~
 git clone --recursive https://github.com/ngscopeclient/scopehal-apps.git
 cd scopehal-apps
 mkdir build
 cd build
-cmake ../ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+cmake .. -DCMAKE\_BUILD\_TYPE=Release
 make -j4
-\end{lstlisting}
-
-\item Install scopehal and scopehal-apps:
-
-\begin{lstlisting}[language=sh, numbers=none]
-cd ~/scopehal-apps/build
-sudo make install
 \end{lstlisting}
 
 \end{enumerate}
@@ -164,35 +245,50 @@ sudo make install
 
 \item Install dependencies.
 
+You will need Xcode (either from the App Store or the Apple developer site); after installing, run it once for it
+to install system components. This provides gcc, g++, make, and similar required packages.
+
 With Homebrew (\href{https://brew.sh}{brew.sh}):
 
+\item Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
-brew install pkg-config cairomm@1.14 libsigc++@2 glfw cmake yaml-cpp glew catch2 libomp
+brew install pkg-config cairomm libsigc++ glfw cmake yaml-cpp glew catch2 libomp
 \end{lstlisting}
 
-\item Install Vulkan SDK:
+\item Vulkan SDK components (skip if using the Vulkan SDK):
+\begin{lstlisting}[language=sh, numbers=none]
+brew install vulkan-headers vulkan-loader glslang shaderc spirv-tools molten-vk
+\end{lstlisting}
 
-Download and install the Vulkan SDK from \href{https://sdk.lunarg.com/sdk/download/1.3.268.1/mac/vulkansdk-macos-1.3.268.1.dmg}{sdk.lunarg.com/sdk/download/1.3.268.1/mac/vulkansdk-macos-1.3.268.1.dmg}.
+\item Alternatively, install the Vulkan SDK:
+
+ \href{https://vulkan.lunarg.com/sdk/home}{Download and install the Vulkan SDK.}.
+The latest tested SDK at the time of documentation update is version 1.3.275.0. Newer SDKs are supported, but breaking
+changes sometimes take place.
+If you are using a newer SDK and run into problems, please file a bug report.
+
+And then source the `setup-env.sh` file:
+\begin{lstlisting}[language=sh, numbers=none]
+source "\$HOME/VulkanSDK/1.3.275.0/setup-env.sh"
+\end{lstlisting}
+
+When using the SDK, you will need to source the `setup-env.sh` file any time you want to compile or run ngscopeclient.
+For convenience, you can add this to your `.zprofile` or equivalent:
+\begin{lstlisting}[language=sh, numbers=none]
+echo "source \"\$HOME/VulkanSDK/1.3.275.0/setup-env.sh\"" >> ~/.zprofile
+\end{lstlisting}
 
 \item Build scopehal and scopehal-apps:
 
 \begin{lstlisting}[language=sh, numbers=none]
-export VULKAN_SDK=~/VulkanSDK/1.3.268.1/macOS
-export PATH=${PATH}:${VULKAN_SDK}/bin:/opt/homebrew/bin
 cd ~
 git clone --recursive https://github.com/ngscopeclient/scopehal-apps.git
 cd scopehal-apps
 mkdir build
 cd build
-cmake ../ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr \
-	-DCMAKE_PREFIX_PATH="/opt/homebrew;/opt/homebrew/opt/libomp"
+cmake .. -DCMAKE\_BUILD\_TYPE=Release -DCMAKE\_PREFIX\_PATH="\$(brew --prefix);\$(brew --prefix)/opt/libomp"
 make -j4
 \end{lstlisting}
-
-\item Install scopehal and scopehal-apps:
-
-Installation on macOS is not yet complete.
-The binaries can be found in the build directory, such as ngscopeclient in \$HOME/scopehal-apps/build/src/ngscopeclient.
 
 \end{enumerate}
 
@@ -202,72 +298,39 @@ On Windows, we make use of the MSYS2 development environment, which gives us acc
 Since this toolchain allows ngscopeclient to be compiled as a native Windows application, the project might be run
 outside of MSYS2.
 
-\subsubsection{Installing from the package manager}
-
-\begin{lstlisting}[language=sh, numbers=none]
-pacman -Sy
-pacman -S mingw-w64-x86_64-scopehal-apps
-\end{lstlisting}
-
-See also \href{https://packages.msys2.org/group/mingw-w64-x86_64-eda}{\lstinline{mingw-w64-x86_64-eda}}.
-
 \subsubsection{Building from source}
 
 \begin{enumerate}
 
-\item Download and install MSYS2. You can download it from \href{https://www.msys2.org/}{msys2.org} or \href{https://github.com/msys2/msys2-installer/releases}{github.com/msys2/msys2-installer/releases}\\
-It is of utmost importance that \textbf{all} steps outlined on the website are followed precisely, even if they might
-seem unnecessary.
-This will avoid lots of hard to diagnose problems later on in the build.\\
+\item Download and install MSYS2. You can download it from \href{https://www.msys2.org/}{msys2.org} or
+\href{https://github.com/msys2/msys2-installer/releases}{github.com/msys2/msys2-installer/releases}\\
 
-All following steps are to be done in a MinGW64 shell (\textbf{not} in a MSYS, MINGW32, CLANG64, CLANG32 or UCRT64 shell,
-which also get installed by the MSYS2 installer).
 
-\item Install WiX Toolset v3.11 (required to build the Windows x64 MSI)
-You shall download and install WiX Toolset v3.11 in \begin{verbatim}C:\Program Files (x86)\WiX Toolset v3.11\end{verbatim}
-https://wixtoolset.org/docs/wix3/
+The following steps can be done in any MSYS-provided shell.
+
+% \item If you would like to build the installer package, install WIX Toolset from https://wixtoolset.org/docs/wix3/
 
 \item Install git and the toolchain:
-
 \begin{lstlisting}[language=sh, numbers=none]
-pacman -S git wget mingw-w64-x86_64-cmake mingw-w64-x86_64-toolchain
+pacman -S git wget mingw-w64-ucrt-x86\_64-cmake mingw-w64-ucrt-x86\_64-toolchain
 \end{lstlisting}
 
-\item Build glslang tags/vulkan-sdk-1.3.268.0:
-
-Launch MSYS2 or MINGW64 as Administrator only for this step (it is mandatory to do the install in default path C:\\VulkanSDK ...)
+\item Install general dependencies:
 \begin{lstlisting}[language=sh, numbers=none]
-# Windows mingw64 glslang build (as it is not fully integrated in
-# VulkanSDK-1.3.268.0 for Windows and built with Visual Studio 2017)
-cd ~
-git clone https://github.com/KhronosGroup/glslang.git
-cd glslang
-git checkout tags/vulkan-sdk-1.3.268.0
-git clone https://github.com/google/googletest.git External/googletest
-cd External/googletest
-git checkout 0c400f67fcf305869c5fb113dd296eca266c9725
-cd ../..
-./update_glslang_sources.py
-
-SOURCE_DIR=~/glslang
-BUILD_DIR=$SOURCE_DIR/build
-mkdir -p $BUILD_DIR
-cd $BUILD_DIR
-cmake -DCMAKE_BUILD_TYPE=Release -G"MinGW Makefiles" $SOURCE_DIR \
-	-DCMAKE_INSTALL_PREFIX="$(pwd)/install"
-cmake --build . --config Release --target install
+pacman -S mingw-w64-ucrt-x86\_64-libsigc++ mingw-w64-ucrt-x86\_64-cairomm mingw-w64-ucrt-x86\_64-yaml-cpp mingw-w64-ucrt-x86\_64-glfw mingw-w64-ucrt-x86\_64-catch
 \end{lstlisting}
 
-\item Install Vulkan SDK:
-
-Launch MSYS2 or MINGW64 as Administrator only for this step (it is mandatory to do the install in default path C:\\VulkanSDK ...)
+\item Install Vulkan dependencies:
 \begin{lstlisting}[language=sh, numbers=none]
-cd ~
-wget https://sdk.lunarg.com/sdk/download/1.3.268.0/windows/VulkanSDK-1.3.268.0-Installer.exe
-./VulkanSDK-1.3.268.0-Installer.exe --accept-licenses --default-answer \
-	--confirm-command install
-rm -f VulkanSDK-1.3.268.0-Installer.exe
+pacman -S mingw-w64-ucrt-x86\_64-vulkan-headers mingw-w64-ucrt-x86\_64-vulkan-loader mingw-w64-ucrt-x86\_64-shaderc \
+mingw-w64-ucrt-x86\_64-glslang mingw-w64-ucrt-x86\_64-spirv-tools
 \end{lstlisting}
+
+\item Install FFTS:
+\begin{lstlisting}[language=sh, numbers=none]
+pacman -S mingw-w64-ucrt-x86\_64-ffts
+\end{lstlisting}
+
 
 \item Check out the code
 
@@ -276,41 +339,62 @@ cd ~
 git clone --recursive https://github.com/ngscopeclient/scopehal-apps
 \end{lstlisting}
 
-\item Execute makepkg-mingw in subdir MSYS2:
+All following steps are to be done in a UCRT64 shell.
 
+\item Build manually:
 \begin{lstlisting}[language=sh, numbers=none]
-cd ~/scopehal-apps/msys2
-export VK_SDK_PATH=/c/VulkanSDK/1.3.268.0
-export PATH=$VK_SDK_PATH/Bin:$PATH
-export VULKAN_SDK=$VK_SDK_PATH
-export GLSLANG_BUILD_PATH=~/glslang/build/install
-
-MINGW_ARCH=mingw64 makepkg-mingw --noconfirm --noprogressbar -sCLf
+cd scopehal-apps
+mkdir build
+cd build
+cmake ..
+make -j4
 \end{lstlisting}
 
-The unit tests will not be run as part of this build - if you would like to run them, you will need to provide catch2
-(https://github.com/catchorg/Catch2), and remove the -DBUILD\_TESTING=OFF flag from the PKGBUILD recipe in subdir
-msys2.
+% \item Alternatively, Execute makepkg-mingw in subdir MSYS2:
 
-\item Installing, copying binaries and running ngscopeclient.
+% \begin{lstlisting}[language=sh, numbers=none]
+% cd ~/scopehal-apps/msys2
 
-Since ngscopeclient is built using the MinGW toolchain, it depends on a rather large number of dynamic libraries.
-The recommended procedure is to install the package generated by makepkg-mingw on a MinGW64 shell:
+% MINGW\_ARCH=mingw64 makepkg-mingw --noconfirm --noprogressbar -sCLf
+% \end{lstlisting}
 
-\begin{lstlisting}[language=sh, numbers=none]
-cd ~
-cd msys2
-pacman -U *.zst
-\end{lstlisting}
+% !and remove the -DBUILD\_TESTING=OFF flag from the PKGBUILD recipe in subdir
+% msys2.
 
-This is equivalent to the package installed through \lstinline{pacman -S}, but it's built from the checked out commit,
-instead of the pinned version available from MSYS2 repositories.
+% \item Installing, copying binaries and running ngscopeclient.
 
-The \lstinline{*.zst} package includes metadata about the dependencies.
-Therefore, when installed through \lstinline{pacman}, those will be installed automatically.
-However, some users might want to use ngscopeclient outside of MSYS2.
-In those cases, it needs to be installed first, and then a tarball/zipfile can be created by collecting all the dependencies.
-This last approach is not officially supported yet.
+% Since ngscopeclient is built using the MinGW toolchain, it depends on a rather large number of dynamic libraries.
+% The recommended procedure is to install the package generated by makepkg-mingw on a MinGW64 shell:
+
+% MSVC build
+
+% Install vcpkg
+% Integrate vcpkg - vcpkg integrate install
+
+% run cmake (replace VCPKG_ROOT with the install path of vcpkg):
+% cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=VCPKG_ROOT\scripts\buildsystems\vcpkg.cmake
+
+% Open Visual Studio and build the software.
+
+% \begin{lstlisting}[language=sh, numbers=none]
+% cd ~
+% cd msys2
+% pacman -U *.zst
+% \end{lstlisting}
+
+% This is equivalent to the package installed through \lstinline{pacman -S}, but it's built from the checked out commit,
+% instead of the pinned version available from MSYS2 repositories.
+
+% The \lstinline{*.zst} package includes metadata about the dependencies.
+% Therefore, when installed through \lstinline{pacman}, those will be installed automatically.
+% However, some users might want to use ngscopeclient outside of MSYS2.
+% In those cases, it needs to be installed first, and then a tarball/zipfile can be created by collecting all the dependencies.
+% This last approach is not officially supported yet.
+
+\item Install scopehal and scopehal-apps:
+
+At the moment, installation scripts are not yet complete.
+The binaries can be found in the build directory, such as ngscopeclient in \$HOME/scopehal-apps/build/src/ngscopeclient.
 
 \end{enumerate}
 
