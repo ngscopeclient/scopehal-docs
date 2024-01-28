@@ -14,7 +14,8 @@ driver.
 SCPI over GPIB.
 
 This transport takes up to four arguments: GPIB board index, primary address, secondary address, and timeout value.
-Only board index and primary address are required.
+Only board index and primary address are required. We currently support using a single GPIB device per GPIB board 
+(interface) in a ngscopeclient session. Better support for multiple instrument on a single board is planned.
 
 NOTE: The current implementation of this driver only works on Linux, using the linux-gpib library.
 
