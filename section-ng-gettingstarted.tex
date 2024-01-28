@@ -70,11 +70,11 @@ ngscopeclient can be compiled on Linux, macOS, and Windows. While the compilatio
 
 \item Install dependencies.
 
-\subsubsection{Debian/Ubuntu}
+\subsubsection{Debian}
 
 Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
-sudo apt install build-essential git cmake pkgconf libgtk-3-dev libcairomm-1.0-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev
+sudo apt install build-essential git cmake pkgconf libgtkmm-3.0-dev libcairomm-1.0-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip
 \end{lstlisting}
 
 On Debian bookworm and later, you can use system-provided Vulkan packages. Skip this on Debian bullseye, or if you choose to use the Vulkan SDK instead:
@@ -91,7 +91,38 @@ sudo apt install cmake/bullseye-backports
 
 To build the LXI component (needed if you have LXI- or VXI-11-based instruments):
 \begin{lstlisting}[language=sh, numbers=none]
-sudo apt install liblxi-dev
+sudo apt install liblxi-dev libtirpc-dev
+\end{lstlisting}
+
+For GPIB, you will need to install Linux-GPIB; instructions for this are out of scope here.
+
+To build the documentation, you will also need LaTeX packages:
+\begin{lstlisting}[language=sh, numbers=none]
+sudo apt install texlive texlive-fonts-extra texlive-extra-utils
+\end{lstlisting}
+
+\subsubsection{Ubuntu}
+
+Basic requirements:
+\begin{lstlisting}[language=sh, numbers=none]
+sudo apt install build-essential git cmake pkgconf libgtkmm-3.0-dev libcairomm-1.0-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip
+\end{lstlisting}
+
+On Debian bookworm and later, you can use system-provided Vulkan packages. Skip this on Debian bullseye, or if you choose to use the Vulkan SDK instead:
+\begin{lstlisting}[language=sh, numbers=none]
+sudo apt install libvulkan-dev glslang-dev glslang-tools spirv-tools 
+\end{lstlisting}
+
+On Debian bullseye, you will need cmake from backports:
+\begin{lstlisting}[language=sh, numbers=none]
+sudo bash -c 'echo "deb http://deb.debian.org/debian bullseye-backports main" >> /etc/apt/sources.list.d/bullseye-backports.list'
+sudo apt update
+sudo apt install cmake/bullseye-backports
+\end{lstlisting}
+
+To build the LXI component (needed if you have LXI- or VXI-11-based instruments):
+\begin{lstlisting}[language=sh, numbers=none]
+sudo apt install liblxi-dev libtirpc-dev
 \end{lstlisting}
 
 For GPIB, you will need to install Linux-GPIB; instructions for this are out of scope here.
@@ -210,6 +241,8 @@ echo "source \"$HOME/VulkanSDK/1.3.275.0/setup-env.sh\"" >> ~/.zprofile
 \end{lstlisting}
 
 \item Build scopehal and scopehal-apps:
+
+need -DCMAKE_PREFIX_PATH=$(brew --prefix):$(brew --prefix)/opt/libomp on macos!!
 
 \begin{lstlisting}[language=sh, numbers=none]
 export VULKAN_SDK=~/VulkanSDK/1.3.268.1/macOS
