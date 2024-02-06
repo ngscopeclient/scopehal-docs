@@ -180,9 +180,8 @@ sudo make install
 
 \item Install Vulkan SDK:
 
-If you are using Ubuntu, you may install the
-\href{https://vulkan.lunarg.com/doc/sdk/1.3.261.1/linux/getting_started_ubuntu.html}{.deb packaged SDK release} instead
-of following the instructions below.
+If you are using Debian or Ubuntu, you may install the
+\href{https://vulkan.lunarg.com/doc/sdk/1.3.275.0/linux/getting_started_ubuntu.html}{.deb packaged SDK release} instead of following the instructions below.
 
 In most cases, you can install the SDK components from distro-provided repositories, which is covered above. If you choose not to, or are running Debian Bullseye, the following instructions cover installing and loading the Vulkan SDK.
 
@@ -288,45 +287,37 @@ On Windows, we make use of the MSYS2 development environment, which gives us acc
 Since this toolchain allows ngscopeclient to be compiled as a native Windows application, the project might be run
 outside of MSYS2.
 
-\subsubsection{Installing from the package manager}
-
-\begin{lstlisting}[language=sh, numbers=none]
-pacman -Sy
-pacman -S mingw-w64-x86_64-scopehal-apps
-\end{lstlisting}
-
-See also \href{https://packages.msys2.org/group/mingw-w64-x86_64-eda}{\lstinline{mingw-w64-x86_64-eda}}.
-
 \subsubsection{Building from source}
 
 \begin{enumerate}
 
 \item Download and install MSYS2. You can download it from \href{https://www.msys2.org/}{msys2.org} or \href{https://github.com/msys2/msys2-installer/releases}{github.com/msys2/msys2-installer/releases}\\
-It is of utmost importance that \textbf{all} steps outlined on the website are followed precisely, even if they might
-seem unnecessary.
-This will avoid lots of hard to diagnose problems later on in the build.\\
 
-All following steps are to be done in a MinGW64 shell (\textbf{not} in a MSYS, MINGW32, CLANG64, CLANG32 or UCRT64 shell,
-which also get installed by the MSYS2 installer).
 
-\item Install WiX Toolset v3.11 (required to build the Windows x64 MSI)
-You shall download and install WiX Toolset v3.11 in \begin{verbatim}C:\Program Files (x86)\WiX Toolset v3.11\end{verbatim}
-https://wixtoolset.org/docsa/wix3/
+The following steps can be done in any MSYS-provided shell.
 
-\item Install git the toolchain, and the Vulkan dependencies:
+\item If you would like to build the installer package, install WIX Toolset from https://wixtoolset.org/docs/wix3/
 
+\item Install git and the toolchain:
 \begin{lstlisting}[language=sh, numbers=none]
-pacman -S git wget mingw-w64-x86_64-cmake mingw-w64-x86_64-toolchain mingw-w64-x86_64-vulkan-headers mingw-w64-x86_64-vulkan-loader mingw-w64-x86_64-shaderc mingw-w64-x86_64-glslang mingw-w64-x86_64-spirv-tools mingw-w64-x86_64-glfw mingw-w64-x86_64-cairo mingw-w64-x86_64-libsigc++ mingw-w64-x86_64-catch mingw-w64-x86_64-ffts mingw-w64-x86_64-yaml-cpp
+pacman -S git wget mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-toolchain
 \end{lstlisting}
 
-SOURCE_DIR=~/glslang
-BUILD_DIR=$SOURCE_DIR/build
-mkdir -p $BUILD_DIR
-cd $BUILD_DIR
-/mingw64/bin/cmake -DCMAKE_BUILD_TYPE=Release -G"MinGW Makefiles" $SOURCE_DIR \
-	-DCMAKE_INSTALL_PREFIX="$(pwd)/install"
-/mingw64/bin/cmake --build . --config Release --target install
+\item Install general dependencies:
+\begin{lstlisting}[language=sh, numbers=none]
+pacman -S mingw-w64-ucrt-x86_64-libsigc++ mingw-w64-ucrt-x86_64-cairomm mingw-w64-ucrt-x86_64-gtkmm3 mingw-w64-ucrt-x86_64-yaml-cpp mingw-w64-ucrt-x86_64-glfw mingw-w64-ucrt-x86_64-catch
 \end{lstlisting}
+
+\item Install Vulkan dependencies:
+\begin{lstlisting}[language=sh, numbers=none]
+pacman -S mingw-w64-ucrt-x86_64-vulkan-headers mingw-w64-ucrt-x86_64-vulkan-loader mingw-w64-ucrt-x86_64-shaderc mingw-w64-ucrt-x86_64-glslang mingw-w64-ucrt-x86_64-spirv-tools
+\end{lstlisting}
+
+\item Install FFTS:
+\begin{lstlisting}[language=sh, numbers=none]
+pacman -S mingw-w64-ucrt-x86_64-ffts
+\end{lstlisting}
+
 
 \item Check out the code
 
@@ -335,14 +326,21 @@ cd ~
 git clone --recursive https://github.com/ngscopeclient/scopehal-apps
 \end{lstlisting}
 
-\item Execute makepkg-mingw in subdir MSYS2:
+All following steps are to be done in a UCRT64 shell.
+
+\item Build manually:
+\begin{lstlisting}[language=sh, numbers=none]
+cd scopehal-apps
+mkdir build
+cd build
+cmake ..
+make -j
+\end{lstlisting}
+
+\item Alternatively, Execute makepkg-mingw in subdir MSYS2:
 
 \begin{lstlisting}[language=sh, numbers=none]
 cd ~/scopehal-apps/msys2
-export VK_SDK_PATH=/c/VulkanSDK/1.3.268.0
-export PATH=$VK_SDK_PATH/Bin:$PATH
-export VULKAN_SDK=$VK_SDK_PATH
-export GLSLANG_BUILD_PATH=~/glslang/build/install
 
 MINGW_ARCH=mingw64 makepkg-mingw --noconfirm --noprogressbar -sCLf
 \end{lstlisting}
