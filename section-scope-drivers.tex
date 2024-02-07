@@ -268,6 +268,18 @@ TODO: document WIP ThunderScope driver
 \section{Enjoy Digital}
 TODO (\issue{scopehal}{79})
 
+\section{Generic}
+
+Drivers in this section are not specific to a particular manufacturer's products and support a wide variety of similar
+devices.
+
+\subsection{socketcan}
+
+This driver exposes the Linux SocketCAN API as a stream of CAN messages which can be displayed as-is or used as input
+to other filter graph blocks. When paired with the ``socketcan" transport and a suitable CAN peripheral, it allows
+ngscopeclient to be used as a CAN bus protocol analyzer. Since SocketCAN is a Linux-only API, this driver is not
+available on other platforms.
+
 \section{Hantek}
 TODO (\issue{scopehal}{26})
 
