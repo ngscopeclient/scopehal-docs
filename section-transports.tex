@@ -14,7 +14,7 @@ driver.
 SCPI over GPIB.
 
 This transport takes up to four arguments: GPIB board index, primary address, secondary address, and timeout value.
-Only board index and primary address are required. We currently support using a single GPIB device per GPIB board 
+Only board index and primary address are required. We currently support using a single GPIB device per GPIB board
 (interface) in a ngscopeclient session. You cannot currently access multiple devices in the same or across instances.
 Better support for multiple instrument on a single board is planned.
 
@@ -65,6 +65,13 @@ Example:
 \begin{lstlisting}[language=sh, numbers=none]
 ngscopeclient sim:demo:null:blah
 \end{lstlisting}
+
+\section{socketcan}
+
+This transport provides a non-SCPI wrapper for accessing the Linux SocketCAN API, allowing use as a CAN bus protocol
+analyzer.
+
+This transport takes one argument: the device name (e.g. ``can0")
 
 \section{twinlan}
 
