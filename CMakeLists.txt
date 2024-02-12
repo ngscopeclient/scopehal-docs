@@ -79,11 +79,7 @@ add_custom_target(doc ALL
 		${CMAKE_CURRENT_BINARY_DIR}/ngscopeclient-manual.pdf
 		${CMAKE_CURRENT_BINARY_DIR}/html/ngscopeclient-manual.html)
 
-if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/ngscopeclient-manual.pdf)
-	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ngscopeclient-manual.pdf
-		DESTINATION share/doc/ngscopeclient)
-	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html
-		DESTINATION share/doc/ngscopeclient)
-else()
-	message(WARNING "Documentation is not being installed, as it was not built.")
-endif()
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ngscopeclient-manual.pdf
+	DESTINATION share/doc/ngscopeclient OPTIONAL)
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html
+	DESTINATION share/doc/ngscopeclient OPTIONAL)
