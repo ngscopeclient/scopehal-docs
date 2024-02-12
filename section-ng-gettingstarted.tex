@@ -185,7 +185,7 @@ git clone https://github.com/anthonix/ffts.git
 cd ffts
 mkdir build
 cd build
-cmake .. -DENABLE\_SHARED=ON
+cmake .. -DENABLE_SHARED=ON
 make -j4
 sudo make install
 \end{lstlisting}
@@ -211,19 +211,19 @@ Alternatively, to use the tarball packaged SDK, download and unpack the tarball.
 cd ~
 mkdir VulkanSDK
 cd VulkanSDK
-curl -LO 'https://vulkan.lunarg.com/sdk/download/1.3.275.0/linux/vulkansdk-linux-x86\_64-1.3.275.0.tar.xz'
-tar xfv vulkansdk-linux-x86\_64-1.3.275.0.tar.xz
+curl -LO 'https://vulkan.lunarg.com/sdk/download/1.3.275.0/linux/vulkansdk-linux-x86_64-1.3.275.0.tar.xz'
+tar xfv vulkansdk-linux-x86_64-1.3.275.0.tar.xz
 \end{lstlisting}
 
 And then source the `setup-env.sh` file:
 \begin{lstlisting}[language=sh, numbers=none]
-source "\$HOME/VulkanSDK/1.3.275.0/setup-env.sh"
+source "$HOME/VulkanSDK/1.3.275.0/setup-env.sh"
 \end{lstlisting}
 
 When using the tarball-packaged SDK, you will need to source the `setup-env.sh` file any time you want to compile
 or run ngscopeclient. For convenience, you can add this to your `.bash\_profile` or equivalent:
 \begin{lstlisting}[language=sh, numbers=none]
-echo "source \\"\$HOME/VulkanSDK/1.3.275.0/setup-env.sh\\"" >> ~/.bash\_profile
+echo "source \"$HOME/VulkanSDK/1.3.275.0/setup-env.sh\"" >> ~/.bash_profile
 \end{lstlisting}
 
 \item Build scopehal and scopehal-apps:
@@ -234,7 +234,7 @@ git clone --recursive https://github.com/ngscopeclient/scopehal-apps.git
 cd scopehal-apps
 mkdir build
 cd build
-cmake .. -DCMAKE\_BUILD\_TYPE=Release
+cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j4
 \end{lstlisting}
 
@@ -269,13 +269,13 @@ If you are using a newer SDK and run into problems, please file a bug report.
 
 And then source the `setup-env.sh` file:
 \begin{lstlisting}[language=sh, numbers=none]
-source "\$HOME/VulkanSDK/1.3.275.0/setup-env.sh"
+source "$HOME/VulkanSDK/1.3.275.0/setup-env.sh"
 \end{lstlisting}
 
 When using the SDK, you will need to source the `setup-env.sh` file any time you want to compile or run ngscopeclient.
 For convenience, you can add this to your `.zprofile` or equivalent:
 \begin{lstlisting}[language=sh, numbers=none]
-echo "source \"\$HOME/VulkanSDK/1.3.275.0/setup-env.sh\"" >> ~/.zprofile
+echo "source \"$HOME/VulkanSDK/1.3.275.0/setup-env.sh\"" >> ~/.zprofile
 \end{lstlisting}
 
 \item Build scopehal and scopehal-apps:
@@ -286,7 +286,7 @@ git clone --recursive https://github.com/ngscopeclient/scopehal-apps.git
 cd scopehal-apps
 mkdir build
 cd build
-cmake .. -DCMAKE\_BUILD\_TYPE=Release -DCMAKE\_PREFIX\_PATH="\$(brew --prefix);\$(brew --prefix)/opt/libomp"
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(brew --prefix);$(brew --prefix)/opt/libomp"
 make -j4
 \end{lstlisting}
 
