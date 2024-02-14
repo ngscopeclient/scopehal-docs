@@ -2066,9 +2066,10 @@ Internet Protocol version 4
 Given a single waveform containing consecutively sampled I and Q values, plus a recovered clock, output separate
 sampled I and Q waveforms and a half-rate clock.
 
-I is always sampled before Q and the first clock edge in the waveform is arbitrarily defined to be I.
+I is always sampled before Q.
 
-Most analysis flows will require a subsequent, protocol-specific alignment step to determine the correct phasing.
+Two alignment methods are supported: None (first clock edge in the input is arbitrarily declared to be I)
+and 100Base-T1 (the alignment with the least (0,0) symbols is preferred)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
