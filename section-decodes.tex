@@ -1161,6 +1161,13 @@ This filter outputs a single scalar with a constant value.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Constellation}
+\label{filter:constellation}
+
+This filter takes I/Q streams and a double-rate symbol clock and outputs a constellation diagram.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{CSV Export}
 
 Saves waveform data to a comma-separated-value file.
@@ -2051,6 +2058,17 @@ management controllers (BMCs) and embedded controllers (ECs).
 \section{IPv4}
 
 Internet Protocol version 4
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{IQ Demux}
+
+Given a single waveform containing consecutively sampled I and Q values, plus a recovered clock, output separate
+sampled I and Q waveforms and a half-rate clock.
+
+I is always sampled before Q and the first clock edge in the waveform is arbitrarily defined to be I.
+
+Most analysis flows will require a subsequent, protocol-specific alignment step to determine the correct phasing.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
