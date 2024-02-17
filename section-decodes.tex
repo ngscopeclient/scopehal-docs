@@ -1168,6 +1168,35 @@ This filter takes I/Q streams and a double-rate symbol clock and outputs a const
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Coupler De-Embed}
+\label{filter:couplerdbed}
+
+Given waveforms from both coupled ports of a dual directional coupler and the S-parameters of the coupler, de-embeds
+the coupler response in order to recover the forward and reverse waveforms.
+
+This filter uses a multi-step algorithm to de-embed both the insertion loss of the coupled path and enhance the
+apparent directivity of the coupler:
+
+\begin{enumerate}
+
+\item De-embed the coupled path response from the coupled port waveforms in order to calculate an initial estimate of
+the input port waveforms. The same FFT-based algorithm as the \hyperref[filter:deembed]{De-Embed} filter is used.
+
+\item Given the initial estimated input port waveforms, calculate the leakage from the forward path to the reverse
+coupled port, and from the reverse path to the forward coupled port. The same FFT-based algorithm as the
+\hyperref[filter:channelemu]{Channel Emulation} filter is used. This estimate is imperfect since it assumes perfect
+directivity, so a small amount of the legitimate waveform is incorrectly included in the leakage waveform.
+
+\item Subtract the leakage waveforms from the measured coupled port waveforms. This removes most of the leakage (as
+well as a small amount of the legitimate waveform).
+
+\item De-embed the coupled path response from the subtracted waveform in order to get a revised estimate of input
+port waveforms. This is the final output of the filter.
+
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{CSV Export}
 
 Saves waveform data to a comma-separated-value file.
