@@ -1174,6 +1174,8 @@ This filter takes I/Q streams and a double-rate symbol clock and outputs a const
 Given waveforms from both coupled ports of a dual directional coupler and the S-parameters of the coupler, de-embeds
 the coupler response in order to recover the forward and reverse waveforms.
 
+Both coupled-port waveforms must be the same sample rate, memory depth, and de-skewed relative to one another.
+
 This filter uses a multi-step algorithm to de-embed both the insertion loss of the coupled path and enhance the
 apparent directivity of the coupler:
 
