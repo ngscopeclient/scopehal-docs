@@ -12,6 +12,32 @@ release and should be considered alpha quality.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 
+\section{Documentation Conventions}
+
+Numbers are decimal unless explicitly specified otherwise. Binary or hexadecimal values use SystemVerilog notation, for
+example 'b10 means the binary value 10 (2) with no length specified, and 8'h41 means the 8-bit hexadecimal value 41
+(decimal 65)
+
+When referring to colors, HTML-style \#RRGGBB or \#RRGGBBAA notation is used. For example \#ff0000 means pure red with
+unspecified alpha (assumed fully opaque) and \#ff000080 means pure red with 50\% opacity.
+
+Printf-style format codes are used when describing output of protocol decodes. For example, ``\%02x" means data is
+formatted as hexadecimal bytes with leading zeroes.
+
+Items to be selected from a menu are displayed in \menustyle{monospace font}.
+
+Multilevel menu paths are separated by a / character. For example, \menustyle{Attenuation / 1x} means to open the
+\menustyle{Attenuation} submenu and select the \menustyle{1x} item.
+
+If there are multiple options for a menu or configuration option, they are displayed in square brackets and separated
+by a | character. For example, \menustyle{Move waveform to / Waveform Group [1|2]} means to select either
+\menustyle{Waveform Group 1} or \menustyle{Waveform Group 2} from the \menustyle{Move waveform to}
+menu.
+
+This project is under active development and is not anywhere near feature complete! As a result, this document is
+likely to refer to active bug or feature request tickets on the GitHub issue trackers. Issues are referenced as
+repository:ticket, for example \issue{scopehal-apps}{3}.
+
 \section{Key Concepts}
 
 \subsection{User Interface}

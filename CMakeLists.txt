@@ -3,7 +3,7 @@
 set(NGDOC_LIST
 	ngscopeclient-manual.tex
 	section-copyright.tex
-	section-ng-revision.tex
+	section-intro.tex
 	section-ng-legal.tex
 	section-ng-gettingstarted.tex
 	section-ng-mainwindow.tex
