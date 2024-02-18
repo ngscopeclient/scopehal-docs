@@ -1174,6 +1174,9 @@ This filter takes I/Q streams and a double-rate symbol clock and outputs a const
 Given waveforms from both coupled ports of a dual directional coupler and the S-parameters of the coupler, de-embeds
 the coupler response in order to recover the forward and reverse waveforms.
 
+NOTE: The current implementation of this filter requires the \codestyle{VK\_KHR\_push\_descriptor} Vulkan extension. A
+fallback implementation for GPUs without this extension will be added at some point in the future.
+
 Both coupled-port waveforms must be the same sample rate, memory depth, and de-skewed relative to one another.
 
 This filter uses a multi-step algorithm to de-embed both the insertion loss of the coupled path and enhance the
@@ -1196,6 +1199,35 @@ well as a small amount of the legitimate waveform).
 port waveforms. This is the final output of the filter.
 
 \end{enumerate}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+forward & Analog & Forward coupled port waveform \\
+\thinhline
+reverse & Analog & Reverse coupled port waveform \\
+\thinhline
+forwardCoupMag & Analog & Magnitude response of forward coupled path \\
+\thinhline
+forwardCoupAng & Analog & Angle response of forward coupled path \\
+\thinhline
+reverseCoupMag & Analog & Magnitude response of reverse coupled path \\
+\thinhline
+reverseCoupAng & Analog & Angle response of reverse coupled path \\
+\thinhline
+forwardLeakMag & Analog & Magnitude response of forward leakage path \\
+\thinhline
+forwardLeakAng & Analog & Angle response of forward leakage path \\
+\thinhline
+reverseLeakMag & Analog & Magnitude response of reverse leakage path \\
+\thinhline
+reverseLeakAng & Analog & Angle response of reverse leakage path \\
+\thickhline
+\end{tabularx}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
