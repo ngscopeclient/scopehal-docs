@@ -287,9 +287,17 @@ data bit rate) along with the data stream to provide synchronization.
 
 \begin{figure}[h]
 \centering
-\bigimage{images/filters/tmds.png}
+\bigimage{ng-images/filters/tmds.png}
 \caption{Example TMDS decode}
 \label{filter_tmds}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-tmds.png}
+\caption{Example filter graph decoding TMDS from a single-ended input. Note that this example recovers the clock from
+the input signal rather than multiplying up the reference clock.}
+\label{filter_graph_tmds}
 \end{figure}
 
 \subsection{Inputs}
@@ -1667,6 +1675,13 @@ Decodes the 10base-T Ethernet PCS/PMA as specified in IEEE 802.3-2018 clause 14.
 \section{Ethernet - 100baseT1}
 
 Decodes the 100base-T1 single-pair / automotive Ethernet PMA/PCS, as specified in IEEE 802.3-2018 clause 96.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Ethernet - 100baseT1 Link Training}
+
+Decodes the link training stage of 100base-T1 single-pair / automotive Ethernet, as specified in IEEE
+802.3-2018 clause 96.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
