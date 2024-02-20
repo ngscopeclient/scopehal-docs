@@ -633,7 +633,7 @@ This filter outputs one ADL5205 sample object for each write transaction, format
 \label{filter:autocorrelation}
 
 This filter calculates the autocorrelation of an analog waveform. Autocorrelation is a measure of self-similarity
-calculated by multiplying the signal with a time-shifted copy of itself. In Fig. \ref{filter_autocorr}, strong peaks
+calculated by multiplying the signal with a time-shifted copy of itself. In Fig. \ref{filter_autocorrelation}, strong peaks
 can be seen at multiples of the 8b/10b symbol rate.
 
 For best performance, it is crucial to keep the maximum offset as low as possible, since filter run time grows linearly
@@ -641,10 +641,18 @@ with offset range.
 
 \begin{figure}[h]
 \centering
-\bigimage{images/filters/autocorrelation.png}
-\caption{Example of autocorrelation on a serial data stream}
-\label{filter_autocorr}
+\bigimage{ng-images/filters/autocorrelation.png}
+\caption{Example waveforms showing autocorrelation of an 8b/10b signal}
+\label{filter_autocorrelation}
 \end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-autocorrelation.png}
+\caption{Example filter graph showing usage of autocorrelation filter}
+\label{filter_graph_autocorrelation}
+\end{figure}
+\FloatBarrier
 
 \subsection{Inputs}
 
@@ -652,7 +660,7 @@ with offset range.
 \thickhline
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
-din & Analog & Input waveform \\
+din & Uniform analog & Input waveform \\
 \thickhline
 \end{tabularx}
 
@@ -670,6 +678,14 @@ Max offset & Integer & Maximum shift (in samples)\\
 
 This filter outputs an analog waveform with the same timebase as the input, one sample for each correlation offset.
 
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Stream name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Uniform analog & Autocorrelation waveform \\
+\thickhline
+\end{tabularx}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Average}
@@ -677,12 +693,27 @@ This filter outputs an analog waveform with the same timebase as the input, one 
 
 This filter calculates the average of its input.
 
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/average.png}
+\caption{Typical usage of average filter}
+\label{filter_average}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-average.png}
+\caption{Example filter graph showing usage of average filter}
+\label{filter_graph_average}
+\end{figure}
+\FloatBarrier
+
 \subsection{Inputs}
 \begin{tabularx}{16cm}{llX}
 \thickhline
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
-in & Analog & Input waveform \\
+in & Analog or scalar & Input waveform \\
 \thickhline
 \end{tabularx}
 
@@ -715,12 +746,20 @@ Calculates the -3 dB bandwidth of a network, given the insertion loss magnitude.
 The bandwidth is measured relative to a user-specified reference level; for example the bandwidth of a -20 dB
 attenuator can be measured by setting the reference level to -20 dB.
 
-%\begin{figure}[h]
-%	\centering
-%	\bigimage{images/filters/burst-width.png}
-%	\caption{Example of burst width measurement}
-%	\label{filter_burstwidth}
-%	\end{figure}
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/bandwidth.png}
+\caption{Measuring the -3 dB bandwidth of a cable}
+\label{filter_bandwidth}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-bandwidth.png}
+\caption{Example filter graph showing usage of bandwidth filter on an imported Touchstone file}
+\label{filter_graph_bandwidth}
+\end{figure}
+\FloatBarrier
 
 \subsection{Inputs}
 
@@ -747,6 +786,14 @@ Reference Level & Float & Nominal (DC / mid band) insertion loss of the network\
 This filter outputs a scalar containing the first frequency in the network which is at least -3 dB below the reference
 level. If the input waveform is entirely below this level, the lowest frequency in the input is returned. If the
 input waveform is entirely above this level, the highest frequency in the input is returned.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Scalar & Calculated bandwidth \\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
