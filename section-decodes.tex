@@ -910,9 +910,55 @@ This filter outputs an analog waveform with one sample for each burst in the inp
 \section{Bus Heatmap}
 
 Computes a ``spectrogram" visualization of bus activity with address on the Y axis and time on the X axis, in order to
-identify patterns in memory accesses.
+identify patterns in memory or bus activity.
 
-The current version only supports CAN bus.
+The current version only supports CAN bus however other common memory interfaces will be added in the future.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/bus-heatmap.png}
+\caption{CAN bus activity on a car's OBD port showing the vehicle being started, running for 50 seconds, then shutting down}
+\label{filter_busheatmap}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-bus-heatmap.png}
+\caption{Example filter graph showing usage of bus heatmap filter on an imported CAN bus capture}
+\label{filter_graph_busheatmap}
+\end{figure}
+\FloatBarrier
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Max Address & Integer & Maximum address to display in the plot \\
+\thinhline
+X Bin Size & Integer & Width of each pixel in the X axis (timebase units) \\
+\thinhline
+Y Bin Size & Integer & Number of addresses to merge into each pixel in the Y axis \\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs a 2D density plot that is (max address) / (y bin size) pixels high and (memory depth) / (x bin
+size) pixels wide, spanning the entire duration of the input and the full address range requested.
+
+All packets within the input waveform have the start time and address rounded to the closest bin in X and Y. The
+corresponding pixel in the integration buffer is incremented, then the final waveform is normalized to cover the full
+range of the selected color ramp.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Density map & Calculated heatmap \\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -927,10 +973,26 @@ CAN-FD frames are detected and flagged as such, but the current decode cannot pa
 
 \begin{figure}[h]
 \centering
-\bigimage{images/filters/can.png}
-\caption{Example of CAN bus protocol decode}
+\bigimage{ng-images/filters/can.png}
+\caption{Example of decoding a single extended-format frame with 3 bytes of data}
 \label{filter_can}
 \end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-can.png}
+\caption{Example filter graph showing usage of CAN bus decode}
+\label{filter_graph_can}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/packet-can.png}
+\caption{Example packet output}
+\label{packet_can}
+\end{figure}
+
+\FloatBarrier
 
 \subsection{Inputs}
 
@@ -955,6 +1017,14 @@ Bit Rate & Integer & Bit rate of the bus (most commonly 250 or 500 Kbps)\\
 \subsection{Output Signal}
 
 The CAN bus decode outputs a time series of CAN sample objects. These consist of a type field and a byte of data.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Protocol & Decoded waveform data \\
+\thickhline
+\end{tabularx}
 
 \begin{tabularx}{16cm}{lllX}
 \thickhline
@@ -990,6 +1060,10 @@ EOF & End of frame & \cellcolor{preamble}\textcolor{white}{Preamble} & EOF \\
 
 \thickhline
 \end{tabularx}
+
+\subsection{Protocol Analyzer}
+
+TODO
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
