@@ -13,6 +13,7 @@ set(NGDOC_LIST
 	section-ng-history.tex
 	section-ng-grapheditor.tex
 	section-transports.tex
+	section-tutorials.tex
 	section-bert-drivers.tex
 	section-funcgen-drivers.tex
 	section-load-drivers.tex

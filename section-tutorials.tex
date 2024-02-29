@@ -1,0 +1,117 @@
+\chapter{Tutorials}
+
+This section contains step-by-step examples to help you familiar yourself with the basics of using ngscopeclient.
+
+Many of them can be done offline using the built-in demo oscilloscope or saved example waveform datasets - no lab
+access required!
+
+\section{The Basics}
+
+\begin{itemize}
+\item \textbf{Lab requirements:} None, can be performed offline
+\item \textbf{Learning goals:} Navigating the ngscopeclient UI and performing common operations
+\end{itemize}
+
+\subsection{Connecting to an Oscilloscope}
+
+We need to be connected to an instrument to do much of anything useful. Let's use the built-in demo scope for that.
+
+\begin{enumerate}
+\item Start with a new, empty ngscopeclient session
+\item Select \menustyle{Add / Oscilloscope / Connect...} from the top menu.
+\item Select the ``demo" driver and ``null" transport. Leave the path blank, since the demo scope doesn't need any
+connection information.
+\item Give the demo scope a nickname of your choice. This will be used to disambiguate scope channels and properties
+dialogs if you have more than one instrument connected, as well as to let you reconnect to the instrument quickly in
+the future.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/tutorials/basics/connect-example.png}
+\caption{Connection dialog}
+\label{basic-connect}
+\end{figure}
+
+\item Click the ``add" button. You should be presented with an oscilloscope view showing four empty channels stacked on
+top of each other.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/tutorials/basics/connected.png}
+\caption{Application window after connecting to demo scope}
+\label{basic-connected}
+\end{figure}
+
+\end{enumerate}
+
+\FloatBarrier
+
+\subsection{Acquiring Waveforms}
+
+Looks pretty boring! Let's grab some waveforms so we have something to look at.
+
+Note: The current demo scope is a simplistic instrument that doesn't implement realistic trigger semantics, so most of
+the usual trigger settings you might expect from real scopes (adjusting trigger level, horizontal position, selecting
+type of edge or condition) aren't available. It will always trigger immediately when armed and return waveforms at the
+same horizontal position.
+
+\begin{enumerate}
+\item Press the ``single trigger" button (second from left on the toolbar). You should see waveforms appear in each
+channel.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/tutorials/basics/first-waveform.png}
+\caption{Our first waveforms}
+\label{basic-first}
+\end{figure}
+
+\item Press the ``normal trigger" button (leftmost on the toolbar). You should see the waveform display begin updating
+live.
+
+\item Press the ``stop" button (fourth from left on the toolbar) to stop acquiring waveforms.
+
+\end{enumerate}
+
+\subsection{Navigating the Y Axis}
+
+All of the waveforms in the demo scope are centered around zero volts and just the right amplitude to fill the view.
+But in real life we're usually not that lucky. Let's try moving one of the waveforms around.
+
+\begin{enumerate}
+\item Move the mouse over the Y axis at the right side of one of the plots.
+\item Click and drag with the left button to move the waveform vertically (adjusting frontend offset).
+\item Scroll with the mouse wheel to scale the waveform vertically (adjusting frontend gain).
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/tutorials/basics/moved-waveform.png}
+\caption{Demo channel after making some gain and offset tweaks}
+\label{basic-moved}
+\end{figure}
+
+\subsection{Navigating the X Axis}
+
+The timebase in ngscopeclient is decoupled from the viewport, so you can zoom and pan arbitrarily in the X axis without
+changing timebase settings.
+
+Although we've only been looking at a $25 ns$ wide window of the waveform so far, the default settings for the demo scope
+are 100K points at 50 Gsps ($2 \mu s$ record length). Let's explore the rest of the waveform.
+
+\begin{enumerate}
+\item Move the mouse over the main plot area and scroll with the mouse wheel to zoom in or out, centering at the mouse
+cursor position.
+\item Move the mouse over the timeline at the top of the viewport and drag with the left button to move the waveform
+side to side without changing zoom.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/tutorials/basics/zoomed-waveform.png}
+\caption{Demo session after zooming out to show entire waveform}
+\label{basic-zoomed}
+\end{figure}
+
+\end{enumerate}
+
+\end{enumerate}
+
