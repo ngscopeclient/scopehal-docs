@@ -101,14 +101,14 @@ ngscopeclient myscope:rigol:uart:/dev/ttyUSB0:115200
 
 SCPI over USB Test \& Measurement Class protocol.
 
-This transport takes one argument: the path to the usbtmc kernel device object.
+This transport takes two arguments: the path to the usbtmc kernel device object and the TMC transfer size (optional). As Workaround for Siglent SDS1x04x-E set size to 48.
 
 NOTE: The current implementation of this driver only works on Linux. There is currently no support for USBTMC on
 Windows (\issue{scopehal}{301})
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
-ngscopeclient myscope:siglent:usbtmc:/dev/usbtmc0
+ngscopeclient myscope:siglent:usbtmc:/dev/usbtmc0:48
 \end{lstlisting}
 
 \section{vicp}
