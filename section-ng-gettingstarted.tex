@@ -331,8 +331,20 @@ cd scopehal-apps
 mkdir build
 cd build
 cmake ..
-make -j4
+ninja
 \end{lstlisting}
+
+\item Optional, to build MSI installer: 
+
+Download and install WiX Toolset.\\
+You can download it from \href{https://github.com/wixtoolset/wix3/releases}{https://github.com/wixtoolset/wix3/releases}\\
+If you install it to the path \texttt{"C:\textbackslash Program Files (x86)\textbackslash WiX Toolset v3.14"} run the following cmake command instead of \texttt{cmake ..} mentioned earlier:
+
+\begin{lstlisting}[language=sh, numbers=none]
+cmake .. -DWIXPATH="C:\Program Files (x86)\WiX Toolset v3.14\bin"
+\end{lstlisting}
+
+\texttt{ninja} compilation will now generate the installer after binaries.
 
 % \item Alternatively, Execute makepkg-mingw in subdir MSYS2:
 
