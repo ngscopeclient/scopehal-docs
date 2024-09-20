@@ -2414,6 +2414,16 @@ Filters a sequence of J1939 PDUs to output only those which are sent from a spec
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{J1939 Transport}
+\label{filter:j1939transport}
+
+Decodes the J1939 transport layer (PGNs 60416 and 60160) and reassembles multi-part packets into single logical packets.
+All other PGNs pass through this filter unchanged.
+
+As of now, only broadcast mode (BAM) packets are decoded, due to lack of CM test datasets.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Jitter}
 \label{filter:jitter}
 
