@@ -2936,6 +2936,60 @@ Decodes the Secure Digital card command bus protocol
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Setup / Hold}
+
+Calculates the setup and hold times of a data signal relative to a clock.
+
+Setup time is measured from data valid (leaving the undefined region between Vil and Vih) to clock invalid (entering
+the undefined region). Hold time is measured from clock valid to data invalid.
+
+The overall setup and hold times reported by the filter are the minimums observed across the entire waveform.
+
+If the undefined regions of data and clock signals ever overlap, both setup and hold time are reported as zero.
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Analog & Input data \\
+\thinhline
+clock & Analog & Input clock \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Vih & Float & High level threshold for the input buffer\\
+\thinhline
+Vil & Float & Low level threshold for the input buffer\\
+\thinhline
+Clock Edge & Enum &
+	\textbf{Rising}: Sample data on the rising clock edge \newline
+	\textbf{Falling}: Sample data on the falling clock edge \newline
+	\textbf{Both}: Sample data on both clock edges\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+tsetup & Analog scalar & Lowest setup time observed in the waveform\\
+\thinhline
+thold & Analog scalar & Lowest hold time observed in the waveform\\
+\thickhline
+\end{tabularx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Sine}
 
 Generates a pure sine wave with specified frequency, amplitude, sample rate, and DC bias.
