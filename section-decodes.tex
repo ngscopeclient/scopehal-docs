@@ -2625,7 +2625,8 @@ Calculates a moving average (box filter) over an analog waveform.
 \pagebreak
 \section{Multiply}
 
-Multiplies one waveform by another. No resampling is performed; both inputs must have identical sample rates.
+Multiplies one waveform or scalar by another. No resampling is performed; if both inputs are waveforms they must
+have identical sample rates and be aligned in time.
 
 Unit conversions are performed, for example the product of a voltage and current waveform is a power waveform.
 
@@ -2921,12 +2922,6 @@ had time to stabilize.
 
 Outputs a scalar value which ramps from a starting value to an ending value in a stairstep pattern, with configurable
 step duration and spacing.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagebreak
-\section{Scale}
-
-Multiplies a waveform by a scalar.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
