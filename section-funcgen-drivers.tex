@@ -20,3 +20,21 @@ DG4000 series & rigol\_awg & lan & Only tested via lan transport, but USBTMC and
 
 This driver supports all DG4000 series function / arbitrary waveform generators.
 
+\section{Owon}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+XDG 2000/3000 series & owon\_xdg & lan/usbtmc & Only tested via lan transport, but USBTMC is available too.\\
+\thickhline
+\end{tabularx}
+
+\subsection{owon\_xdg}
+
+This driver supports all XDG 2000/3000 series function / arbitrary waveform generators.
+
+It has been tested on an Owon XDG 2035.
+
+The default communication port for lan is 3000.
+
