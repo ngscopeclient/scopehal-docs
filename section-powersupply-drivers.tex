@@ -69,3 +69,19 @@ As a result - regardless of actual hardware state - the driver will report chann
 Additionally, the driver will report channel 3 as being off until it is turned on by software. Once the output has been
 turned on, the driver will track the state and report a correct on/off state as long as no front panel control buttons
 are touched.
+
+\section{Alientek}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+DP100 & alientek\_dp & hid & \\
+\thickhline
+\end{tabularx}
+
+\subsection{Alientek\_DP100}
+
+This driver works on Alientek DP100 mini Digital Power Supply.
+
+Path for connection (vendorId:productId) is: 2e3c:af01.

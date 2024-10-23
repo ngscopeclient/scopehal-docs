@@ -62,7 +62,7 @@ steps differ among platform and distro.
 Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
 sudo apt-get install build-essential git cmake pkgconf libgtkmm-3.0-dev \
-libcairomm-1.0-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip
+libcairomm-1.0-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip libhidapi-dev
 \end{lstlisting}
 
 On Debian bookworm and later, you can use system-provided Vulkan packages. Skip this on Debian bullseye, or if you
@@ -96,7 +96,7 @@ sudo apt install texlive texlive-fonts-extra texlive-extra-utils
 Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
 sudo apt install build-essential git cmake pkgconf libgtkmm-3.0-dev \
-libcairomm-1.0-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip
+libcairomm-1.0-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip libhidapi-dev
 \end{lstlisting}
 
 On Ubuntu 22.10 and earlier (including 20.04 and 22.04), you will need to use the Vulkan SDK.
@@ -124,7 +124,7 @@ sudo apt install texlive texlive-fonts-extra texlive-extra-utils
 Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
 sudo dnf install git gcc g++ cmake make pkgconf cairomm-devel gtk3-devel \
-libsigc++30-devel yaml-cpp-devel catch-devel glfw-devel
+libsigc++30-devel yaml-cpp-devel catch-devel glfw-devel libhidapi-dev
 \end{lstlisting}
 
 System-provided Vulkan packages. Skip these if you choose to use the Vulkan SDK instead:
@@ -151,7 +151,7 @@ As Alpine Linux uses musl libc, you will need to use system-provided Vulkan pack
 \begin{lstlisting}[language=sh, numbers=none]
 apk add git gcc g++ cmake make pkgconf cairomm-dev gtk+3.0-dev libsigc++-dev \
 yaml-cpp-dev catch2-3 vulkan-loader-dev glslang-dev glslang-static glfw-dev \
-shaderc-dev spirv-tools-dev
+shaderc-dev spirv-tools-dev libhidapi-dev
 \end{lstlisting}
 
 If you are using an older stable release (such as CentOS 7), you may need to install some dependencies from source.
@@ -236,7 +236,7 @@ With Homebrew (\href{https://brew.sh}{brew.sh}):
 
 \item Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
-brew install pkg-config cairomm libsigc++ glfw cmake yaml-cpp glew catch2 libomp
+brew install pkg-config cairomm libsigc++ glfw cmake yaml-cpp glew catch2 libomp hidapi
 \end{lstlisting}
 
 \item Vulkan SDK components (skip if using the Vulkan SDK):
@@ -307,7 +307,7 @@ pacman -S mingw-w64-ucrt-x86\_64-libsigc++ mingw-w64-ucrt-x86\_64-cairomm mingw-
 \item Install Vulkan dependencies:
 \begin{lstlisting}[language=sh, numbers=none]
 pacman -S mingw-w64-ucrt-x86\_64-vulkan-headers mingw-w64-ucrt-x86\_64-vulkan-loader mingw-w64-ucrt-x86\_64-shaderc \
-mingw-w64-ucrt-x86\_64-glslang mingw-w64-ucrt-x86\_64-spirv-tools
+mingw-w64-ucrt-x86\_64-glslang mingw-w64-ucrt-x86\_64-spirv-tools mingw-w64-ucrt-x86\_64-hidapi
 \end{lstlisting}
 
 \item Install FFTS:
