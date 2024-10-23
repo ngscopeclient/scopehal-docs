@@ -124,4 +124,16 @@ Example:
 ngscopeclient myscope:lecroy:vicp:192.0.2.9
 \end{lstlisting}
 
+\section{hid}
 
+This transport layer is usually used by binary drivers to communicate with Test \& Measurement equiment over USB.
+
+This transport takes two arguments: vendor ID (hex) and product ID (hex).
+
+Optionally a third argument can be added with the instrument's serial number.
+If not provided, the instrument's serial number is automatically pulled at first connection and stored in the connection string.
+
+Example:
+\begin{lstlisting}[language=sh, numbers=none]
+ngscopeclient AlientekDP100:alientek_dp:hid:2e3c:af01
+\end{lstlisting}
