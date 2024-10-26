@@ -5,6 +5,22 @@ This chapter describes all of the available drivers for power supplies.
 
 % TODO: demo driver
 
+\section{Alientek}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+DP100 & alientek\_dp & hid & \\
+\thickhline
+\end{tabularx}
+
+\subsection{alientek\_dp}
+
+This driver works on Alientek DP100 mini Digital Power Supply.
+
+Path for connection (vendorId:productId) is: 2e3c:af01.
+
 \section{GW Instek}
 
 \begin{tabularx}{16cm}{lllX}
@@ -18,6 +34,41 @@ GPD-X303S series & gwinstek\_gpdx303s & uart & 9600 Baud default. Tested with GP
 \subsection{gwinstek\_gpdx303s}
 
 Supported models should include GPD-2303S, GPD-3303S, GPD-4303S, and GPD-3303D.
+
+\section{Kuaiqu}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+Kuaiqu SSPS-S series & kuaiqu\_psu & uart & \\
+Kuaiqu SPPS*D series & kuaiqu\_psu & uart & \\
+Kuaiqu SPPS-D series & kuaiqu\_psu & uart & Tested on a Kuaiqu SPPS-D3010-232\\
+Kuaiqu R-SPPS series & kuaiqu\_psu & uart & \\
+\thickhline
+\end{tabularx}
+
+\subsection{kuaiqu\_psu}
+
+This driver supports all Kuaiqu programmable PSUs, including SSPS-S, SPPS*D, SPPS-D and R-SPPS series.
+
+It has been tested on a Kuaiqu SPPS-D3010-232.
+
+\section{Riden}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+Riden RD series & riden\_rd & uart & Tested on a Riden RD6006\\
+\thickhline
+\end{tabularx}
+
+\subsection{kuaiqu\_psu}
+
+This driver supports all Riden RD series DC Power Supplies.
+
+It has been tested on a Riden RD6006.
 
 \section{Rigol}
 
@@ -69,19 +120,3 @@ As a result - regardless of actual hardware state - the driver will report chann
 Additionally, the driver will report channel 3 as being off until it is turned on by software. Once the output has been
 turned on, the driver will track the state and report a correct on/off state as long as no front panel control buttons
 are touched.
-
-\section{Alientek}
-
-\begin{tabularx}{16cm}{lllX}
-\thickhline
-\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
-\thickhline
-DP100 & alientek\_dp & hid & \\
-\thickhline
-\end{tabularx}
-
-\subsection{Alientek\_DP100}
-
-This driver works on Alientek DP100 mini Digital Power Supply.
-
-Path for connection (vendorId:productId) is: 2e3c:af01.
