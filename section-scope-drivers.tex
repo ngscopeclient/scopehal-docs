@@ -721,5 +721,23 @@ commands. To remove the prompts and help text, go to Utility | I/O, then under t
 \thickhline
 \end{tabularx}
 
+\section{tinySA}
+
+This driver is meant to be used with tinySA and tinySA ULTRA spectrum analyzers.
+
+It has been developed and tested on a tinySA ULTRA.
+
+The communication with the device is made with UART transport layer. 
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+tinySA  & tiny\_sa & uart & Not tested but should work \\
+\thinhline
+tinySA ULTRA & tiny\_sa & uart & Driver tested on this device \\
+\thickhline
+\end{tabularx}
+
 \section{Xilinx}
 TODO (\issue{scopehal}{40})
