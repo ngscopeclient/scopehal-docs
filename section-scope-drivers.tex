@@ -375,6 +375,11 @@ instrument using Pico's binary SDK.
 Rigol oscilloscopes have subtle differences in SCPI command set, but this is implemented with quirks handling in the
 driver rather than needing different drivers for each scope family.
 
+NOTE: DS1054Z firmware 00.04.02.SP4 is known to have problems with SCPI remote control
+(https://github.com/ngscopeclient/scopehal-apps/issues/790); it is unclear what other models and firmware versions may
+be affected by this bug. If you encounter problems, please ensure your scope is running the latest firmware release
+from Rigol before opening a support ticket.
+
 \begin{tabularx}{16cm}{llX}
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
@@ -727,7 +732,7 @@ This driver is meant to be used with tinySA and tinySA ULTRA spectrum analyzers.
 
 It has been developed and tested on a tinySA ULTRA.
 
-The communication with the device is made with UART transport layer. 
+The communication with the device is made with UART transport layer.
 
 \begin{tabularx}{16cm}{lllX}
 \thickhline
