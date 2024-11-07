@@ -34,6 +34,43 @@ This driver supports the S2VNA and S4VNA software from Copper Mountain.
 As of this writing, only 2-port VNAs are supported. 4-port VNAs will probably work using only the first two ports,
 but this has not been tested.
 
+\section{NanoVNA}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+NanoVNA & nanovna & uart & Not tested but should work\\
+\thinhline
+NanoVNA-D & nanovna & uart & Not tested but should work\\
+\thinhline
+NanoVNA-F & nanovna & uart & Not tested but should work\\
+\thinhline
+DeepVNA 101 & nanovna & uart & Development and tests made on this device (a.k.a. NanoVNA-F Deepelec)\\
+\thinhline
+NanoVNA-F\_V2 & nanovna & uart & Not tested but should work\\
+\thinhline
+NanoVNA-H & nanovna & uart & Not tested but should work\\
+\thinhline
+NanoVNA-H4 & nanovna & uart & Not tested but should work\\
+\thickhline
+\end{tabularx}
+
+\subsection{nanovna}
+
+This driver supports the NanoVNA with different variants of the original design and firmware (see above).
+
+Communication with the device uses UART transport layer with a connection string looking like this (DTR flag is required):
+\begin{lstlisting}[language=sh, numbers=none]
+COM6:115200:DTR
+\end{lstlisting}
+
+Paginated sweep has been implemented to achieve memory depths greater then the device's internal limit.
+
+Pagination is also used at low RBW to prevent the connection from timing out during sweep.
+
+NanoVNA V2 (with binary protocol) is NOT supported.
+
 \section{Pico Technology}
 
 \begin{tabularx}{16cm}{lllX}
