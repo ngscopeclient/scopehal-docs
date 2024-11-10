@@ -6,6 +6,22 @@ This chapter describes all of the available drivers for multimeters.
 Multimeters which are part of an oscilloscope are described in the \hyperref[sec:scope-drivers]{Oscilloscope
 Drivers} section.
 
+\section{Owon}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+Owon XDM1041/1241 & owon\_xdm & uart & Driver developped and tested on this meter\\
+\thinhline
+Owon XDM2041 & owon\_xdm & uart & Not tested but should work\\
+\thickhline
+\end{tabularx}
+
+\subsection{owon\_xdm}
+
+This driver supports Owon XDM 1000 and 2000 series multimeters.
+
 \section{Rohde \& Schwarz}
 
 \begin{tabularx}{16cm}{lllX}
