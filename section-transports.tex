@@ -89,13 +89,21 @@ If port numbers are not specified, the SCPI port defaults to the IANA standard o
 
 SCPI over RS-232 or USB-UART.
 
-This transport takes two arguments: device path (required) and baud rate (optional). If baud rate is not specified, it
+This transport takes 3 arguments: device path (required), baud rate (optional) and flags (optional). If baud rate is not specified, it
 defaults to 115200.
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
 ngscopeclient myscope:rigol:uart:/dev/ttyUSB0:115200
 \end{lstlisting}
+
+Some devices, like the NanoVNA, need to activate the DTR line to communicate. This can be achieved by adding the DTR flag to the connection string.
+
+Example:
+\begin{lstlisting}[language=sh, numbers=none]
+ngscopeclient NanoVNA-F:nanovna:uart:COM6:115200:DTR
+\end{lstlisting}
+
 
 \section{usbtmc}
 
