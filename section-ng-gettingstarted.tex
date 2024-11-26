@@ -8,8 +8,8 @@ tested platform, however Windows and Mac OS are also supported.
 Any 64-bit Intel or AMD processor, or Apple Silicon Mac, should be able to run ngscopeclient. If AVX2 and/or AVX512F
 support is present ngscopeclient will use special optimized versions of some signal processing functions, however
 neither instruction set is required. Other (non Apple Silicon) ARM64 platforms may work if a compatible GPU is
-available, but have not been tested. 32-bit platforms are not supported due to the significant RAM requirements
-(but we won't stop you from trying).
+available, but have not been tested. 32-bit platforms are not officially supported due to the significant RAM
+requirements (but we won't stop you from trying and would love to hear if you get it working).
 
 A mouse with scroll wheel, or touchpad with scroll gesture support, is mandatory to enable full use of the UI. We may
 explore alternative input methods for some UI elements in the future.
@@ -334,7 +334,7 @@ cmake ..
 ninja -j4
 \end{lstlisting}
 
-\item Optional, to build MSI installer: 
+\item Optional, to build MSI installer:
 
 Download and install WiX Toolset.\\
 You can download it from \href{https://github.com/wixtoolset/wix3/releases}{https://github.com/wixtoolset/wix3/releases}\\
