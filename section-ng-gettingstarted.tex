@@ -8,8 +8,7 @@ tested platform, however Windows and Mac OS are also supported.
 Any 64-bit Intel or AMD processor, or Apple Silicon Mac, should be able to run ngscopeclient. If AVX2 and/or AVX512F
 support is present ngscopeclient will use special optimized versions of some signal processing functions, however
 neither instruction set is required. Other (non Apple Silicon) ARM64 platforms may work if a compatible GPU is
-available, but have not been tested. 32-bit platforms are not supported due to the significant RAM requirements
-(but we won't stop you from trying).
+available, but have not been tested. We don't actively test on 32-bit platforms due to the significant RAM requirements.
 
 A mouse with scroll wheel, or touchpad with scroll gesture support, is mandatory to enable full use of the UI. We may
 explore alternative input methods for some UI elements in the future.
@@ -20,9 +19,12 @@ The minimum supported GPUs are:
 \item NVIDIA: Maxwell architecture (GeForce GTX 700 series and newer, February 2014)
 \item AMD: GCN based (Radeon HD 7000 and newer, January 2012)
 \item Intel: Iris Plus 540 or HD Graphics 520 (Skylake, August 2015)
-\item Apple: all Apple Silicon devices (M1 and newer). Newer Intel devices with Metal support should work but support
-is not guaranteed.
+\item Apple: all Apple Silicon devices (M1 and newer). Newer Intel devices with Metal support should work but have not
+been tested.
 \end{itemize}
+
+Note that many virtual machine graphics stacks (e.g. VMWare) do not provide Vulkan unless a PCIe passthrough GPU is
+being used.
 
 The minimum RAM requirement to launch ngscopeclient is relatively small; however, actual memory consumption is
 heavily dependent on workload and can easily reach into the tens of gigabytes when doing complex analysis on many
@@ -41,11 +43,33 @@ complex analysis on them. Analog waveforms are stored in 32-bit floating point f
 megapoint waveform will consume 1GB of GPU memory. Intermediate results in multi-step filter pipelines require GPU
 memory as well, even if not displayed.
 
+The maximum supported waveform size depends on your Vulkan implementation but is typically $2^32$ bytes (4 GB). This
+translates to one gigapoint analog or four gigapoints digital.
+
 \section{Instrument Support}
 
 ngscopeclient uses the libscopehal library to communicate with instruments, so any libscopehal-compatible hardware
 should work with ngscopeclient. See the \hyperref[sec:scope-drivers]{Oscilloscope Drivers} section for more details on
 which hardware is supported and how to configure specific drivers.
+
+\section{Installation}
+
+\subsection{Official Releases}
+
+Prebuilt binary packages are available for some of our supported platforms.
+
+The latest released binaries can be downloaded from GitHub at (FIXME url here).
+
+\subsection{Development Builds}
+
+If you are feeling adventurous and want to try bleeding-edge code, or are testing a fix at a developer's request,
+packages for a limited set of platforms (currently Ubuntu 20.04, 22.04, 24.04, and Windows) are automatically built
+each commit as part of the GitHub CI pipeline.
+
+To access development packages, log into GitHub (sorry, development binaries are not available to
+anonymous users - this is on GitHub's end and not under our control) and go to
+\url{https://github.com/ngscopeclient/scopehal-apps/actions}. Select build-ubuntu or build-windows as appropriate,
+click the commit you wish to test, and download the appropriate .msi or .deb package.
 
 \section{Compilation}
 
@@ -155,24 +179,6 @@ shaderc-dev spirv-tools-dev libhidapi-dev
 \end{lstlisting}
 
 If you are using an older stable release (such as CentOS 7), you may need to install some dependencies from source.
-
-
-\item Install FFTS library:
-
-This installs the library into /usr/local. If you want to install it into a custom prefix, you will need to use
-CMAKE\_INSTALL\_PREFIX here and CMAKE\_PREFIX\_PATH when running cmake for scopehal-apps, which are out of scope
-for these instructions.
-
-\begin{lstlisting}[language=sh, numbers=none]
-cd ~
-git clone https://github.com/anthonix/ffts.git
-cd ffts
-mkdir build
-cd build
-cmake .. -DENABLE_SHARED=ON
-make -j4
-sudo make install
-\end{lstlisting}
 
 \item Install Vulkan SDK:
 
@@ -334,7 +340,7 @@ cmake ..
 ninja -j4
 \end{lstlisting}
 
-\item Optional, to build MSI installer: 
+\item Optional, to build MSI installer:
 
 Download and install WiX Toolset.\\
 You can download it from \href{https://github.com/wixtoolset/wix3/releases}{https://github.com/wixtoolset/wix3/releases}\\
@@ -391,6 +397,8 @@ cmake .. -DWIXPATH="C:\Program Files (x86)\WiX Toolset v3.14\bin"
 
 At the moment, installation scripts are not yet complete.
 The binaries can be found in the build directory, such as ngscopeclient in \$HOME/scopehal-apps/build/src/ngscopeclient.
+
+FIXME: document how to build the MSI or do system-wide install
 
 \end{enumerate}
 

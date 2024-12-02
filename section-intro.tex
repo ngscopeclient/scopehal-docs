@@ -6,9 +6,6 @@ ngscopeclient is a high performance, GPU accelerated remote user interface, sign
 automation tool for test and measurement equipment. It runs on all major operating systems and can interoperate with a
 broad and continuously growing range of T\&M products from many vendors.
 
-As of this writing, ngscopeclient is under active development but has not had a formal v0.1
-release and should be considered alpha quality.
-
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 
@@ -134,6 +131,18 @@ connections in the filter graph. For example, a trigger can normally only accept
 on the same instrument. An FFT filter can only accept uniformly sampled analog waveforms. A UART protocol decode can
 only accept digital waveforms, so analog waveforms must be converted to digital by a thresholding filter before they
 can be decoded.
+
+\section{Stability Notes}
+
+The v0.x series of ngscopeclient and libscopehal is under active development. There is no expectation of API or ABI
+stability for the backend libraries; method signatures and memory layouts may change at any time.
+
+The .scopesession file format is intended to be strictly upward compatibile; any potential crashes or parsing errors
+when opening older datasets in a newer version are due to bugs and should be reported as such.
+
+There is no expectation of downward compatibility. Note that filters may occasionally change port or parameter
+configurations during refactoring, which may require some manual reconfiguration of older sessions in order to work
+properly.
 
 \section{Revision History}
 \begin{itemize}
