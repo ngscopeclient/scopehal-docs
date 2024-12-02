@@ -70,11 +70,11 @@ This menu allows new waveforms views or instrument connections to be created.
 \item \menustyle{BERT}\\
 Connect to a new, or recently used, bit error rate tester
 
+\item \menustyle{Function Generator}\\
+Connect to a new, or recently used, function generator
+
 \item \menustyle{Load}\\
 Connect to a new, or recently used, electronic load
-
-\item \menustyle{Generator}\\
-Connect to a new, or recently used, function generator
 
 \item \menustyle{Misc}\\
 Connect to a new, or recently used, miscellaneous instrument
@@ -169,15 +169,6 @@ Opens the properties dialog for a currently connected multimeter
 \item \menustyle{Power Supply}\\
 Opens the properties dialog for a currently connected power supply
 
-\item \menustyle{SCPI Console}\\
-Opens a console window allowing you to send raw SCPI commands to a currently connected instrument.
-
-This is a low level debug tool primarily intended for use by driver developers. The console is interlocked with
-background threads polling the instrument, so that replies to commands typed in the console will not be mixed with
-replies which the instrument driver is expecting to its own commands. However, commands sent in the console will bypass
-any caching in the driver and can easily lead to the driver and instrument firmware states becoming mutually
-inconsistent.
-
 \item \menustyle{Lab Notes}\\
 Opens the \hyperref[dlg:labnotes]{Lab Notes} dialog, allowing you to take notes on your experiment.
 
@@ -198,7 +189,16 @@ Opens the History dialog (see Chapter \ref{sec:history}), which allows access to
 waveforms.
 
 \item \menustyle{Filter Graph}\\
-Opens the filter graph editor (see Chapter \ref{grapheditor})
+Reopens the filter graph editor if it had been closed.
+
+\item \menustyle{Stream Browser}\\
+Reopens the stream browser if it had been closed.
+
+\item \menustyle{Filter Palette}\\
+Reopens the filter palette if it had been closed.
+
+\item \menustyle{New Workspace}\\
+Create a new workspace to organize other windows in.
 
 \end{itemize}
 
@@ -208,13 +208,33 @@ Opens the filter graph editor (see Chapter \ref{grapheditor})
 
 Provides access to GUI toolkit test dialogs and other features intended only for developers.
 
+\begin{itemize}
+
+\item \menustyle{SCPI Console}\\
+Opens a console window allowing you to send raw SCPI commands to a currently connected instrument.
+
+This is a low level debug tool primarily intended for use by driver developers. The console is interlocked with
+background threads polling the instrument, so that replies to commands typed in the console will not be mixed with
+replies which the instrument driver is expecting to its own commands. However, commands sent in the console will bypass
+any caching in the driver and can easily lead to the driver and instrument firmware states becoming mutually
+inconsistent.
+
+\item \menustyle{ImGui Demo}\\
+
+Launches a GUI library demo window allowing you to test out various widgets and features
+
+\item \menustyle{Memory Leaker}\\
+
+Allows you to allocate a large block of memory (up to 4GB per dialog instance, but multiple dialogs may be spawned) in
+order to induce video or system memory pressure.
+
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Help}
 
-Nothing here yet, we should add at least an About dialog at some point...
-
-%\textbf{About}: Displays program version and copyright information
+\textbf{About}: Displays program version and copyright information
 
 \begin{comment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

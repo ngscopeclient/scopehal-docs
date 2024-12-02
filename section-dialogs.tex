@@ -67,7 +67,7 @@ It can be found under the \menustyle{Window | Performance Metrics} menu.
 
 Displays render loop framerate, monitor refresh rate, total time spent last frame in the rasterization and tone
 mapping shaders, and the number of vertices and indices drawn as Vulkan geometry. Note that waveforms are drawn by a
-compute shader and do not contribute towads the vertex/index totals, other than a single textured rectangle used for
+compute shader and do not contribute towards the vertex/index totals, other than a single textured rectangle used for
 displaying the shader output.
 
 \subsection{Filter graph}
@@ -113,6 +113,27 @@ This section allows you to configure fonts, colors, and other display settings f
 \subsection{Drivers}
 
 This section allows you to configure default configurations for various instrument drivers.
+
+\subsubsection{General}
+
+\begin{itemize}
+\item \emph{Headless scope default state}: When connecting to a headless oscilloscope (one without a front panel
+display), specify the set of channels which should be shown after connecting.
+\end{itemize}
+
+\subsubsection{Rigol DHO}
+
+\begin{itemize}
+\item \emph{Data Width} (default on): Specifies whether to use 8 bit or 16 bit transfer format when downloading samples
+from the instrument, or automatically decide based on hardware configuration.
+\end{itemize}
+
+\subsubsection{Siglent SDS HD}
+
+\begin{itemize}
+\item \emph{Data Width} (default on): Specifies whether to use 8 bit or 16 bit transfer format when downloading samples
+from the instrument, or automatically decide based on hardware configuration.
+\end{itemize}
 
 \subsubsection{Teledyne LeCroy}
 
@@ -164,7 +185,8 @@ if there is no user input.
 \section{Speed Bump}
 \label{dlg:speedbump}
 
-The Speed Bump dialog is displayed when loading a session file, prior to committing changes to the instrument, if:
+The Speed Bump dialog is displayed when loading a session file online (reconnecting to and reconfiguring hardware),
+prior to committing changes to the instrument, if:
 
 \begin{itemize}
 \item The session file contains any user-created notes on the lab setup
