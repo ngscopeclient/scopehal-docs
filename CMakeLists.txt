@@ -25,6 +25,7 @@ set(NGDOC_LIST
 	section-spectrometer-drivers.tex
 	section-triggers.tex
 	section-decodes.tex
+	section-workspaces.tex
 
 #	section-internals.tex
 #	section-protoanalyzer.tex
