@@ -4,14 +4,14 @@ set(NGDOC_LIST
 	ngscopeclient-manual.tex
 	section-copyright.tex
 	section-intro.tex
-	section-ng-legal.tex
-	section-ng-gettingstarted.tex
-	section-ng-mainwindow.tex
+	section-legal.tex
+	section-gettingstarted.tex
+	section-mainwindow.tex
 	section-dialogs.tex
-	section-ng-waveformgroups.tex
-	section-ng-waveformviews.tex
-	section-ng-history.tex
-	section-ng-grapheditor.tex
+	section-waveformgroups.tex
+	section-waveformviews.tex
+	section-history.tex
+	section-grapheditor.tex
 	section-transports.tex
 	section-tutorials.tex
 	section-bert-drivers.tex
