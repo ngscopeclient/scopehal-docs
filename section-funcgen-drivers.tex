@@ -6,19 +6,7 @@ This chapter describes all of the available drivers for standalone function gene
 Function generators which are part of an oscilloscope are described in the \hyperref[sec:scope-drivers]{Oscilloscope
 Drivers} section.
 
-\section{Rigol}
-
-\begin{tabularx}{16cm}{lllX}
-\thickhline
-\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
-\thickhline
-DG4000 series & rigol\_awg & lan & Only tested via lan transport, but USBTMC and serial are available too\\
-\thickhline
-\end{tabularx}
-
-\subsection{rigol\_awg}
-
-This driver supports all DG4000 series function / arbitrary waveform generators.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Owon}
 
@@ -38,3 +26,34 @@ It has been tested on an Owon XDG 2035.
 
 The default communication port for lan is 3000.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Rigol}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+DG4000 series & rigol\_awg & lan & Only tested via lan transport, but USBTMC and serial are available too\\
+\thickhline
+\end{tabularx}
+
+\subsection{rigol\_awg}
+
+This driver supports all DG4000 series function / arbitrary waveform generators.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Siglent}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+SDG2000X series & siglent\_awg & lan & Only tested via lan transport, but USBTMC is available too\\
+\thickhline
+\end{tabularx}
+
+\subsection{siglent\_awg}
+
+This driver supports the SDG2000X series and possibly higher end models as well.
