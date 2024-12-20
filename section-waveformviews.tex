@@ -1,6 +1,6 @@
 \chapter{Waveform Views}
 
-A waveform view is a 2D graph of a signal or protocol decode within a waveform group.
+A waveform view is a 2D graph of signal and/or protocol decode data within a waveform group.
 
 Arbitrarily many channels of data may be displayed within a single view, however all analog channels within a single
 view share the same Y axis unit, gain, and offset. Digital channels and protocol decodes can be overlaid on analog
@@ -29,7 +29,7 @@ the graph may be seen as lighter or darker areas. This is referred to as ``inten
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=10cm]{ng-images/graded-waveform.png}
+\bigimage{ng-images/graded-waveform.png}
 \caption{Intensity-graded waveform}
 \label{graded-waveform2}
 \end{figure}
@@ -117,14 +117,14 @@ independent vertical cursors active simultaneously.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=13cm]{ng-images/vertical-cursor.png}
+\bigimage{ng-images/vertical-cursor.png}
 \caption{Single vertical cursor}
 \label{vertical-cursor}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=13cm]{ng-images/vertical-cursor-x2.png}
+\bigimage{ng-images/vertical-cursor-x2.png}
 \caption{Double vertical cursor}
 \label{vertical-cursor-x2}
 \end{figure}
@@ -157,8 +157,8 @@ scroll to and highlight that packet.
 
 A marker is a named location in \emph{absolute} time intended for marking specific events (such as protocol packets or
 glitches) which may need to be re-examined in the future. When new waveforms are acquired, the marker remains attached
-to the same point in the old waveform and will disappear until the old waveform is re-loaded from the history window.
-In Fig. \ref{markers}, two of the three markers are visible while the third is in a prior waveform.
+to the same point in the old waveform and will disappear from view until the old waveform is re-loaded from the history
+window. In Fig. \ref{markers}, two of the three markers are visible while the third is in a different waveform.
 
 Unlike vertical cursors, which are local to a single waveform group, cursors are global and will appear at the same
 timestamp in all waveform groups. This allows an event of interest to be examined in detail in one view, while a
@@ -174,14 +174,14 @@ window.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=13cm]{ng-images/markers.png}
-\caption{Session with three markers, two on the currently displayed waveform and one on a prior waveform}
+\bigimage{ng-images/markers.png}
+\caption{Session with three markers, two on the currently displayed waveform and one on a future waveform}
 \label{markers}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=13cm]{ng-images/marker-multiview.png}
+\bigimage{ng-images/marker-multiview.png}
 \caption{A single marker seen at multiple time scales in different views}
 \label{marker-multiview}
 \end{figure}
