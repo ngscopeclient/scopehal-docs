@@ -2,9 +2,12 @@
 \label{sec:history}
 
 ngscopeclient saves a rolling buffer of previous waveforms in memory, allowing you to go back in time and see previous
-state of the system being debugged. Clicking on a timestamp in the history view (Fig. \ref{historyview}) pauses
-acquisition and loads the historical waveform data for analysis. History is captured regardless of whether the window
-is visible or not.
+state of the system being debugged. This buffer is included in saved sessions, allowing a full snapshot of system
+behavior to be loaded for future analysis. History is always captured up to the configured depth, regardless of whether
+the history view window is displayed or not.
+
+Clicking on a timestamp in the history view (Fig. \ref{historyview}) pauses acquisition and loads the historical
+waveform data for analysis.
 
 \begin{figure}[H]
 \centering
@@ -13,9 +16,11 @@ is visible or not.
 \label{historyview}
 \end{figure}
 
-The history depth defaults to 10 waveforms, but can be set arbitrarily within the limits of available RAM. Older
-waveforms beyond the history limit are deleted as new waveforms are acquired. Any single waveform in history may also
-be deleted by right clicking on the line and selecting ``delete" from the menu.
+The history depth defaults to 10 waveforms, but can be set arbitrarily within the limits of available RAM. All history
+must fit in system RAM in the current software version; spilling to disk is planned for the future
+(\issue{scopehal-apps}{311}). Older waveforms beyond the history limit are deleted automatically as new waveforms are
+acquired. Any single waveform in history may also be deleted by right clicking on the line and selecting ``delete" from
+the menu.
 
 %The status bar at the bottom of the history view displays the total number of waveforms in the history, as well as an
 %estimate of the amount of RAM used by the history.
@@ -23,17 +28,18 @@ be deleted by right clicking on the line and selecting ``delete" from the menu.
 \section{Pinning}
 
 Interesting waveforms may be ``pinned" in the history by checking the box in the ``pin" column of the history view.
-Pinned waveforms are guaranteed to remain in the history buffer even when new waveforms arrive; only unpinned waveforms
+Pinned waveforms are retained in the history buffer even when new waveforms arrive; only unpinned waveforms
 are eligible for automatic deletion to make space for incoming data.
 
-If a waveform contains markers (\ref{sec:markers}), it is automatically pinned and cannot be unpinned unless the
-marker (or entire waveform) is deleted. This prevents accidental loss of an important waveform: if the event was
+If a waveform contains markers (\ref{sec:markers}), it is automatically pinned and cannot be unpinned unless the marker
+(or entire waveform) is manually deleted. This prevents accidental loss of an important waveform: if the event was
 important enough to mark and name, it is probably worth keeping around.
 
 \section{Labeling}
 
-Arbitrary text names may be assigned to a waveform by clicking the corresponding cell in the ``label" column.
-Waveforms with a label are automatically pinned, since assigning a label implies the waveform is important.
+Arbitrary text names may be assigned to a waveform by clicking the corresponding cell in the ``label" column. As with
+waveforms containing markers, waveforms with a label are automatically pinned since assigning a label implies the
+waveform is important.
 
 \begin{comment}
 
