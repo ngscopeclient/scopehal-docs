@@ -23,6 +23,7 @@ set(NGDOC_LIST
 	section-rfgen-drivers.tex
 	section-scope-drivers.tex
 	section-spectrometer-drivers.tex
+	section-streambrowser.tex
 	section-triggers.tex
 	section-decodes.tex
 	section-workspaces.tex
