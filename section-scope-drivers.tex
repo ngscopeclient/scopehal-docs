@@ -197,6 +197,23 @@ Digital Discovery & digilent & twinlan & No digital channel support,\newline so 
 \thickhline
 \end{tabularx}
 
+\section{DrAndyHaas}
+
+\subsection{haasoscope pro}
+
+HaasoscopePro is an affordable 2 GHz bandwidth 3.2 GS/s (expandable to 6.4 GS/s) 12-bit open-source open-hardware USB oscilloscope.
+For more info see the \href{https://github.com/drandyhaas/HaasoscopePro}{HaasoscopePro github}.
+This driver connects to a Haasoscope Pro GUI, which must first be running, over a LAN socket.
+It supports ~50 Hz of update rate for moderate memory depth.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
+\thickhline
+DrAndyHaas & haasoscope pro & lan on port 32001 \\
+\thickhline
+\end{tabularx}
+
 \section{DreamSource Lab}
 
 DreamSourceLabs oscilloscopes and logic analyzers supported in their fork of sigrok (``libsigrok4DSL'' distributed as part of
