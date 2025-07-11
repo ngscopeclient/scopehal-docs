@@ -18,7 +18,7 @@ Only board index and primary address are required. We currently support using a 
 (interface) in a ngscopeclient session. You cannot currently access multiple devices in the same or across instances.
 Better support for multiple instrument on a single board is planned.
 
-NOTE: The current implementation of this driver only works on Linux, using the linux-gpib library.
+NOTE: The current implementation of this driver only works on Linux, using the linux-gpib library. Since linux-gpib is licensed under GNU GPL, this driver is packaged separately and must be installed from \url{https://github.com/ngscopeclient/scopehal-plugins-gpl}.
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
