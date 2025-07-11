@@ -86,22 +86,12 @@ steps differ among platform and distro.
 
 Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
-sudo apt-get install build-essential git cmake pkgconf libgtkmm-3.0-dev \
-libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip libhidapi-dev
+sudo apt-get install build-essential git cmake pkgconf libgtkmm-3.0-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip libhidapi-dev
 \end{lstlisting}
 
-On Debian bookworm and later, you can use system-provided Vulkan packages. Skip this on Debian bullseye, or if you
-choose to use the Vulkan SDK instead:
+On Debian bookworm and later, you can use system-provided Vulkan packages. Skip this if you choose to use the upstream Vulkan SDK instead:
 \begin{lstlisting}[language=sh, numbers=none]
 sudo apt-get install libvulkan-dev glslang-dev glslang-tools spirv-tools glslc
-\end{lstlisting}
-
-On Debian bullseye, you will need cmake from backports:
-\begin{lstlisting}[language=sh, numbers=none]
-sudo bash -c 'echo "deb http://deb.debian.org/debian bullseye-backports main" >> \
-/etc/apt/sources.list.d/bullseye-backports.list'
-sudo apt-get update
-sudo apt-get install cmake/bullseye-backports
 \end{lstlisting}
 
 To build the LXI component (needed if you have LXI- or VXI-11-based instruments):
@@ -120,8 +110,7 @@ sudo apt install texlive texlive-fonts-extra texlive-extra-utils
 
 Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
-sudo apt install build-essential git cmake pkgconf libgtkmm-3.0-dev \
-libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip libhidapi-dev
+sudo apt install build-essential git cmake pkgconf libgtkmm-3.0-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip libhidapi-dev
 \end{lstlisting}
 
 On Ubuntu 22.10 and earlier (including 20.04 and 22.04), you will need to use the Vulkan SDK.
@@ -148,14 +137,12 @@ sudo apt install texlive texlive-fonts-extra texlive-extra-utils
 \subsubsection{Fedora}
 Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
-sudo dnf install git gcc g++ cmake make pkgconf gtk3-devel \
-libsigc++30-devel yaml-cpp-devel catch-devel glfw-devel hidapi-devel
+sudo dnf install git gcc g++ cmake make pkgconf gtk3-devel libsigc++30-devel yaml-cpp-devel catch-devel glfw-devel hidapi-devel
 \end{lstlisting}
 
 System-provided Vulkan packages. Skip these if you choose to use the Vulkan SDK instead:
 \begin{lstlisting}[language=sh, numbers=none]
-sudo dnf install vulkan-headers vulkan-loader-devel glslang-devel  glslc \
-libshaderc-devel spirv-tools-devel
+sudo dnf install vulkan-headers vulkan-loader-devel glslang-devel glslc libshaderc-devel spirv-tools-devel
 \end{lstlisting}
 
 To build the LXI component (needed if you have LXI- or VXI-11-based instruments):
@@ -174,9 +161,7 @@ sudo dnf install texlive
 
 As Alpine Linux uses musl libc, you will need to use system-provided Vulkan packages, and not the Vulkan SDK.
 \begin{lstlisting}[language=sh, numbers=none]
-apk add git gcc g++ cmake make pkgconf gtk+3.0-dev libsigc++-dev \
-yaml-cpp-dev catch2-3 vulkan-loader-dev glslang-dev glslang-static glfw-dev \
-shaderc-dev spirv-tools-dev libhidapi-dev
+apk add git gcc g++ cmake make pkgconf gtk+3.0-dev libsigc++-dev yaml-cpp-dev catch2-3 vulkan-loader-dev glslang-dev glslang-static glfw-dev shaderc-dev spirv-tools-dev libhidapi-dev
 \end{lstlisting}
 
 If you are using an older stable release (such as CentOS 7), you may need to install some dependencies from source.
@@ -313,15 +298,13 @@ pacman -S mingw-w64-ucrt-x86\_64-libsigc++ mingw-w64-ucrt-x86\_64-yaml-cpp mingw
 
 \item Install Vulkan dependencies:
 \begin{lstlisting}[language=sh, numbers=none]
-pacman -S mingw-w64-ucrt-x86\_64-vulkan-headers mingw-w64-ucrt-x86\_64-vulkan-loader mingw-w64-ucrt-x86\_64-shaderc \
-mingw-w64-ucrt-x86\_64-glslang mingw-w64-ucrt-x86\_64-spirv-tools
+pacman -S mingw-w64-ucrt-x86\_64-vulkan-headers mingw-w64-ucrt-x86\_64-vulkan-loader mingw-w64-ucrt-x86\_64-shaderc mingw-w64-ucrt-x86\_64-glslang mingw-w64-ucrt-x86\_64-spirv-tools
 \end{lstlisting}
 
 \item Install FFTS:
 \begin{lstlisting}[language=sh, numbers=none]
 pacman -S mingw-w64-ucrt-x86\_64-ffts
 \end{lstlisting}
-
 
 \item Check out the code
 
