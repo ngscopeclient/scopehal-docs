@@ -8,7 +8,7 @@ source and commercial projects.
 
 \section{License Agreement}
 
-Copyright (c) 2012-2024 Andrew D. Zonenberg and contributors.
+Copyright (c) 2012-2025 Andrew D. Zonenberg and contributors.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -38,43 +38,41 @@ respective owners.
 
 \section{Third Party Licenses}
 
-TODO: go through full dependency list and update this
 \begin{itemize}
-\item Dear ImGui (static, MIT license)
-\item FFTS (shared, BSD-3)
-\item imgui-node-editor (static, MIT license)
-\item liblxi (shared, BSD-3/EPICS)
-\item vkFFT (static, MIT license)
-\item yaml-cpp (shared, MIT license)
+\item vkFFT (static, MIT license) - \url{https://github.com/ngscopeclient/VkFFT/blob/master/LICENSE}
+\item half (static, MIT license) - \url{https://github.com/ngscopeclient/VkFFT/blob/master/half_lib/half.hpp}
+\item canvas\_ity (static, ISC license) - \url{https://github.com/a-e-k/canvas_ity/blob/main/LICENSE.txt}
+\item avx\_mathfun.h (static, zlib license) - \url{https://github.com/ngscopeclient/scopehal/blob/master/scopehal/avx_mathfun.h}
+\item Dear ImGui (static, MIT license) - \url{https://github.com/ngscopeclient/imgui/blob/docking/LICENSE.txt}
+\item imgui\_markdown (static, zlib license) - \url{https://github.com/enkisoftware/imgui_markdown/blob/main/License.txt}
+\item imgui-node-editor (static, MIT license) - \url{https://github.com/ngscopeclient/imgui-node-editor/blob/master/LICENSE}
+\item stb-image (static, MIT license) - \url{https://github.com/ngscopeclient/imgui-node-editor/blob/master/external/stb_image/stb_image.h}
+\item ImGuiFileDialog (static, MIT license) - \url{https://github.com/aiekick/ImGuiFileDialog/blob/master/LICENSE}
+\item Native File Dialog Extended (static, zlib license) - \url{https://github.com/btzy/nativefiledialog-extended/blob/master/LICENSE}
+\item dbus (shared, LGPLv2.1 license) - \url{https://gitlab.gnome.org/GNOME/glib/-/blob/main/COPYING}
+\item Vulkan-Hpp (static, Apache-2.0 license) - \url{https://github.com/KhronosGroup/Vulkan-Hpp/blob/main/LICENSE.txt}
+\item vulkan-headers (static, MIT license) - \url{https://github.com/KhronosGroup/Vulkan-Headers/blob/main/LICENSE.md}
+\item yaml-cpp (shared, MIT license) - \url{https://github.com/jbeder/yaml-cpp/blob/master/LICENSE}
+\item vulkan-loader (shared, Apache-2.0 license) - \url{https://github.com/KhronosGroup/Vulkan-Loader?tab=License-1-ov-file#readme}
+\item zlib (shared, zlib license) - \url{https://zlib.net/zlib_license.html}
+\item glfw (shared, zlib license) - \url{https://www.glfw.org/license}
+\item glslang (shared, BSD-3, BSD-2, MIT, and Apache-2.0 licenses) - \url{https://github.com/KhronosGroup/glslang/blob/main/LICENSE.txt}
+\item libsigc++ (shared, LGPLv3 license) - \url{https://github.com/libsigcplusplus/libsigcplusplus/blob/master/COPYING}
+\item libpng (shared, libpng license) - \url{http://www.libpng.org/pub/png/src/libpng-LICENSE.txt}
+\item liblxi (shared, BSD-3/EPICS license) - \url{https://github.com/lxi-tools/liblxi/blob/master/LICENSE}
+\item GTK 3.0 (shared, LGPLv2 license) - \url{https://gitlab.gnome.org/GNOME/gtk/-/blob/main/COPYING}
+\item hidapi (shared, BSD-3 license) - \url{https://github.com/libusb/hidapi/blob/master/LICENSE.txt}
+\item libtirpc (shared, BSD-3 license) - \url{https://github.com/alisw/libtirpc/blob/master/COPYING}
+\item OpenMP (shared, GPLv3 license with GCC Runtime Library Exception) - \url{https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgomp/libgomp.h}
 \end{itemize}
 
-\subsection{avx\_mathfun.h (zlib license)}
+\subsection{Optional, only used if installed at compile time}
+\begin{itemize}
+\item linux-gpib (shared, GPLv2 license) - \url{https://sourceforge.net/p/linux-gpib/git/ci/master/tree/linux-gpib-user/COPYING}
+\end{itemize}
 
-AVX implementation of sin, cos, sincos, exp and log
-
-Based on "sse\_mathfun.h", by Julien Pommier
-http://gruntthepeon.free.fr/ssemath/
-
-Copyright (C) 2012 Giovanni Garberoglio
-Interdisciplinary Laboratory for Computational Science (LISC)
-Fondazione Bruno Kessler and University of Trento
-via Sommarive, 18
-I-38123 Trento (Italy)
-
-This software is provided 'as-is', without any express or implied
-warranty.  In no event will the authors be held liable for any damages
-arising from the use of this software.
-
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
-
-\begin{enumerate}
-\item The origin of this software must not be misrepresented; you must not
-claim that you wrote the original software. If you use this software
-in a product, an acknowledgment in the product documentation would be
-appreciated but is not required.
-\item Altered source versions must be plainly marked as such, and must not be
-misrepresented as being the original software.
-\item This notice may not be removed or altered from any source distribution.
-\end{enumerate}
+\subsection{Only in unit tests}
+\begin{itemize}
+\item FFTS (shared, BSD-3) - \url{https://github.com/anthonix/ffts/blob/master/COPYRIGHT}
+\item catch2 (static, Boost license) - \url{https://github.com/catchorg/Catch2/blob/devel/LICENSE.txt} - only used in unit tests
+\end{itemize}
