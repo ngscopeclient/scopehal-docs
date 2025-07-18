@@ -22,27 +22,3 @@ units of voltage and Y axis units of time, and a spectrum analyzer channel has X
 The position of the trigger event is marked by a downward-pointing arrow on the timeline, color coded to match the
 channel selected as the primary trigger source. The trigger arrow cannot be interacted with currently, but in the future
 (scopehal-apps:173) it will be draggable to adjust the trigger position.
-
-Double-clicking on the timeline brings up the timebase properties dialog (Fig. \ref{timebase-properties}), which allows
-the sample rate and memory depth to be configured. If multiple instruments are connected, a separate tab appears in the
-dialog for each instrument.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=9cm]{images/timebase-properties.png}
-\caption{Timebase properties (time domain)}
-\label{timebase-properties}
-\end{figure}
-
-If the instrument is a spectrum analyzer, or has frequency-domain analysis capability (such as the Tektronix MSO5 and
-MSO6 oscilloscopes), the timebase properties dialog will have a second page (Fig. \ref{timebase-properties-freq}) for
-setting the span and resolution bandwidth for frequency-domain channels. Center frequency is often a per-channel
-adjustment on multichannel instruments, so it is configured from the channel properties dialog rather than timebase
-properties.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=9cm]{images/timebase-properties-freq.png}
-\caption{Timebase properties (frequency domain)}
-\label{timebase-properties-freq}
-\end{figure}
