@@ -76,7 +76,7 @@ While more recent DSOs do allow math functions, protocol decodes, zooms, and so 
 In ngscopeclient, the acquisition record length is completely decoupled from the X axis scale of the viewport, and
 there is no concept of a ``zoom" waveform or measuring time in ``divisions". Arbitrarily many views of a channel may be
 created, and each may be scaled and zoomed independently. Acquisition record length and duration are controlled
-separately, from the timebase properties dialog.
+separately, under instrument properties in the stream browser.
 
 Similarly, vertical scale for waveforms is defined in terms of full-scale range, a far more intuitive and useful metric
 than arbitrary ``divisions". While horizontal grid lines are still displayed in waveform views for convenience, their
@@ -152,9 +152,11 @@ stability for the backend libraries; method signatures and memory layouts may ch
 The .scopesession file format is intended to be strictly upward compatibile; any potential crashes or parsing errors
 when opening older datasets in a newer version are due to bugs and should be reported as such.
 
-There is no expectation of downward compatibility. Note that filters may occasionally change port or parameter
-configurations during refactoring, which may require some manual reconfiguration of older sessions in order to work
-properly.
+There is no expectation of downward compatibility (sessions from a newer ngscopeclient version are very likely to not
+work in older versions).
+
+Note that filters may occasionally change port or parameter configurations during refactoring, which may require some
+manual reconfiguration of older sessions in order to work properly.
 
 \section{Revision History}
 \begin{itemize}
