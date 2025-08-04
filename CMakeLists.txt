@@ -1,3 +1,6 @@
+# Generate text file with version info
+configure_file(ngscopeclient-version.tex.in ngscopeclient-version.tex)
+
 # Not all CMake Generators support file globbing, so build our tex dependency list manually
 # We could get CMake to do the glob, but there's not many files to deal with
 set(NGDOC_LIST
@@ -43,7 +46,7 @@ add_custom_command(
 	COMMAND pdflatex -halt-on-error -interaction batchmode
 		--output-directory ${CMAKE_CURRENT_BINARY_DIR}
 		${CMAKE_CURRENT_SOURCE_DIR}/ngscopeclient-manual.tex > ${CMAKE_CURRENT_BINARY_DIR}/run2.log 2>&1
-	DEPENDS ${NGDOC_LIST}
+	DEPENDS ${NGDOC_LIST} ngscopeclient-version.tex.in
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	VERBATIM)
 
