@@ -1,5 +1,7 @@
 \chapter{Workspaces and Window Management}
 
+\section{Window Management and Docking}
+
 All dialog boxes, waveform groups, and other GUI elements in ngscopeclient may be used docked or free-floating as
 needed.
 
@@ -12,6 +14,15 @@ To dock a window, drag the title bar (if floating) or tab title (if docked) to t
 \caption{Docking a floating window}
 \label{w-docking}
 \end{figure}
+
+On MacOS, Linux X11, and Windows you can drag dialogs or waveform areas out of the main ngscopeclient window to create
+multiple top-level windows. This can be useful for complex experimental setups or on multi-monitor workstations.
+
+NOTE: Multi-window mode is not currently available on Linux Wayland due to
+\href{https://github.com/ocornut/imgui/issues/8609}{GUI toolkit limitations} however we hope to support this in the
+future.
+
+\section{Workspaces}
 
 To create more complex windowing layouts, you may find it helpful to create \emph{workspaces}.
 
