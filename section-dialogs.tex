@@ -45,6 +45,19 @@ It can be found under the \menustyle{Window | Log Viewer} menu.
 \label{fig:logviewer}
 \end{figure}
 
+Expanding the ``settings" panel allows log messages to be filtered to show more or less detail.
+
+Additionally, if ``trace" verbosity is selected, you can type class and/or function names using the \texttt{classname},
+\texttt{classname::function}, or \texttt{::globalfunction} syntax in order to enable high-verbosity messages printed
+via \texttt{LogTrace()}.
+
+\begin{figure}[H]
+\centering
+\bigimage{ng-images/dialog-logviewer-trace.png}
+\caption{Log Viewer dialog with tracing active}
+\label{fig:logviewer-trace}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Performance Metrics}
@@ -124,14 +137,14 @@ display), specify the set of channels which should be shown after connecting.
 \subsubsection{Rigol DHO}
 
 \begin{itemize}
-\item \emph{Data Width} (default on): Specifies whether to use 8 bit or 16 bit transfer format when downloading samples
+\item \emph{Data Width} (default auto): Specifies whether to use 8 bit or 16 bit transfer format when downloading samples
 from the instrument, or automatically decide based on hardware configuration.
 \end{itemize}
 
 \subsubsection{Siglent SDS HD}
 
 \begin{itemize}
-\item \emph{Data Width} (default on): Specifies whether to use 8 bit or 16 bit transfer format when downloading samples
+\item \emph{Data Width} (default auto): Specifies whether to use 8 bit or 16 bit transfer format when downloading samples
 from the instrument, or automatically decide based on hardware configuration.
 \end{itemize}
 
@@ -140,8 +153,12 @@ from the instrument, or automatically decide based on hardware configuration.
 \begin{itemize}
 \item \emph{Force 16 bit mode} (default on): Always use 16-bit format for downloading data from the instrument, even if
 it only has an 8-bit ADC. This doubles the amount of network bandwidth required and may reduce waveforms-per-second
-performance, but provides smoother waveforms since the instrument performs DSP flatness correction leading to >256
-possible output values in a given waveform.
+performance, but provides smoother waveforms.
+
+Note that Teledyne LeCroy scopes perform DSP flatness corrections between the ADC and the data presented via the API,
+meaning that even if the hardware only has an 8-bit ADC, downloading data with 16-bit precision will result in improved
+accuracy.
+
 \end{itemize}
 
 \subsection{Files}
@@ -189,7 +206,7 @@ The Speed Bump dialog is displayed when loading a session file online (reconnect
 prior to committing changes to the instrument, if:
 
 \begin{itemize}
-\item The session file contains any user-created notes on the lab setup
+\item The session file contains any user-created notes on the lab setup, or
 \item Any of the instrument settings in the session file do not match the current configuration of the corresponding
 instrument, and the direction of the change has potential to cause damage to the instrument or DUT (increasing output
 voltage, removing input attenuation, etc).
@@ -201,7 +218,7 @@ switching a lab bench between multiple projects and using saved sessions to rest
 
 Pressing the Abort button cancels loading of the session without applying any of the potentially dangerous changes.
 The instruments may be partially reconfigured in this state, as some changes (such as sample rate or memory depth
-configuration) are always safe to make and thus may execute prior to the warning being displayed.
+configuration) are always safe to make and thus may have been applied prior to the warning being displayed.
 
 Pressing the Proceed button allows ngscopeclient to proceed with loading the session and reconfiguring hardware. You
 must check the ``I have reviewed the instrument configuration" box in order to enable the Proceed button.
@@ -213,20 +230,3 @@ must check the ``I have reviewed the instrument configuration" box in order to e
 \label{speedbump}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Timebase}
-\label{dlg:timebase}
-
-The Timebase dialog allows you to configure sample rate and record length for oscilloscopes. It also provides control
-over functionally similar ``what to look at" settings for other instruments, such as center frequency and span for
-spectrum analyzers or sweep range and point count for vector network analyzers.
-
-It can be found under the \menustyle{Setup | Timebase} menu.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=7cm]{ng-images/dialog-timebase.png}
-\caption{Timebase dialog}
-\label{timebase}
-\end{figure}

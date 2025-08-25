@@ -64,9 +64,9 @@ The latest released binaries can be downloaded from GitHub at \url{https://githu
 \subsection{Development Builds}
 
 If you are feeling adventurous and want to try bleeding-edge code, or are testing a fix at a developer's request,
-packages for a limited set of platforms (currently Ubuntu 20.04, 22.04, 24.04, Arch, Fedora, Debian oldstable, Debian stable,
-MacOS, and Windows) are automatically built each commit as part of the GitHub CI pipeline. These packages are not
-signed and may
+packages for a limited set of platforms (currently Ubuntu 20.04, 22.04, 24.04, Arch, Fedora, Debian oldstable, Debian
+stable, MacOS, and Windows) are automatically built each commit as part of the GitHub CI pipeline. Unlike release
+packages, CI builds are not signed so you may encounter security warnings on some platforms when installing them.
 
 To access development packages, log into GitHub (sorry, development binaries are not available to
 anonymous users - this is on GitHub's end and not under our control) and go to
@@ -171,10 +171,6 @@ distros), the following instructions cover installing and loading the Vulkan SDK
 The latest tested SDK at the time of documentation update is version 1.3.275.0. Newer SDKs are supported, but breaking
 changes sometimes take place.
 If you are using a newer SDK and run into problems, please file a bug report.
-
-If you are using Ubuntu 20.04 or 22.04, you may install the
-\href{https://packages.lunarg.com}{.deb packaged SDK release} instead of following the instructions below. This may
-work for Debian as well but is not supported.
 
 Alternatively, to use the tarball packaged SDK, download and unpack the tarball.
 \href{https://vulkan.lunarg.com/sdk/home}{You can manually download the SDK}, or do the following:
@@ -283,22 +279,22 @@ The following steps can be done in any MSYS-provided shell.
 
 \item Install git and the toolchain:
 \begin{lstlisting}[language=sh, numbers=none]
-pacman -S git wget mingw-w64-ucrt-x86\_64-cmake mingw-w64-ucrt-x86\_64-toolchain
+pacman -S git wget mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-toolchain
 \end{lstlisting}
 
 \item Install general dependencies:
 \begin{lstlisting}[language=sh, numbers=none]
-pacman -S mingw-w64-ucrt-x86\_64-libsigc++ mingw-w64-ucrt-x86\_64-yaml-cpp mingw-w64-ucrt-x86\_64-glfw mingw-w64-ucrt-x86\_64-catch mingw-w64-ucrt-x86\_64-hidapi mingw-w64-ucrt-x86\_64-libpng
+pacman -S mingw-w64-ucrt-x86_64-libsigc++ mingw-w64-ucrt-x86_64-yaml-cpp mingw-w64-ucrt-x86_64-glfw mingw-w64-ucrt-x86_64-catch mingw-w64-ucrt-x86_64-hidapi mingw-w64-ucrt-x86_64-libpng
 \end{lstlisting}
 
 \item Install Vulkan dependencies:
 \begin{lstlisting}[language=sh, numbers=none]
-pacman -S mingw-w64-ucrt-x86\_64-vulkan-headers mingw-w64-ucrt-x86\_64-vulkan-loader mingw-w64-ucrt-x86\_64-shaderc mingw-w64-ucrt-x86\_64-glslang mingw-w64-ucrt-x86\_64-spirv-tools
+pacman -S mingw-w64-ucrt-x86_64-vulkan-headers mingw-w64-ucrt-x86_64-vulkan-loader mingw-w64-ucrt-x86_64-shaderc mingw-w64-ucrt-x86_64-glslang mingw-w64-ucrt-x86_64-spirv-tools
 \end{lstlisting}
 
 \item Install FFTS:
 \begin{lstlisting}[language=sh, numbers=none]
-pacman -S mingw-w64-ucrt-x86\_64-ffts
+pacman -S mingw-w64-ucrt-x86_64-ffts
 \end{lstlisting}
 
 \item Check out the code
@@ -374,7 +370,9 @@ cmake .. -DWIXPATH="C:\Program Files (x86)\WiX Toolset v3.14\bin"
 
 \item Run scopehal and scopehal-apps:
 
-Building scopehal and scopehal-apps with MSYS2 will install requierd dependencies in MSYS2's libpath, that's why ngscopeclient has to be launched from a MSYS2 shell (use MSI installer to generate a standalone package).
+Building scopehal and scopehal-apps with MSYS2 will install required dependencies in MSYS2's libpath, so locally
+compiled builds of ngscopeclient have to be launched from a MSYS2 shell (use MSI installer to generate a standalone
+package including these libraries).
 
 The binaries can be found in the build directory, such as ngscopeclient in \$HOME/scopehal-apps/build/src/ngscopeclient.
 
