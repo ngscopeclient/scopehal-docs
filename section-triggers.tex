@@ -4,10 +4,10 @@
 
 The \menustyle{Setup / Trigger} menu opens the trigger properties dialog (Fig. \ref{trigger-properties}).
 
-The Trigger Type box allows the type of trigger to be chosen. The list of available triggers depends on the instrument
+The Type dropdown allows the type of trigger to be chosen. The list of available triggers depends on the instrument
 model and installed software options.
 
-The Trigger Offset field specifies the time from the \emph{start} of the waveform to the trigger point. Positive values
+The Position field specifies the time from the \emph{start} of the waveform to the trigger point. Positive values
 move the trigger later into the waveform, negative values introduce a delay between the trigger and the start of the
 waveform. \footnote{This is a different convention than most oscilloscopes, which typically measure the trigger
 position from the \emph{midpoint} of the waveform. Since ngscopeclient decouples the acquisition length from the UI
@@ -16,7 +16,7 @@ location.}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=9cm]{images/trigger-properties.png}
+\includegraphics[width=7cm]{ng-images/trigger-properties.png}
 \caption{Trigger properties dialog}
 \label{trigger-properties}
 \end{figure}
