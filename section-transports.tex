@@ -18,7 +18,11 @@ Only board index and primary address are required. We currently support using a 
 (interface) in a ngscopeclient session. You cannot currently access multiple devices in the same or across instances.
 Better support for multiple instrument on a single board is planned.
 
-NOTE: The current implementation of this driver only works on Linux, using the linux-gpib library. Since linux-gpib is licensed under GNU GPL, this driver is packaged separately and must be installed from \url{https://github.com/ngscopeclient/scopehal-plugins-gpl}.
+NOTE: The current implementation of this driver only works on Linux, using the linux-gpib library. Since linux-gpib is
+licensed under GNU GPL, this driver is packaged separately and must be installed from
+\url{https://github.com/ngscopeclient/scopehal-plugins-gpl}. A future version which interfaces with the Linux kernel
+GPIB subsystem via the ioctl interface, without using linux-gpib, is planned for the future which will eliminate the
+need for a plugin.
 
 Example:
 \begin{lstlisting}[language=sh, numbers=none]
@@ -74,16 +78,24 @@ CAN bus protocol analyzer. Since SocketCAN is a Linux-only API, this transport i
 
 This transport takes one argument: the device name (e.g. ``can0")
 
+\begin{lstlisting}[language=sh, numbers=none]
+ngscopeclient dongle:socketcan:socketcan:can0
+\end{lstlisting}
+
 \section{twinlan}
 
-This transport is used by some Antikernel Labs oscilloscopes, as well as most of the bridge servers used for interfacing
-libscopehal with USB oscilloscopes' SDKs. It takes three arguments: hostname/IP and two port numbers.
+This transport is used by some Antikernel Labs oscilloscopes, as well as most of the bridge servers used for
+interfacing libscopehal with USB/Thunderbolt oscilloscopes. It takes three arguments: hostname/IP and two port numbers.
 
 It uses two TCP sockets on different ports. The first carries SCPI text (as in the ``lan" transport), and the second is
 for binary waveform data.
 
 If port numbers are not specified, the SCPI port defaults to the IANA standard of 5025, and the data port defaults to
 5026. If the SCPI port but not the data port is specified, the data port defaults to the SCPI port plus one.
+
+\begin{lstlisting}[language=sh, numbers=none]
+ngscopeclient ts1:thunderscope:twinlan:localhost:5025:5026
+\end{lstlisting}
 
 \section{uart}
 

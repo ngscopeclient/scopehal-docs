@@ -9,10 +9,11 @@ This chapter describes all of the available drivers for optical (UV/VIS/IR) spec
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
-LR1 & aseq & twinlan & \\
+LR1 & aseq & twinlan & Use \href{https://github.com/ngscopeclient/scopehal-aseq-bridge}{scopehal-aseq-bridge}\\
 \thickhline
 \end{tabularx}
 
 \subsection{aseq}
 
-TODO: write stuff here
+This driver supports the ASEQ Instruments LR1 spectrometer (and possibly others, not tested) via an external bridge
+server and the ASEQ USB control API.
