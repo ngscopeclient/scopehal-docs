@@ -16,6 +16,18 @@ waveform data for analysis.
 \label{historyview}
 \end{figure}
 
+Hovering the mouse over a row in the history view (Fig. \ref{history-tooltip}) displays a tooltip with the full date
+and time of the acquisition, as well as some information about which instruments and channels had data in the capture
+(if some channels were enabled or disabled during the lab session, the set of active channels may have changed
+throughout history).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=7cm]{ng-images/history-tooltip.png}
+\caption{Tooltip on waveform history entry}
+\label{history-tooltip}
+\end{figure}
+
 The history depth defaults to 10 waveforms, but can be set arbitrarily within the limits of available RAM. All history
 must fit in system RAM in the current software version; spilling to disk is planned for the future
 (\issue{scopehal-apps}{311}). Older waveforms beyond the history limit are deleted automatically as new waveforms are
