@@ -2442,17 +2442,23 @@ Bits & Enum & Number of additional bits of resolution to add\\
 
 Finds the minimum and maximum of each sample in the input over time, and outputs them as separate streams.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - 10baseT}
 
 Decodes the 10base-T Ethernet PCS/PMA as specified in IEEE 802.3-2018 clause 14.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - 100baseT1}
 
 Decodes the 100base-T1 single-pair / automotive Ethernet PMA/PCS, as specified in IEEE 802.3-2018 clause 96.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2461,11 +2467,15 @@ Decodes the 100base-T1 single-pair / automotive Ethernet PMA/PCS, as specified i
 Decodes the link training stage of 100base-T1 single-pair / automotive Ethernet, as specified in IEEE
 802.3-2018 clause 96.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - 100baseTX}
 
 Decodes the 100base-TX Ethernet PMA/PCS as specified in IEEE 802.3-2018 clause 24 and 25, and the ANSI X3T12 FDDI PHY.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2523,30 +2533,90 @@ TODO: Document protocol analyzer output
 
 Decodes the 10Gbase-R Ethernet PCS as specified in IEEE 802.3-2018 clause 49.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagebreak
-\section{Ethernet - GMII}
+(This filter description is a stub and will be expanded in the future)
 
-Decodes the Gigabit Media Independent Interface as specified in IEEE 802.3-2018 clause 35.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\pagebreak
+%\section{Ethernet - GMII}
+
+%Decodes the Gigabit Media Independent Interface as specified in IEEE 802.3-2018 clause 35.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - QSGMII}
 \label{filter:qsgmii}
 
-Converts a Quad SGMII data stream into four separate SGMII data streams which can be independently decoded.
+Converts a 5 Gbps Quad SGMII data stream for a multiport gigabit Ethernet PHY into four separate 1.25 Gbps SGMII data
+streams, containing data for each of the PHY ports, which can be independently decoded.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/qsgmii.png}
+\caption{Example of decoding a QSGMII signal}
+\label{filter_qsgmii}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-qsgmii.png}
+\caption{Example filter graph showing usage of QSGMII filter}
+\label{filter_qsgmii}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Protocol & QSGMII Input waveform\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Display Format & Enum & Specifies Dx.x or hexadecimal format for 8B/10B output\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+The output is four separate 8B/10B data streams suitable for feeding to the \hyperref[filter:sgmii]{SGMII} decode
+filter
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Lane 0 & Protocol & SGMII data stream for PHY 0\\
+\thinhline
+Lane 1 & Protocol & SGMII data stream for PHY 1\\
+\thinhline
+Lane 2 & Protocol & SGMII data stream for PHY 2\\
+\thinhline
+Lane 3 & Protocol & SGMII data stream for PHY 3\\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagebreak
-\section{Ethernet - RGMII}
+%\pagebreak
+%\section{Ethernet - RGMII}
 
-Decodes the Reduced Gigabit Media Independent Interface as specified in the RGMII 2.0 specification.
+%Decodes the Reduced Gigabit Media Independent Interface as specified in the RGMII 2.0 specification.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - RMII}
 
 Decodes the Reduced Media Independent Interface as specified in the RMII specification.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2555,14 +2625,58 @@ Decodes the Reduced Media Independent Interface as specified in the RMII specifi
 
 Decodes Serial GMII data at 10, 100, or 1000 Mbps rates to Ethernet frames.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet Autonegotiation}
+\label{filter:aneg}
 
 Decodes the Base-T autonegotiation signaling for Ethernet as specified in IEEE 802.3-2018 clause 28.
 
 This filter outputs a stream of 16-bit negotiation codewords, which is typically fed to the Ethernet Autonegotiation
 Page filter.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/ethernet-aneg.png}
+\caption{Example of decoding Ethernet autonegotiation traffic}
+\label{filter_ethernet_aneg}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/ethernet-aneg-2.png}
+\caption{Decoding a single 16-bit link code word}
+\label{filter_ethernet_aneg_2}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-aneg.png}
+\caption{Example filter graph showing usage of autonegotiation filter}
+\label{filter_aneg}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Ethernet differential pair waveform\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs a stream of 16-bit link codewords.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2575,6 +2689,39 @@ Note that the autonegotiation protocol is stateful, so it is not possible to def
 small group of them in isolation. For accurate decoding, the input waveform should start with the Base Page (sent
 during the link-down state before a link partner has been detected).]
 
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/ethernet-aneg-page.png}
+\caption{Example of decoding Ethernet autonegotiation traffic}
+\label{filter_ethernet_aneg_page}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-aneg.png}
+\caption{Example filter graph showing usage of autonegotiation page filter}
+\label{filter_aneg_page}
+\end{figure}
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Protocol & Link codewords from the \hyperref[filter:aneg]{Ethernet autonegotiation} filter\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs a stream of decoded PHY ability values.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet Base-X Autonegotiation}
@@ -2582,6 +2729,8 @@ during the link-down state before a link partner has been detected).]
 Decodes the Base-X autonegotiation signaling for Ethernet as specified in IEEE 802.3-2018 clause 37.
 
 Also supports the extended autonegotiation used by SGMII.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2598,6 +2747,8 @@ Out[i] =
 	\left(1-\frac{1}{\displaystyle{2^\frac{1}{x}}}\right)\left(Out[i-1]\right) +
 	\left(\frac{1}{\displaystyle{2^\frac{1}{x}}}\right)\left(S\right)
 \end{math}
+
+(This filter description is a stub and will be expanded in the future)
 
 \subsection{Inputs}
 
@@ -2625,17 +2776,23 @@ Half-life & Integer & Half life of the average, in waveforms\\
 
 Measures the bit rate of an eye pattern.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye Height}
 
 Measures the vertical opening of an eye pattern.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye P-P Jitter}
 
 Measures the peak-to-peak jitter of an eye pattern.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2723,11 +2880,15 @@ samplesIntegrated & Scalar & Number of samples integrated by the eye \\
 
 Measures the UI width of an eye pattern.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye Width}
 
 Measures the horizontal opening of an eye pattern.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2735,11 +2896,15 @@ Measures the horizontal opening of an eye pattern.
 
 Measures the fall time of each falling edge in a waveform.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{FFT}
 
 Calculates a Fast Fourier Transform and displays the magnitude response.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2747,11 +2912,15 @@ Calculates a Fast Fourier Transform and displays the magnitude response.
 
 Applies a finite-impulse-response filter to a signal.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Frequency}
 
 Measures the frequency of each cycle in a waveform.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2770,6 +2939,8 @@ frequency-hopping systems as long as only one packet is present in each waveform
 
 TODO: re-histogram any time we break squelch?
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Full Width at Half Maximum}
@@ -2781,7 +2952,7 @@ Calculates the full width at the half of maximum value of all peaks in a signal.
 \centering
 \bigimage{images/filters/full-width-half-max.png}
 \caption{Example of full width at half maximum of a Sinewave input waveform. }
-\label{filter_cdrpll}
+\label{filter_fwhm}
 \end{figure}
 
 \subsection{Inputs}
@@ -2815,6 +2986,8 @@ Another output waveform shows the amplitude of all the corresponding peaks.
 
 This filter outputs a copy of its input with zero delay if the enable signal is high. If the enable signal is low,
 the output is either unchanged (latched) or no waveform is produced (gated).
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2919,6 +3092,8 @@ indicates that input samples fell outside the configured range of bins (when not
 
 Calculates a bathtub curve across a horizontal slice through an eye pattern.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{HDMI}
@@ -2926,17 +3101,23 @@ Calculates a bathtub curve across a horizontal slice through an eye pattern.
 
 Decodes HDMI
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{$I^2C$}
 
 Decodes the Phillips $I^2C$ bus protocol.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{$I^2C$ EEPROM}
 
 Decodes common $I^2C$ EEPROM memory devices
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2948,6 +3129,8 @@ address.
 This filter assumes that the device has a fixed sized address pointer. Register writes consist of a write to the
 device's address, the register address, then write data. Reads consist of a write to the device's address, the register
 address, a read from the device's address, and read data.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3008,6 +3191,8 @@ This filter outputs an analog waveform containing uniformly spaced samples at th
 
 Inverts an analog waveform by negating each sample.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Intel eSPI}
@@ -3015,11 +3200,15 @@ Inverts an analog waveform by negating each sample.
 Decodes the Enhanced Serial Peripheral Interface protocol, used between Intel CPUs and peripherals such as baseboard
 management controllers (BMCs) and embedded controllers (ECs).
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{IPv4}
 
 Internet Protocol version 4
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3033,12 +3222,16 @@ I is always sampled before Q.
 Two alignment methods are supported: None (first clock edge in the input is arbitrarily declared to be I)
 and 100Base-T1 (the alignment with the least (0,0) symbols is preferred)
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{IQ Squelch}
 
 Gates I/Q data to eliminate noise between packets. Signal regions with amplitude below the squelch threshold are
 replaced with an equal number of zero-valued samples.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3047,12 +3240,16 @@ replaced with an equal number of zero-valued samples.
 
 Outputs an analog signal extracted from a specific J1939 PGN
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{J1939 Bitmask}
 \label{filter:j1939bitmask}
 
 Outputs a Boolean signal indicating whether a specific J1939 PGN matches a bitmask
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3061,12 +3258,16 @@ Outputs a Boolean signal indicating whether a specific J1939 PGN matches a bitma
 
 Decodes CAN bus IDs to decode the J1939 PDU1 and PDU2 format.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{J1939 Source Match}
 \label{filter:j1939srcmatch}
 
 Filters a sequence of J1939 PDUs to output only those which are sent from a specified source address
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3077,6 +3278,8 @@ Decodes the J1939 transport layer (PGNs 60416 and 60160) and reassembles multi-p
 All other PGNs pass through this filter unchanged.
 
 As of now, only broadcast mode (BAM) packets are decoded, due to lack of CM test datasets.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3126,17 +3329,23 @@ packed, regardless of the input timebase configuration.
 
 Calculates an FFT of a TIE waveform.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{JTAG}
 
 Joint Test Action Group
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Magnitude}
 
 Calculates the magnitude of a complex valued signal
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3180,6 +3389,8 @@ totalWaveforms & Scalar & Total number of integrated waveforms \\
 
 Decodes the Management Data Input/Output interface on Ethernet PHYs. At the moment, only Clause 22 format is supported.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Memory}
@@ -3187,11 +3398,15 @@ Decodes the Management Data Input/Output interface on Ethernet PHYs. At the mome
 Takes a snapshot of the input which remains ``frozen" until manually updated. Typically used for comparing past and
 present values of a signal on the same plot.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{MIL-STD-1553}
 
 Decodes the MIL-STD-1553 avionics data bus.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3241,12 +3456,16 @@ Only a single data lane is supported at the moment, but multi-lane support will 
 This filter only supports high speed data; escape mode data is handled by the \hyperref[filter:dphyescape]{D-PHY Escape
 Mode} filter.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{MIPI D-Phy Escape Mode}
 \label{filter:dphyescape}
 
 Converts a stream of D-PHY Symbols for a data lane into low-power data.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3259,11 +3478,15 @@ If only the positive half is provided, it is possible to decode HS data and cloc
 as these are indistinguishable from LP-00 and LP-11. This prevents proper decoding of Escape Mode data, although
 Start-Of-Transmission sequences may be inferred from context.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{MIPI DSI Frame}
 
 Converts a MIPI DSI Packet stream into video scanlines.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3271,11 +3494,15 @@ Converts a MIPI DSI Packet stream into video scanlines.
 
 Converts two streams of D-Phy Symbol's (one data and one clock) into MIPI DSI packets.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Moving Average}
 
 Calculates a moving average (box filter) over an analog waveform.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3286,11 +3513,15 @@ have identical sample rates and be aligned in time.
 
 Unit conversions are performed, for example the product of a voltage and current waveform is a power waveform.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{NCO}
 
 Numerically controlled oscillator: creates a sinusoidal waveform whose frequency tracks a target value
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3298,9 +3529,15 @@ Numerically controlled oscillator: creates a sinusoidal waveform whose frequency
 
 Adds Gaussian noise with a specified standard deviation to a waveform.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Overshoot}
+
+Measures overshoot of a signal's rising edges past the top value
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3311,6 +3548,8 @@ symbol rate. This allows conventional NRZ protocol decodes to be applied to a PA
 
 Gray coding is assumed, as used by all major PAM-4 networking standards.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{PAM Edge Detector}
@@ -3320,9 +3559,11 @@ Finds level crossings in a PAM signal (of arbitrary order) and outputs a digital
 PAM signal transitions to a new level. This may be used as the input to a CDR PLL block which is designed to work on
 NRZ input.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagebreak
-\section{Parallel Bus}
+%\pagebreak
+%\section{Parallel Bus}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3330,11 +3571,15 @@ NRZ input.
 
 Exports a series of packets to a PCAPNG file (or pipe). As of this writing, Ethernet is the only implemented link layer.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{PcapNG Import}
 
 Imports a PcapNG file as a list of packets. As of this writing, CAN is the only implemented link layer.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3342,6 +3587,8 @@ Imports a PcapNG file as a list of packets. As of this writing, CAN is the only 
 
 Decodes the Data Link layer of PCI Express. At this layer DLLPs are fully decoded. TLP sequence numbers are visible
 and CRC16s are checked, however TLP content is displayed as hex dumps.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3351,6 +3598,8 @@ and CRC16s are checked, however TLP content is displayed as hex dumps.
 Decodes the Logical Sub-Block of the PCI Express 1.0 and 2.0 PHY. This layer decodes 8B/10B symbols and the LFSR
 scrambler. TLP and DLLP start/end markers are identified but no packet decoding is performed.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{PCIe Gen 3/4/5 Logical}
@@ -3359,26 +3608,38 @@ Decodes the Logical Sub-Block of the PCI Express 3.0, 4.0, and 5.0 PHY. This lay
 stream of protocol packets and content. TLP and DLLP start/end markers are identified but no packet decoding is
 performed.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{PCIe Link Training}
 
-Decodes the initial PCIe gen1/2 link training sequence
+Decodes the initial PCIe gen1/2 link training sequence. Training to gen3 and higher speeds is not yet implemented.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{PCIe Transport}
 
-Decodes the Transport layer of PCI Express. At this layer TLPs are fully decoded, however only a unidirectional view
+Decodes the Transaction layer of PCI Express. At this layer TLPs are fully decoded, however only a unidirectional view
 of the system is visible (only TX or only RX).
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Peak Hold}
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Peak-to-Peak}
+
+Measures the peak-to-peak amplitude of a signal
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3386,15 +3647,23 @@ of the system is visible (only TX or only RX).
 
 Finds peaks in a waveform (typically a spectrum of some sort)
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Period}
+
+Measures the period of a waveform
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Phase}
 
 Displays the relative phase of a signal as a function of time. Typically used for visualizing PSK modulations.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3411,10 +3680,19 @@ accurate results.
 
 \begin{figure}[h]
 \centering
-\bigimage{images/filters/phase-nonlinearity.png}
-\caption{Example of nonlinear phase of a filter in the stopband}
+\bigimage{ng-images/filters/phase-nonlinearity.png}
+\caption{Example of nonlinear phase of a dispersive transmission line}
 \label{phase_nonlinearity_example}
 \end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-phase-nonlinearity.png}
+\caption{Example filter graph for measuring nonlinearity}
+\label{phase_nonlinearity_graph}
+\end{figure}
+
+\FloatBarrier
 
 \subsection{Inputs}
 
@@ -3450,12 +3728,16 @@ linear phase.
 
 This filter samples the value of a waveform at a given X coordinate and outputs the sampled value as a scalar.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{PRBS}
 
 Generates a pseudorandom bit sequence, and double rate bit clock, with a specified bit rate from a list of standard
 polynomials.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3493,11 +3775,15 @@ the input is uniform or sparse digital, this second output waveform is uniform o
 
 Quad SPI as used in serial Flash. Note that this filter \emph{only} decodes quad mode streams, not x1 SPI.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Quadrature}
 
 Quadrature pulses from a rotary encoder
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3505,12 +3791,16 @@ Quadrature pulses from a rotary encoder
 
 Given a set of S-parameters, shifts the reference plane on one or two ports and outputs a new set of S-parameters.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{RGB LED}
 \label{filter:rgbled}
 
-Decodes the single-wire serial protocol used by common addressable RGB LEDs
+Decodes the single-wire serial protocol used by common addressable RGB LEDs such as the WS2812
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3519,17 +3809,23 @@ Decodes the single-wire serial protocol used by common addressable RGB LEDs
 Performs random interleaved sampling (RIS) on a repetitive, uniformly sampled analog waveform in order to create a
 waveform with a higher effective sample rate.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Rise}
 
 Calculates the rise time for each cycle of a waveform
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Rj + BUj}
 
 Removes data-dependent jitter (DDJ) from a TIE waveform, leaving uncorrelated jitter (Rj and BUj).
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3579,11 +3875,15 @@ avg & Scalar & RMS value across the entire waveform \\
 
 Cascades two two-port networks and outputs a two-port network equivalent to the two input networks in series.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Sawtooth}
 
 Generates a sawtooth waveform.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3591,6 +3891,8 @@ Generates a sawtooth waveform.
 
 Given a two port network equal to the cascade of two others, plus S-parameters for one of the two sub-networks, output
 S-parameters for the other.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3601,6 +3903,8 @@ Delays a scalar pulse by approximately the specified real time.
 This filter is intended for use in control or test applications to trigger a measurement after an experimental setup has
 had time to stabilize.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Scalar Stairstep}
@@ -3608,10 +3912,14 @@ had time to stabilize.
 Outputs a scalar value which ramps from a starting value to an ending value in a stairstep pattern, with configurable
 step duration and spacing.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{SD Card Command}
 
+
+(This filter description is a stub and will be expanded in the future)
 Decodes the Secure Digital card command bus protocol
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3674,10 +3982,14 @@ thold & Analog scalar & Lowest hold time observed in the waveform\\
 
 Generates a pure sine wave with specified frequency, amplitude, sample rate, and DC bias.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{SNR}
 Computes simple $\frac{\mu}{\sigma}$ (mean over standard deviation) signal-to-noise ratio for the input signal.
+
+(This filter description is a stub and will be expanded in the future)
 
 \subsection{Inputs}
 
@@ -3704,11 +4016,15 @@ waveforms samples are weighted by length and gaps are not considered.
 
 Displays a 2D plot of frequency vs time using configurable FFT length.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{SPI}
 
 Serial Peripheral Interface.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3716,11 +4032,15 @@ Serial Peripheral Interface.
 
 Flash memory attached to a SPI or quad SPI bus. Typically these chips have part numbers that start with ``25".
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Squelch}
 
 Detects periods with no signal.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3729,12 +4049,15 @@ Detects periods with no signal.
 Generates a single step from one voltage level to another. Typically used for measuring step response of a channel or
 doing TDR transforms on S-parameters.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Subtract}
 
-
 Subtracts one waveform from another. No resampling is performed; both inputs must have identical sample rates.
+
+(This filter description is a stub and will be expanded in the future)
 
 \subsection{Inputs}
 
@@ -3848,11 +4171,15 @@ Converts SWD accesses to MEM-AP registers into memory read-write transactions.
 
 Reference: ARM Debug Interface v5 Architecture Specification, chapter 8.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Tachometer}
 
 Converts pulses from a tachometer to shaft speed
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3861,6 +4188,8 @@ Converts pulses from a tachometer to shaft speed
 Generic FIR filter with arbitrary tap values and delays. Can be used as-is for testing FIR filter coefficients
 calculated by hand, but most commonly used as a base class for more specialized filters.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{TCP}
@@ -3868,11 +4197,15 @@ calculated by hand, but most commonly used as a base class for more specialized 
 Decodes the Transmission Control Protocol (RFC 675). As of this writing, only IPv4 is supported as a network layer
 protocol. IPv6 support is planned once an IPv6 protocol decode has been written.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{TDR}
 
 Converts a TDR waveform from volts to reflection coefficient or impedance.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3920,11 +4253,15 @@ Measurement Type & Enum &
 
 Converts an analog voltage measurement of a thermal diode to a temperature value
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Threshold}
 
 Converts an analog waveform to digital by thresholding at a constant level (no hysteresis).
+
+(This filter description is a stub and will be expanded in the future)
 
 \subsection{Inputs}
 
@@ -3958,12 +4295,16 @@ corresponding input sample is above the threshold and false if less than or equa
 Calculates the time interval error of a data or clock signal with respect to an ideal ``golden" clock (typically
 obtained from a CDR PLL).
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Top}
 
 Calculates the top (logical one level) of each cycle in a digital waveform. It is most commonly used as an input to
 statistics, to view the average top of the entire waveform.
+
+(This filter description is a stub and will be expanded in the future)
 
 \subsection{Inputs}
 
@@ -3990,11 +4331,15 @@ the average value of the one level.
 
 Saves S-parameter data to a Touchstone file.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Touchstone Import}
 
 Loads a Touchstone file and displays the complex data in magnitude/angle format
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -4002,15 +4347,23 @@ Loads a Touchstone file and displays the complex data in magnitude/angle format
 
 Plots a trend of a scalar value over time
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{TRC Import}
 
 Loads waveform data from a Teledyne LeCroy TRC waveform file.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{UART}
+
+Decode serial ports
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -4048,21 +4401,31 @@ angle.
 \pagebreak
 \section{USB 1.0 / 2.x Activity}
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{USB 1.0 / 2.x Packet}
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{USB 1.0 / 2.x PCS}
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{USB 1.0 / 2.x PMA}
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Undershoot}
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -4070,11 +4433,15 @@ angle.
 
 Upsamples a waveform using sin(x)/x interpolation.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{VCD Import}
 
 Loads digital waveform data from a Value Change Dump (VCD) file.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -4083,15 +4450,21 @@ Loads digital waveform data from a Value Change Dump (VCD) file.
 
 Calculates the instantaneous frequency (rotational velocity) of a complex I/Q signal.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Vector Phase}
 
 Calculates the instantaneous phase of a complex I/Q signal.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Vertical Bathtub}
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -4099,9 +4472,13 @@ Calculates the instantaneous phase of a complex I/Q signal.
 
 Decodes the Teledyne LeCroy Virtual Instrument Control Protocol (VICP)
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Waterfall}
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -4109,11 +4486,15 @@ Decodes the Teledyne LeCroy Virtual Instrument Control Protocol (VICP)
 
 Loads waveform data from a Microsoft WAV audio file.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{WFM Import}
 
 Loads waveform data from a Tektronix .wfm file.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -4133,6 +4514,8 @@ This can be used to identify OFDM symbols.
 
 Selects a temporal subset of an input waveform. Useful for running intensive analyses only on a region of interest.
 Start and end times are rounded to the sample that starts at or nearest after the given time.
+
+(This filter description is a stub and will be expanded in the future)
 
 \subsection{Inputs}
 
@@ -4169,3 +4552,5 @@ This filter converts a sweeping X scalar value and a corresponding Y scalar valu
 
 Note that this filter assumes that the X value is sweeping in an upwards ramp, and is not intended for use with
 arbitrary X-Y data. In particular, the output is a standard sparse waveform type rather than an X-Y density map.
+
+(This filter description is a stub and will be expanded in the future)
