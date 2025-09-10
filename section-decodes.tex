@@ -1495,7 +1495,7 @@ values are output as volts.
 \centering
 \bigimage{ng-images/filters/graph-complex-spectrogram.png}
 \caption{Example filter graph showing usage of complex import filter}
-\label{filter_compleximport}
+\label{filter_compleximport_graph}
 \end{figure}
 
 \FloatBarrier
@@ -1539,14 +1539,12 @@ Plots a spectrogram of complex I/Q data.
 \centering
 \bigimage{ng-images/filters/graph-complex-spectrogram.png}
 \caption{Example filter graph showing usage of complex spectrogram filter}
-\label{filter_complexspectrogram}
+\label{filter_complexspectrogram_graph}
 \end{figure}
 
 \FloatBarrier
 
 \subsection{Inputs}
-
-This filter takes no inputs.
 
 \begin{tabularx}{16cm}{llX}
 \thickhline
@@ -1612,7 +1610,70 @@ This filter outputs a single scalar with a constant value.
 \section{Constellation}
 \label{filter:constellation}
 
-This filter takes I/Q streams and a double-rate symbol clock and outputs a constellation diagram.
+This filter takes I/Q streams and a double-rate recovered symbol clock and outputs a constellation diagram.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/constellation.png}
+\caption{Example of a 9-point 2D-PAM3 constellation}
+\label{filter_constellation}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-constellation.png}
+\caption{Example filter graph showing usage of constellation filter on 2D-PAM3 data}
+\label{filter_complexspectrogram_graph}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+I & Analog & Real part of input signal\\
+\thinhline
+Q & Analog & Imaginary part of input signal\\
+\thinhline
+clk & Digital & Recovered symbol clock \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Center I & Float & Voltage for center of the constellation in I axis\\
+\thinhline
+Center Q & Float & Voltage for center of the constellation in Q axis\\
+\thinhline
+Modulation & Enum & Modulation to use for EVM calculations\\
+\thinhline
+Range & Float & Nominal full-scale range\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs a 2D density plot showing amplitude vs frequency and time, as well as error vector magnitude (EVM)
+measurements.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Density plot & Constellation image\\
+\thinhline
+EVM raw & Analog scalar & Raw EVM in volts\\
+\thinhline
+EVM normalized & Analog scalar & Normalized EVM in percent\\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -1721,12 +1782,15 @@ This filter stores its output to a file and has no filter graph output ports.
 
 Loads waveform data from a comma-separated-value file.
 
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Current Shunt}
 
 Converts a voltage waveform acquired across a known resistance into a current waveform.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -1777,11 +1841,15 @@ currently no way to display the histogram content.
 
 Decodes the command bus for first-generation DDR SDRAM.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{DDR3 Command Bus}
 
 Decodes the command bus for third-generation DDR SDRAM.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -1812,6 +1880,22 @@ filter to calculate combined S-parameters of the entire circuit and then perform
 
 The maximum gain the de-embed applies is capped (default 20 dB) in order to prevent amplifying noise outside the
 passband of the network being de-embedded.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/deembed.png}
+\caption{Example of de-embedding a cable from a measurement}
+\label{filter_deembed}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-deembed.png}
+\caption{Example filter graph showing usage of de-embed filter}
+\label{filter_deembed_graph}
+\end{figure}
+
+\FloatBarrier
 
 \subsection{Inputs}
 
@@ -1850,9 +1934,26 @@ This filter outputs an analog waveform with the same timebase as the input, with
 \section{Deskew}
 \label{filter:deskew}
 
-Moves an analog waveform earlier or later in time to compensate for trigger offsets, probe length mismatch, etc.
-It is generally preferable to deskew using the skew adjustment on the channel during acquisition; this filter is
-provided for correction in postprocessing.
+Moves an analog waveform earlier or later in time to compensate for trigger offsets, probe length mismatch, etc. It is
+generally preferable to deskew using the skew adjustment on the channel during acquisition if supported by hardware;
+this filter is provided for correction in postprocessing or for use with instruments that do not have hardware deskew
+capability.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/deskew.png}
+\caption{Example of deskewing a signal}
+\label{filter_deskew}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-deskew.png}
+\caption{Example filter graph showing usage of deskew filter}
+\label{filter_deskew_graph}
+\end{figure}
+
+\FloatBarrier
 
 \subsection{Inputs}
 
@@ -1886,8 +1987,24 @@ offset.
 
 Convert a digital signal (and associated clock) to an analog NRZ waveform. This filter uses a simplistic piecewise
 linear rise/fall time model: the output stays at the logic low/high voltage until the input changes, then ramps at a
-constant rate to then new value. For more accurate modeling of edge shape use the \hyperref[filter:ibisdriver]{IBIS
+constant rate to the new value. For more accurate modeling of edge shape use the \hyperref[filter:ibisdriver]{IBIS
 Driver} filter with the appropriate IBIS model for your DUT.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/digital-to-nrz.png}
+\caption{Example of converting digital waveform to analog NRZ}
+\label{filter_digital_to_nrz}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-digital-to-nrz.png}
+\caption{Example filter graph showing usage of digital to NRZ filter}
+\label{filter_digital_to_nrz_graph}
+\end{figure}
+
+\FloatBarrier
 
 \subsection{Inputs}
 
@@ -1928,11 +2045,27 @@ This filter outputs an analog NRZ version of the provided digital input, sampled
 
 Convert a digital signal (and associated clock) to an analog PAM-4 waveform. This filter uses a simplistic piecewise
 linear rise/fall time model: the output stays at the current symbol's voltage until the input changes, then ramps at a
-constant rate to then new value. For more accurate modeling of edge shape use the \hyperref[filter:ibisdriver]{IBIS
+constant rate to the new value. For more accurate modeling of edge shape use the \hyperref[filter:ibisdriver]{IBIS
 Driver} filter with the appropriate IBIS model for your DUT.
 
 The input data is a digital serial bit stream at twice the PAM4 symbol rate. Two consecutive input bits map to a single
 PAM-4 output sample.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/digital-to-pam4.png}
+\caption{Example of converting digital waveform to analog PAM-4}
+\label{filter_digital_to_pam4}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-digital-to-pam4.png}
+\caption{Example filter graph showing usage of digital to PAM-4 filter}
+\label{filter_digital_to_pam4_graph}
+\end{figure}
+
+\FloatBarrier
 
 \subsection{Inputs}
 
@@ -1976,11 +2109,15 @@ This filter outputs an analog PAM-4 version of the provided digital input, sampl
 
 Decodes the Auxiliary Channel of DisplayPort
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Divide}
 
 Divides one waveform by another.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -1989,11 +2126,55 @@ Divides one waveform by another.
 Performs digital downconversion by mixing a directly sampled RF signal with a two-phase local oscillator, then outputs
 the downconverted signal. No LO rejection filtering or decimation is performed.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Downsample}
 
-Low-pass filters a signal to prevent aliasing, then decimates by an integer factor.
+Optionally low-pass filters a signal to prevent aliasing, then decimates by an integer factor.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/downsample.png}
+\caption{Example of downsampling a sinusoid}
+\label{filter_downsample}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-downsample.png}
+\caption{Example filter graph showing usage of downsample filter}
+\label{filter_downsample}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+RF & Analog & Input waveform\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Antialiasing Filter & Bool & If true, applies a low-pass filter to the input before decimating\\
+\thinhline
+Downsample Factor & Int & Divisor for output sample rate\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs a decimated version of the input.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2001,17 +2182,23 @@ Low-pass filters a signal to prevent aliasing, then decimates by an integer fact
 
 Given a DRAM command bus and a DQS strobe, produce separate gated DQ clock streams for read and write bursts.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{DRAM Trcd}
 
 Calculates $T_{rcd}$ (RAS-to-CAS delay) for each newly opened row in a DRAM command bus stream.
 
+(This filter description is a stub and will be expanded in the future)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{DRAM Trfc}
 
 Calculates $T_{rfc}$ (refresh-to-refresh delay) for each refresh operation in a DRAM command bus stream.
+
+(This filter description is a stub and will be expanded in the future)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2020,6 +2207,51 @@ Calculates $T_{rfc}$ (refresh-to-refresh delay) for each refresh operation in a 
 Calculates the duty cycle of a bimodal waveform. The duty cycle is defined as the percentage of time spent in the high
 state divided by the period.
 
+Analog waveforms are automatically thresholded at the average voltage.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/dutycycle.png}
+\caption{Example of measuring duty cycle of a digital waveform}
+\label{filter_dutycycle}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-dutycycle.png}
+\caption{Example filter graph showing usage of duty cycle filter}
+\label{filter_dutycycle}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog or digital & Input waveform\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+trend & Analog & Instantaneous duty cycle of each cycle of the waveform\\
+\thinhline
+avg & Analog scalar & Average duty cycle over the entire input signal \\
+\thickhline
+\end{tabularx}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{DVI}
@@ -2027,17 +2259,147 @@ state divided by the period.
 
 Decodes Digital Visual Interface (DVI) video signals.
 
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/tmds.png}
+\caption{Example of decoding a DVI signal}
+\label{filter_dvi}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-tmds.png}
+\caption{Example filter graph showing usage of DVI decode filter}
+\label{filter_dvi}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+D0 (blue) & Protocol & TMDS decode for lane 0\\
+\thinhline
+D1 (green) & Protocol & TMDS decode for lane 1\\
+\thinhline
+D2 (blue) & Protocol & TMDS decode for lane 2\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+The output is a sequence of DVI scan lines including RGB pixel values.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Emphasis}
 
-Adds pre/de emphasis to a signal.
+Adds pre/de emphasis to a signal by convolving it with a tapped delay line filter. This introduces a small phase shift.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/emphasis.png}
+\caption{Example of applying 6 dB of de-emphasis to a 1.25 Gbps 8B/10B signal}
+\label{filter_emphasis}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-emphasis.png}
+\caption{Example filter graph showing usage of emphasis filter}
+\label{filter_emphasis}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+in & Analog & Input waveform\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Data Rate & Int & Data rate, in symbols per second\\
+\thinhline
+Emphasis Amount & Float & Amount of pre/de emphasis to add, in dB\\
+\thinhline
+Emphasis Type & Enum & Type of emphasis to add (pre-emphasis or de-emphasis) \\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+The output is an analog signal with the requested amount of emphasis applied.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Emphasis Removal}
 
-Removes pre/de emphasis from a signal.
+Removes pre/de emphasis from a signal by convolving it with a tapped delay line filter. This introduces a small phase
+shift.
+
+This filter is typically used when probing a signal at the transmitter which has a high level of emphasis. Removing the
+emphasis can increase the eye opening in the digitized signal and make interpretation easier.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/emphasis-removal.png}
+\caption{Example of applying 6 dB of de-emphasis to a 1.25 Gbps 8B/10B signal then removing it}
+\label{filter_emphasis}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-emphasis-removal.png}
+\caption{Example filter graph showing usage of emphasis removal filter}
+\label{filter_emphasis}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+in & Analog & Input waveform\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Data Rate & Int & Data rate, in symbols per second\\
+\thinhline
+Emphasis Amount & Float & Amount of pre/de emphasis to remove, in dB\\
+\thinhline
+Emphasis Type & Enum & Type of emphasis to remove (pre-emphasis or de-emphasis) \\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+The output is an analog signal with the requested amount of emphasis removed.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
