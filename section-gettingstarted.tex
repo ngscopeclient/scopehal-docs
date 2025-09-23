@@ -87,7 +87,7 @@ steps differ among platform and distro.
 
 Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
-sudo apt-get install build-essential git cmake pkgconf libgtk-3-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip libhidapi-dev
+sudo apt-get install build-essential git cmake pkgconf libgtk-3-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip libhidapi-dev lsb-release
 \end{lstlisting}
 
 On Debian bookworm and later, you can use system-provided Vulkan packages. Skip this if you choose to use the upstream Vulkan SDK instead:
@@ -109,7 +109,7 @@ sudo apt install texlive texlive-fonts-extra texlive-extra-utils
 
 Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
-sudo apt install build-essential git cmake pkgconf libgtk-3-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip libhidapi-dev
+sudo apt install build-essential git cmake pkgconf libgtk-3-dev libsigc++-2.0-dev libyaml-cpp-dev catch2 libglfw3-dev curl xzip libhidapi-dev lsb-release
 \end{lstlisting}
 
 On Ubuntu 22.10 and earlier (including 20.04 and 22.04), you will need to use the Vulkan SDK.
@@ -134,7 +134,7 @@ sudo apt install texlive texlive-fonts-extra texlive-extra-utils
 \subsubsection{Fedora}
 Basic requirements:
 \begin{lstlisting}[language=sh, numbers=none]
-sudo dnf install git gcc g++ cmake make pkgconf gtk3-devel libsigc++30-devel yaml-cpp-devel catch-devel glfw-devel hidapi-devel
+sudo dnf install git gcc g++ cmake make pkgconf gtk3-devel libsigc++30-devel yaml-cpp-devel catch-devel glfw-devel hidapi-devel lsb-release
 \end{lstlisting}
 
 System-provided Vulkan packages. Skip these if you choose to use the Vulkan SDK instead:
@@ -156,7 +156,7 @@ sudo dnf install texlive
 
 As Alpine Linux uses musl libc, you will need to use system-provided Vulkan packages, and not the Vulkan SDK.
 \begin{lstlisting}[language=sh, numbers=none]
-apk add git gcc g++ cmake make pkgconf gtk+3.0-dev libsigc++-dev yaml-cpp-dev catch2-3 vulkan-loader-dev glslang-dev glslang-static glfw-dev shaderc-dev spirv-tools-dev libhidapi-dev
+apk add git gcc g++ cmake make pkgconf gtk+3.0-dev libsigc++-dev yaml-cpp-dev catch2-3 vulkan-loader-dev glslang-dev glslang-static glfw-dev shaderc-dev spirv-tools-dev libhidapi-dev lsb-release-minimal
 \end{lstlisting}
 
 If you are using an older stable release (such as CentOS 7), you may need to install some dependencies from source.
