@@ -120,3 +120,18 @@ As a result - regardless of actual hardware state - the driver will report chann
 Additionally, the driver will report channel 3 as being off until it is turned on by software. Once the output has been
 turned on, the driver will track the state and report a correct on/off state as long as no front panel control buttons
 are touched.
+
+\section{Sinilink}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+XY series & siniLink & uart & Tested on a XYS3580\\
+\thickhline
+\end{tabularx}
+
+\subsection{siniLink}
+
+This driver should be compatible with most Sinilink XY series powersupplies.
+The driver might also work with Sinilink sk series powersupplies.
