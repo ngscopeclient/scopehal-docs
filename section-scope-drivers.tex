@@ -151,6 +151,55 @@ Simulator & demo & null & \\
 \thickhline
 \end{tabularx}
 
+\section{Batronix}
+
+A driver for Batronix Magnova oscilloscope is available in the codebase.
+It has been developped, with the help of Batronix team, according to official SCPI documentation for Magnova oscilloscope
+(Magnova® SCPI Manual - Version 1.5). This driver has been developed and tested on a Magnova BMO350 running firmware version 1.7.1.
+
+Here are the known limitations of this driver (that should be fixed with further Magnova firmware updates):
+\begin{itemize}
+
+\item For now, Magnova's SCPI implementation does not support digital signal acquisition.
+
+\item Selecting specific Arbitrary waveform from function generator is not possible with current Magnova SCPI implementation.
+
+\item Time Scale / Memory Depth / Sample Rate synchronization only work if the scope is in "Extended Capture" mode (Acquire menu).
+
+\end{itemize}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+Magnova BMO & Batronix & lan & Connection path: <IP>:5025 \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{Typical Performance (Magnova BMO350, LAN)}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Channels} & \textbf{Memory depth} & \textbf{WFM/s}\\
+\thickhline
+1 & 20K & 9.9 \\
+\thinhline
+2 & 10K & 6.6 \\
+\thinhline
+4 & 12.5K & 3.99 \\
+\thinhline
+1 & 100K & 9.7 \\
+\thinhline
+4 & 125K & 3.97 \\
+\thinhline
+1 & 5M & 4.5 \\
+\thinhline
+4 & 5M & 1.26 \\
+\thickhline
+\end{tabularx}
+
+These figures were obtained from a Magnova BMO350 running firmware version 1.7.1.
+
 \section{Digilent}
 
 Digilent oscilloscopes using the WaveForms SDK are all supported using the ``digilent" driver in libscopehal. This
