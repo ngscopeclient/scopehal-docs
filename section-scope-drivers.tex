@@ -559,6 +559,65 @@ TODO (\issue{scopehal}{59})
 
 This driver supports the newer RTO6 family scopes (and possibly others, untested).
 
+\subsection{rs\_rtb2k}
+
+A driver for RTB2000 and RTB2 oscilloscope.
+Analog and digital channels are supported. An external trigger and a line trigger are available.
+The function generator can be used with some restrictions.
+
+Here is a list of notes on how to use it:
+\begin{itemize}
+
+\item The bit depth can be changed between 8 bits and 16 bits in the driver settings.
+
+\item The selection lists with the sample rate and memory depth only work correctly with a fixed memory depth.
+
+\item Entries in the selection list for the memory depth are rounded up, resulting in several identical entries.
+
+\item When the oscilloscope is in Run mode and connected to ngscopeclient, data acquisition starts automatically.
+
+\item When connecting the oscilloscope with line trigger to ngscopeclient, a trigger channel must be selected before changing the trigger. Otherwise, the program will crash.
+
+\item The progress bar for downloading digital channels is only displayed for one channel.
+
+\item If only the first logic probe is connected, only these 8 channels are displayed. The second logic probe is not recognized during operation.
+
+\item The triggers for pattern and bus are missing.
+
+\end{itemize}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+RTB & rs.rtb2k & lan & Connection path: <IP>:5025 \\
+\thickhline
+\end{tabularx}
+
+\subsubsection{Typical Performance (RTB2000, LAN)}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Channels} & \textbf{Memory depth} & \textbf{WFM/s}\\
+\thickhline
+1 & 10K & 3.4 \\
+\thinhline
+2 & 10K & 2.6 \\
+\thinhline
+4 & 10K & 1.8 \\
+\thinhline
+1 & 100K & 2.6 \\
+\thinhline
+2 & 100K & 2.0 \\
+\thinhline
+4 & 100K & 1.4 \\
+\thinhline
+4 & 1M & 0.3 \\
+\thickhline
+\end{tabularx}
+
+These figures were obtained from a RTB2000 running firmware version 3.000 on an Raspberry Pi 500.
+
 \section{Saleae}
 TODO (\issue{scopehal}{16})
 
