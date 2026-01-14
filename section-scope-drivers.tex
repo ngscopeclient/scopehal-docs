@@ -403,7 +403,7 @@ A driver for the Keysight/Agilent/HP DCA series of equivalent-time sampling osci
 \section{Pico Technology}
 
 Pico oscilloscopes all have slightly different command sets, but are supported using the ``pico" driver in libscopehal.
-This driver connects via a TCP socket to a socket server
+This driver connects via the ``twinlan" transport to a socket server
 \href{https://github.com/ngscopeclient/scopehal-pico-bridge}{scopehal-pico-bridge} which connects to the appropriate
 instrument using Pico's binary SDK.
 
@@ -411,7 +411,31 @@ instrument using Pico's binary SDK.
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Notes} \\
 \thickhline
-3000D series & pico & Early development, incomplete\\
+2000 series & pico & 2205 MSO, 2206, 2207, 2208 only\\
+\thinhline
+2000A series & pico & 2204A and 2205A not supported yet\\
+\thinhline
+2000B series & pico & \\
+\thinhline
+3000 series & pico & 3204/5/6 MSO only\\
+\thinhline
+3000A series & pico & \\
+\thinhline
+3000B series & pico & \\
+\thinhline
+3000C series & pico & \\
+\thinhline
+3000D series & pico & \\
+\thinhline
+4000 series & pico & 4444 and 4824 only\\
+\thinhline
+4000A series & pico & \\
+\thinhline
+5000A series & pico & \\
+\thinhline
+5000B series & pico & \\
+\thinhline
+5000D series & pico & \\
 \thinhline
 6000E series & pico & \\
 \thickhline
