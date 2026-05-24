@@ -70,7 +70,7 @@ add_custom_command(
 
 	# Get bounding box data for images
 	# this is ugly and might not work on non-Linux but is better than nothing for now?
-	COMMAND sh -c "ebb -x images/*.png images/filters/*.png ng-images/*.png"
+	COMMAND sh -c "ebb -x images/*.png images/filters/*.png ng-images/*.png ng-images/filters/*.png"
 
 	# Actual building
 	COMMAND make4ht -uf html5 --output-dir ${CMAKE_CURRENT_BINARY_DIR}/html
