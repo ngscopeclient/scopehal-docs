@@ -420,6 +420,22 @@ Print the application version and exit.
 \item \texttt{-{}-help}, \texttt{-h}\\
 Print a brief description of the available command line arguments and exit.
 
+\item \texttt{-{}-maximize}, \texttt{-m}\\
+Maximize ngscopeclient window on startup (overrides "Window startup mode" preference).
+
+\item \texttt{-{}-restore}, \texttt{-r}\\
+Restore previous ngscopeclient window size and position (overrides "Window startup mode" preference).
+
+\item \texttt{Session files}\\
+If you wish to resume a prior session, pass the path to a session file saved from the graphical interface as the sole non-option argument.
+
+The file name must end in .scopesession.
+
+\item \texttt{Instrument connection strings}\\
+When starting a new session, you may provide one or more instrument connection strings as arguments, which will be added to the session.
+
+Connection strings are not accepted when resuming an existing session.
+
 \end{itemize}
 
 % TODO: add this section once these are implemented
