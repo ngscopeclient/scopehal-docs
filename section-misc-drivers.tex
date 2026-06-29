@@ -4,6 +4,21 @@
 This chapter describes all of the available drivers for miscellaneous instruments which do not fit in any other
 category.
 
+\section{Antikernel Labs}
+
+\begin{tabularx}{16cm}{lllX}
+\thickhline
+\textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+APB GPIO & akl.gpio & lan & \\
+\thickhline
+\end{tabularx}
+
+\subsection{akl.gpio}
+
+This driver provides a 32-bit read/write GPIO interface to the APB\_GPIO FPGA IP from antikernel-ipcores, via
+.scopehal-akldebug-bridge
+
 \section{Generic}
 
 \begin{tabularx}{16cm}{lllX}
