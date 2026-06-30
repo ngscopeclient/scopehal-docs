@@ -11,13 +11,20 @@ category.
 \textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
 \thickhline
 APB GPIO & akl.gpio & lan & \\
+\thinhline
+APB VIO & akl.vio & lan & \\
 \thickhline
 \end{tabularx}
 
 \subsection{akl.gpio}
 
 This driver provides a 32-bit read/write GPIO interface to the APB\_GPIO FPGA IP from antikernel-ipcores, via
-.scopehal-akldebug-bridge
+scopehal-akldebug-bridge
+
+\subsection{akl.vio}
+
+This driver provides a multi-bit digital I/O interface with up to eight input and eight output ports to the APB\_VIO
+FPGA IP from antikernel-ipcores, via scopehal-akldebug-bridge
 
 \section{Generic}
 
