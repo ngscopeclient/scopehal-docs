@@ -153,12 +153,14 @@ The .scopesession file format is intended to be strictly upward compatibile; any
 when opening older datasets in a newer version are due to bugs and should be reported as such.
 
 There is no expectation of downward compatibility (sessions from a newer ngscopeclient version are very likely to not
-work in older versions).
+work in older versions and will display a warning, although it will still attempt to load on a best-effort basis).
 
 Note that filters may occasionally change port or parameter configurations during refactoring, which may require some
 manual reconfiguration of older sessions in order to work properly.
 
 \section{Revision History}
 \begin{itemize}
-\item \today: [in progress] Initial draft
+\item TODO: Version 0.2 release
+\item 2025-12-31: Version 0.1.1 release
+\item 2025-09-11: Version 0.1 release
 \end{itemize}
