@@ -2,17 +2,36 @@
 
 \section{Host System Requirements}
 
-The majority of development is performed on Linux operating systems (primarily Debian) so this is the most well
-tested platform, however Windows and Mac OS are also supported.
+\subsection{Operating Systems}
 
-Any 64-bit Intel or AMD processor, or Apple Silicon Mac, should be able to run ngscopeclient. If AVX2 and/or AVX512F
-support is present ngscopeclient will use special optimized versions of some signal processing functions, however
-neither instruction set is required. Other (non Apple Silicon) ARM64 platforms may work if a compatible GPU is
-available, but have not been tested. We don't actively test on 32-bit platforms due to the significant RAM
-requirements, but we won't stop you from trying and would love to hear if you get it working.
+We test ngscopeclient on the following platforms:
+
+\begin{itemize}
+\item Linux: Arch, Debian 12 / 13, Fedora 43, Ubuntu 22.04 / 24.04
+\item MacOS: Sequoia
+\item Windows: 11
+\end{itemize}
+
+The majority of development is performed on Linux operating systems (primarily Debian) so this is the most well
+tested platform.
+
+We do not test on Windows 10, however there are no known incompatibilities.
+
+\subsection{Processors}
+
+Any 64-bit Intel, AMD, or ARM processor (including Apple Silicon) should be able to run ngscopeclient.
+
+If AVX2 and/or AVX512F support is present ngscopeclient will use special optimized versions of some signal processing
+functions, however neither instruction set is required.
+
+We don't actively test on 32-bit platforms due to the significant RAM requirement of typical workloads, but we won't stop you from trying and would love to hear if you get it working.
+
+\subsection{Mouse}
 
 A mouse with scroll wheel, or touchpad with scroll gesture support, is mandatory to enable full use of the UI. We may
 explore alternative input methods for some UI elements in the future.
+
+\subsection{GPU}
 
 Any GPU with Vulkan support should be able to run ngscopeclient, however Vulkan 1.2 will deliver better performance.
 The minimum supported GPUs are:
@@ -24,8 +43,12 @@ The minimum supported GPUs are:
 been tested.
 \end{itemize}
 
+On Linux, if you do not have a supported GPU you can still use ngscopeclient with software rendering via llvmpipe, however performance is likely to be poor.
+
 Note that many virtual machine graphics stacks (e.g. VMWare) do not provide Vulkan unless a PCIe passthrough GPU is
 being used.
+
+\subsection{RAM}
 
 The minimum RAM requirement to launch ngscopeclient is relatively small; however, actual memory consumption is
 heavily dependent on workload and can easily reach into the tens of gigabytes when doing complex analysis on many
@@ -44,8 +67,8 @@ complex analysis on them. Analog waveforms are stored in 32-bit floating point f
 megapoint waveform will consume 1GB of GPU memory. Intermediate results in multi-step filter pipelines require GPU
 memory as well, even if not displayed.
 
-The maximum supported waveform size depends on your Vulkan implementation but is typically $2^32$ bytes (4 GB). This
-translates to one gigapoint analog or four gigapoints digital.
+The maximum supported waveform size depends on your Vulkan implementation but is typically $2^{32}$ bytes (4 GB) assuming
+sufficient video memory is available. This translates to one gigapoint analog or four gigapoints digital.
 
 \section{Instrument Support}
 
@@ -64,14 +87,10 @@ The latest released binaries can be downloaded from GitHub at \url{https://githu
 \subsection{Development Builds}
 
 If you are feeling adventurous and want to try bleeding-edge code, or are testing a fix at a developer's request,
-packages for a limited set of platforms (currently Ubuntu 20.04, 22.04, 24.04, Arch, Fedora, Debian oldstable, Debian
-stable, MacOS, and Windows) are automatically built each commit as part of the GitHub CI pipeline. Unlike release
+packages for the officially supported platforms are automatically built each commit by our CI pipeline. Unlike release
 packages, CI builds are not signed so you may encounter security warnings on some platforms when installing them.
 
-To access development packages, log into GitHub (sorry, development binaries are not available to
-anonymous users - this is on GitHub's end and not under our control) and go to
-\url{https://github.com/ngscopeclient/scopehal-apps/actions}. Select build-ubuntu or build-windows as appropriate,
-click the commit you wish to test, and download the appropriate .msi, .rpm, .dmg, or .deb package.
+Development binaries are available on our CI artifact server at \url{https://dl1.ngscopeclient.org/ngscopeclient-ci/}. Artifacts are organized in folders by year and month, then by date/time and commit hash of the specific build. Old builds are periodically deleted to recover disk space; the artifact server usually has a month or so worth of historical binaries depending on the pace of development.
 
 \section{Compilation}
 

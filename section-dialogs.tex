@@ -13,9 +13,9 @@ The contents of the Setup Notes tab are displayed on the \hyperref[dlg:speedbump
 session file. The General Notes are only displayed within the Lab Notes dialog and are intended purely as a place for
 recording interesting observations made during the experiment.
 
-Minimal Markdown syntax (headings and bullets) is currently supported.\footnote{Images and links are supported by the
-Markdown renderer library but the integration to properly use them is not yet finished; tables are not supported but
-this will likely be added in the future.}
+Minimal Markdown syntax (headings, bullets, and bold font) is currently supported.\footnote{Images and links are
+supported by the Markdown renderer library but the integration to properly use them is not yet finished; tables are not
+supported but this will likely be added in the future.}
 
 Lab notes are saved as Markdown files in the data directory for the session and can be opened in any
 text editor or Markdown viewer. Note that they are overwritten each time the session is saved, so you should not modify
@@ -36,7 +36,7 @@ them using an external tool while the session is open in ngscopeclient or your c
 The Log Viewer dialog provides an alternate way to view log messages sent to stdout / stderr, which may be useful for
 debugging if the application was launched from a desktop icon or similar and there is no access to the console.
 
-It can be found under the \menustyle{Window | Log Viewer} menu.
+It can be opened from the \menustyle{Window | Log Viewer} menu.
 
 \begin{figure}[H]
 \centering
@@ -60,6 +60,31 @@ via \texttt{LogTrace()}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Measurements}
+\label{dlg:measurements}
+
+The Measurements dialog displays scalar values, either produced by filter graph blocks or directly measured by e.g. a
+multimeter channel.
+
+It can be opened from the \menustyle{Window | Measurements} menu.
+
+\begin{figure}[H]
+\centering
+\bigimage{ng-images/dialog-measurements.png}
+\caption{Measurements dialog}
+\label{fig:measurements}
+\end{figure}
+
+To remove a measurement, right click the channel name and select ``delete" from the context menu.
+
+To add a measurement, drag the stream from the stream browser to a row in the measurements dialog. Measurements can
+also be reordered by dragging and dropping.
+
+Digital vector values can be displayed as decimal, hex, or binary. To change base, right click the channel name and
+select the desired format from the context menu.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Performance Metrics}
 \label{dlg:perfmetrics}
 
@@ -67,7 +92,7 @@ The Performance Metrics dialog displays statistics on performance of rendering, 
 processing. This data is primarily intended for developers comparing before/after performance of optimizations and code
 changes.
 
-It can be found under the \menustyle{Window | Performance Metrics} menu.
+It can be opened from the \menustyle{Debug | Performance Metrics} menu.
 
 \begin{figure}[H]
 \centering
