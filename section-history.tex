@@ -19,7 +19,7 @@ waveform data for analysis.
 Hovering the mouse over a row in the history view (Fig. \ref{history-tooltip}) displays a tooltip with the full date
 and time of the acquisition, as well as some information about which instruments and channels had data in the capture
 (if some channels were enabled or disabled during the lab session, the set of active channels may have changed
-throughout history).
+throughout history) and how much memory the capture is consuming.
 
 \begin{figure}[H]
 \centering
@@ -33,9 +33,6 @@ must fit in system RAM in the current software version; spilling to disk is plan
 (\issue{scopehal-apps}{311}). Older waveforms beyond the history limit are deleted automatically as new waveforms are
 acquired. Any single waveform in history may also be deleted by right clicking on the line and selecting ``delete" from
 the menu.
-
-%The status bar at the bottom of the history view displays the total number of waveforms in the history, as well as an
-%estimate of the amount of RAM used by the history.
 
 \section{Pinning}
 

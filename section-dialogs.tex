@@ -89,8 +89,9 @@ select the desired format from the context menu.
 \label{dlg:perfmetrics}
 
 The Performance Metrics dialog displays statistics on performance of rendering, waveform acquisition, and signal
-processing. This data is primarily intended for developers comparing before/after performance of optimizations and code
-changes.
+processing. The exact set of statistics displayed can vary depending on available Vulkan extensions, discrete vs
+integrated graphics, etc. This data is primarily intended for developers comparing before/after performance of
+optimizations and code changes.
 
 It can be opened from the \menustyle{Debug | Performance Metrics} menu.
 
@@ -114,8 +115,8 @@ filter graph.
 
 \subsection{Acquisition}
 
-Displays the acquisition rate, in waveforms per second. This data is collected using a rather simple mechanism and
-may not be usefully accurate if multiple trigger groups are in use.
+Displays the acquisition rate, in waveforms per second, for the entire session as well as for each instrument within
+the session if multiple trigger groups are active.
 
 Additionally, this section displays the number of pending waveforms for each instrument (waveforms which have been
 acquired but not yet passed to the filter graph). This number should normally be flickering between zero and one if
@@ -172,7 +173,6 @@ Numeric value display in Stream Browser can take one of the following values:
 \label{prefs}
 \end{figure}
 
-
 \textbf{\underline{Show block border}}
 
 When ticked, adds a visual border around stream browser blocks (e.g. channel properties)
@@ -191,9 +191,8 @@ When ticked, adds a visual border around stream browser blocks (e.g. channel pro
 \label{prefs}
 \end{figure}
 
-
+\FloatBarrier
 \subsubsection{Windowing}
-
 
 \textbf{\underline{Window startup mode}}
 
@@ -207,10 +206,9 @@ Window startup mode can be set to one of the following values:
 \begin{figure}[H]
 \centering
 \includegraphics[width=10cm]{ng-images/dialog-preferences-window-startup.png}
-\caption{7 Segment}
+\caption{Startup configuration}
 \label{prefs}
 \end{figure}
-
 
 % TODO: document all of these preferences once the list has stabilized a bit
 
@@ -246,9 +244,9 @@ from the instrument, or automatically decide based on hardware configuration.
 it only has an 8-bit ADC. This doubles the amount of network bandwidth required and may reduce waveforms-per-second
 performance, but provides smoother waveforms.
 
-Note that Teledyne LeCroy scopes perform DSP flatness corrections between the ADC and the data presented via the API,
-meaning that even if the hardware only has an 8-bit ADC, downloading data with 16-bit precision will result in improved
-accuracy.
+Note that Teledyne LeCroy scopes perform DSP flatness corrections in firmware between the ADC and the data presented
+via the API, meaning that even if the hardware only has an 8-bit ADC (non HD models), downloading data with 16-bit
+precision will result in improved waveform quality.
 
 \end{itemize}
 
