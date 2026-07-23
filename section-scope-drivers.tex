@@ -107,12 +107,13 @@ Internal Logic Analyzer IP & akl.ila & \\
 
 \subsection{akl.ila}
 
-This driver interfaces to the Antikernel Labs APB\_ILA or any other RTLDebug compatible internal logic analyzer core
+This driver interfaces to the Antikernel Labs \verb|APB_ILA| or any other RTLDebug compatible internal logic analyzer core, via \href{https://github.com/ngscopeclient/scopehal-akldebug-bridge}{scopehal-akldebug-bridge}
 
 \section{Demo}
 
 The ``demo" driver is a simulation-only driver for development and training purposes, and does not connect to real
-hardware.
+hardware. It does not currently model realistic trigger behavior (waveforms are aligned to a fixed phase regardless of
+trigger setting), however we hope to simulate realistic triggering in the future.
 
 It ignores any transport provided, and is normally used with the ``null" transport.
 
@@ -121,15 +122,28 @@ automated testing on computers which do not have a connection to a real oscillos
 model the response or characteristics of real world scope frontends or signals.
 
 It supports memory depths of 10K, 100K, 1M, and 10M points per waveform at rates of 1, 5, 10, 25, 50, and 100 Gsps.
-Four test signals are provided, each with 10 mV of Gaussian noise and a 5 GHz low-pass filter added (although this can
-be disabled under the channel properties)
+Four analog test signals are provided, as well as a series of digital signals.
 
-Test signals:
+The analog signals can be configured in three different modes using the ``ADC mode" selector:
 \begin{itemize}
-\item 1.000 GHz tone
-\item 1.000 GHz tone mixed with a second tone, which sweeps from 1.100 to 1.500 GHz
-\item 10.3125 Gbps PRBS-31
-\item 1.25 Gbps repeating two 8B/10B symbols (K28.5 D16.2)
+\item Ideal waveform with no added impairments
+\item Ideal waveform with 10 mV of AWGN
+\item Ideal waveform with 10 mV of AWGN through an S-parameter ISI model of a 300mm FR-4 microstrip
+\end{itemize}
+
+Analog test signals:
+\begin{itemize}
+\item Tone: 1.000 GHz tone
+\item Ramp: 1.000 GHz steady tone plus a second tone which sweeps from 1.100 to 1.500 GHz
+\item PRBS31: 10.3125 Gbps PRBS-31
+\item 8B10B: 1.25 Gbps repeating two 8B/10B symbols (K28.5 D16.2)
+\end{itemize}
+
+Digital test signals:
+\begin{itemize}
+\item Unidirectional SPI bus transmitting an ASCII hello-world message
+\item UART transmitting an ASCII hello-world message
+\item 8-bit parallel bus plus clock counting from 00 to FF
 \end{itemize}
 
 \begin{tabularx}{16cm}{lllX}
@@ -260,8 +274,8 @@ the ``twinlan'' transport to a \href{https://github.com/ngscopeclient/scopehal-s
 against libsigrok4DSL. This provides network transparency, and allows the DSLabs bridge server to be packaged separately for
 distribution and only installed by users who require it.
 
-As of 2022-03-22, a DSCope U3P100 and a DSLogic U3Pro16has been tested and works adequately. Other products may work
-also, but are untested.
+As of 2022-03-22, a DSCope U3P100 and a DSLogic U3Pro16 has been tested and works adequately. Other products may work
+also, but are untested. EDIT 2026-07-23: some user are reporting problems due to DSLabs software changes.
 
 On DSCope: Only edge triggers are supported. `Any' edge is not supported. ``Ch0 \&\& Ch1'' and ``Ch0 || Ch1'' trigger modes
 are not supported.
@@ -456,7 +470,7 @@ Rigol oscilloscopes have subtle differences in SCPI command set, but this is imp
 driver rather than needing different drivers for each scope family.
 
 NOTE: DS1054Z firmware 00.04.02.SP4 is known to have problems with SCPI remote control
-(https://github.com/ngscopeclient/scopehal-apps/issues/790); it is unclear what other models and firmware versions may
+(\issue{scopehal-apps}{790}); it is unclear what other models and firmware versions may
 be affected by this bug. If you encounter problems, please ensure your scope is running the latest firmware release
 from Rigol before opening a support ticket.
 
@@ -556,25 +570,20 @@ A driver for RTB2000 and RTB2 oscilloscope.
 Analog and digital channels are supported. An external trigger and a line trigger are available.
 The function generator can be used with some restrictions.
 
-Here is a list of notes on how to use it:
+This driver is in early stage and has significant limitations and bugs. We are exploring whether to merge it with the
+original legacy \texttt{rs} driver or continue updating it, but no progress can be made without a volunteer maintainer
+who has access to a scope for testing. If you are interested in taking over maintainership of this driver please reach
+out!
+
 \begin{itemize}
-
 \item The bit depth can be changed between 8 bits and 16 bits in the driver settings.
-
 \item The selection lists with the sample rate and memory depth only work correctly with a fixed memory depth.
-
 \item Entries in the selection list for the memory depth are rounded up, resulting in several identical entries.
-
 \item When the oscilloscope is in Run mode and connected to ngscopeclient, data acquisition starts automatically.
-
 \item When connecting the oscilloscope with line trigger to ngscopeclient, a trigger channel must be selected before changing the trigger. Otherwise, the program will crash.
-
 \item The progress bar for downloading digital channels is only displayed for one channel.
-
 \item If only the first logic probe is connected, only these 8 channels are displayed. The second logic probe is not recognized during operation.
-
-\item The triggers for pattern and bus are missing.
-
+\item The triggers for pattern and bus are missing. Many other triggers are partially implemented in the code but disabled due to bugs and will need refactoring to be usable.
 \end{itemize}
 
 \begin{tabularx}{16cm}{lllX}

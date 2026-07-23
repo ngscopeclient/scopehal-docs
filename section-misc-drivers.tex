@@ -18,12 +18,12 @@ APB VIO & akl.vio & lan & \\
 
 \subsection{akl.gpio}
 
-This driver provides a 32-bit read/write GPIO interface to the APB\_GPIO FPGA IP from antikernel-ipcores, via
+This driver provides a 32-bit read/write GPIO interface to the \verb|APB_GPIO| FPGA IP from antikernel-ipcores, via
 via \href{https://github.com/ngscopeclient/scopehal-akldebug-bridge}{scopehal-akldebug-bridge}.
 
 \subsection{akl.vio}
 
-This driver provides a multi-bit digital I/O interface with up to eight input and eight output ports to the APB\_VIO
+This driver provides a multi-bit digital I/O interface with up to eight input and eight output ports to the \verb|APB_VIO|
 FPGA IP from antikernel-ipcores, via \href{https://github.com/ngscopeclient/scopehal-akldebug-bridge}{scopehal-akldebug-bridge}.
 
 \section{Generic}
@@ -60,13 +60,19 @@ received CSV line exceeds the current channel count, a new channel will be creat
 values in the missing columns are unchanged but the channel will not be deleted.
 
 \begin{itemize}
-\item \textbf{CSV-NAME}: Contains channel name data. Example:\\
+\item \textbf{CSV-NAME}: Contains channel name data. Example:
+\begin{verbatim}
 CSV-NAME,Temperature,3V3,RxLevel
+\end{verbatim}
 
-\item \textbf{CSV-UNIT}: Contains channel unit data (using the text encodings used by the libscopehal Unit class). Example:\\
+\item \textbf{CSV-UNIT}: Contains channel unit data (using the text encodings used by the libscopehal Unit class). Example:
+\begin{verbatim}
 CSV-UNIT,°C,V,dBm
+\end{verbatim}
 
-\item \textbf{CSV-DATA}: Contains channel value data. Example:\\
+\item \textbf{CSV-DATA}: Contains channel value data. Example:
+\begin{verbatim}
 CSV-DATA,31.41,3.291,-59.1
+\end{verbatim}
 
 \end{itemize}
