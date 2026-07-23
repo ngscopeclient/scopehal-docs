@@ -42,6 +42,24 @@ A tooltip with a green plus sign is displayed during dragging if the proposed co
 displays a red X instead, the connection is invalid (connecting two inputs, two outputs, or an input and output of
 incompatible data types).
 
+Hovering the mouse over an input port displays a tooltip showing what inputs are allowed to be connected to the port (Fig. \ref{graph-editor-input-tooltip}). Typical restrictions include accepting only analog or only digital input, only sparse or only uniform sampling, specific X or Y axis units, or a particular protocol data type.
+
+Hovering the mouse over an output port displays a tooltip describing the data provided by that stream (Fig. \ref{graph-editor-output-tooltip}). Exact data available depends on the type of waveform (analog, digital, protocol, density plot, etc) but typically includes units, sample rate, number of points, and memory used.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{ng-images/graph-editor-input-tooltip.png}
+\caption{Tooltip on input port showing the requirements for source data}
+\label{graph-editor-input-tooltip}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{ng-images/graph-editor-output-tooltip.png}
+\caption{Tooltip on output port showing the available data}
+\label{graph-editor-output-tooltip}
+\end{figure}
+
 To create a new node, click on an input or output port and drag to an empty area of the canvas (Fig.
 \ref{graph-editor-create}, Fig. \ref{graph-editor-addinput}). A context menu will appear, presenting a list of filters
 which can accept (if dragging from an output) or produce (if dragging from an input) the desired data type. If dragging
@@ -70,6 +88,15 @@ waveform views and the graph editor.
 Each node also includes a caption stating the type of node (``hardware input", ``hardware output", or the name of the
 filter block) and, in most cases, an icon depicting the functionality of the block.\footnote{Not all filters currently
 have icons. We are working with multiple artists to create more filter icons and welcome additional contributions.}
+
+If a filter is missing required inputs, has a nonsensical configuration such as dividing by zero, or is otherwise unable to generate a  valid output the node will be outlined in red (Fig. \ref{graph-editor-error}) and a brief one-line description of the error will be displayed above the node. More details can be found in the errors list window, which docks to the bottom of the graph editor by default but can be dragged and moved like any other window. (The error list is hidden automatically when there are no errors, to save screen space)
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=5cm]{ng-images/graph-editor-error.png}
+\caption{Example graph node displaying an error}
+\label{graph-editor-error}
+\end{figure}
 
 \section{Grouping}
 
