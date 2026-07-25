@@ -85,8 +85,10 @@
 \usepackage{ifpdf}
 \ifpdf
 	\newcommand{\bigimage}[1]{\includegraphics[width=16cm]{#1}}
+	\newcommand{\medimage}[1]{\includegraphics[width=10cm]{#1}}
 \else
 	\newcommand{\bigimage}[1]{\includegraphics[width=1024px]{#1}}
+	\newcommand{\medimage}[1]{\includegraphics[width=640px]{#1}}
 \fi
 
 \begin{document}
