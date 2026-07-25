@@ -642,80 +642,6 @@ data & Analog & One sample per cycle of the input waveform containing the sum of
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
-\section{Area Under Curve}
-\label{filter:AreaUnderCurve}
-
-Measures the area under the curve by integrating the data points. By default, area measured above ground is considered
-as positive and area measured below the ground is considered negative (``true area"). The negative area can also be
-considered as positive (``absolute area"). The measurement can be performed on the full record or on each
-cycle.
-
-The following examples demonstrate usage of the filter on a sinusoid.
-
-\begin{figure}[h]
-\centering
-\bigimage{ng-images/filters/integral-full.png}
-\caption{True area full record measurement. In this mode, the filter outputs $\int_{0}^{i} x$ at sample $i$, so we get
-$\int sin(x) = cos(x)$.}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\bigimage{ng-images/filters/integral-percycle.png}
-\caption{True area per cycle measurement. In this mode, the filter outputs $\int_{t1}^{t2} x$ at each zero
-crossing bounded interval so we get $\int_{0}^{2\pi} sin(x) = 0$ (plus measurement noise).}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\bigimage{ng-images/filters/integral-abs-full.png}
-\caption{Absolute area full record measurement. In this mode, the filter outputs $\int_{0}^{i} |x|$ at sample $i$, so
-we get a continually increasing signal.}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\bigimage{ng-images/filters/integral-abs-percycle.png}
-\caption{Absolute area per cycle measurement. In this mode, the filter outputs $\int_{t1}^{t2} |x|$ at each zero
-crossing bounded interval, so we get $\int{0}^{2\pi} |sin(x)| = 4$ (plus measurement noise).}
-\end{figure}
-
-\subsection{Inputs}
-
-\begin{tabularx}{16cm}{llX}
-\thickhline
-\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
-\thickhline
-din & Analog & Input waveform \\
-\thickhline
-\end{tabularx}
-
-\subsection{Parameters}
-
-\begin{tabularx}{16cm}{llX}
-\thickhline
-\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
-\thickhline
-Measurement Type & Enum &
-	\textbf{Full Record}: Measure the area of entire waveform \newline
-	\textbf{Per Cycle}: Measure the area of each cycle in the waveform\\
-\thinhline
-Area Type & Enum &
-	\textbf{True Area}: Consider area below ground as negative (integrate X)\newline
-	\textbf{Absolute Area}: Consider area below ground as positive (integrate $|X|$)\\
-\thickhline
-\end{tabularx}
-
-\subsection{Output Signal}
-
-For full record measurement, this filter outputs a waveform indicating total area measured till the time on the
-waveform (integrating from zero to the current sample).
-
-For per cycle measurement, this filter outputs a waveform representing area of each cycle (integrating between zero
-crossings).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagebreak
 \section{ADL5205}
 \label{filter:adl5205}
 
@@ -808,6 +734,80 @@ This filter takes no parameters.
 
 This filter outputs a time series of APB sample objects, each consisting of a read/write flag, an address, and a data
 value. Additional data will be added in the future once decoding of the full APBv5 protocol is implemented.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Area Under Curve}
+\label{filter:AreaUnderCurve}
+
+Measures the area under the curve by integrating the data points. By default, area measured above ground is considered
+as positive and area measured below the ground is considered negative (``true area"). The negative area can also be
+considered as positive (``absolute area"). The measurement can be performed on the full record or on each
+cycle.
+
+The following examples demonstrate usage of the filter on a sinusoid.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/integral-full.png}
+\caption{True area full record measurement. In this mode, the filter outputs $\int_{0}^{i} x$ at sample $i$, so we get
+$\int sin(x) = cos(x)$.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/integral-percycle.png}
+\caption{True area per cycle measurement. In this mode, the filter outputs $\int_{t1}^{t2} x$ at each zero
+crossing bounded interval so we get $\int_{0}^{2\pi} sin(x) = 0$ (plus measurement noise).}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/integral-abs-full.png}
+\caption{Absolute area full record measurement. In this mode, the filter outputs $\int_{0}^{i} |x|$ at sample $i$, so
+we get a continually increasing signal.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/integral-abs-percycle.png}
+\caption{Absolute area per cycle measurement. In this mode, the filter outputs $\int_{t1}^{t2} |x|$ at each zero
+crossing bounded interval, so we get $\int{0}^{2\pi} |sin(x)| = 4$ (plus measurement noise).}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input waveform \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Measurement Type & Enum &
+	\textbf{Full Record}: Measure the area of entire waveform \newline
+	\textbf{Per Cycle}: Measure the area of each cycle in the waveform\\
+\thinhline
+Area Type & Enum &
+	\textbf{True Area}: Consider area below ground as negative (integrate X)\newline
+	\textbf{Absolute Area}: Consider area below ground as positive (integrate $|X|$)\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+For full record measurement, this filter outputs a waveform indicating total area measured till the time on the
+waveform (integrating from zero to the current sample).
+
+For per cycle measurement, this filter outputs a waveform representing area of each cycle (integrating between zero
+crossings).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \FloatBarrier
