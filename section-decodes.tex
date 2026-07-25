@@ -4,26 +4,29 @@
 
 \subsection{Key Concepts}
 
-ngscopeclient and libscopehal are based on a ``filter graph" architecture internally. The filter graph is a directed
-acyclic graph with a set of source nodes (waveforms captured from hardware, loaded from a saved session, or generated
-numerically) and sink nodes (waveform views, protocol analyzer views, and statistics) connected by edges representing
-data flow.
+ngscopeclient and libscopehal are based on a ``filter graph" architecture internally. The filter graph is composed of
+nodes (instrument channels, DSP blocks, protocol decodes, file outputs, etc.) connected by edges, which represent
+streams of data flowing from source to sink\footnote{Waveform views and the measurements window are internally handled
+as nodes in the graph as well, but this is typically not visible to users since they are not drawn in the graph view to
+avoid cluttering it.}. Dataflow is strictly unidirectional and loops or cycles are not allowed (there cannot be a path,
+directly or through other nodes, from any node's output to one of its inputs)\footnote{In computer science terms, this
+is a directed acyclic graph.}. Data streams may be of either waveform (many samples plotted against another quantity)
+or scalar (a single measurement with associated unit) type.
 
-A filter is simply an intermediate node in the graph, which takes input from zero or more waveform nodes and outputs a
-waveform which may be displayed, used as input to other filters, or both. A waveform is a series of data points which
-may represent voltages, digital samples, or arbitrarily complex protocol data structures.
+A filter is simply a node which does not correspond to a physical instrument input or output. It may generate data in
+some way (loading samples from a file or synthesizing a waveform parametrically), write data to a file or pass it to an
+outside helper program (e.g. streaming decoded Ethernet frames to Wireshark for higher level analysis), or transform
+one or more input streams in some way to create new data streams. There is no architectural distinction between math
+functions, measurements, and protocol decodes, and it is possible to chain them arbitrarily - as long as the input and
+output data types are compatible, any processing operation can be applied to anything.
 
-As a result, there is no internal distinction between math functions, measurements, and protocol decodes, and it is
-possible to chain them arbitrarily. Consider the following example:
-
-\begin{itemize}
-\item Two analog waveforms representing serial data and clock are acquired
-\item Each analog waveform is thresholded, producing a digital waveform
-\item The two digital waveforms are decoded as $I^2C$, producing a series of packets
-\item The $I^2C$ packets are decoded as writes to a serial DAC, producing an analog waveform
-\item A moving average filter is applied to the analog waveform
-\item A measurement filter finds the instantaneous frequency of each cycle of the DAC output
-\end{itemize}
+For example, a simple BFSK decoder can be made by applying the \hyperref[filter:frequency]{Frequency} filter to an IF
+or directly sampled RF waveform, after any necessary preselector filtering to exclude interference from other channels.
+This produces an analog waveform plotting the frequency of the signal over time. The
+\hyperref[filter:threshold]{Threshold} filter can then be used to recover the original digital data stream, which can
+then be fed to an arbitrary serial digital protocol decode block. But it's equally possible to, for example, lock the
+\hyperref[filter:cdrpll]{Clock Recovery (PLL)} filter to the frequency waveform and display an
+\hyperref[filter:eyepattern]{eye pattern} with Y axis units of frequency.
 
 In this document we use the term ``filter" consistently to avoid ambiguity.
 
@@ -35,8 +38,9 @@ A filter can take arbitrarily many inputs (vector or scalar values from the filt
 If the output signal is a multi-field type (as opposed to a single scalar, e.g. voltage, at each sample) the
 ``Output Signal" section will include a table describing how various types of output data are displayed.
 
-All filters with complex output use a standardized set of colors to display various types of data fields in a
-consistent manner. These colors are configurable under the \menustyle{Appearance / Decodes} preferences category.
+All filters with protocol output use a standardized set of colors to display various types of data fields in a
+consistent manner. These colors are configurable under the \menustyle{Appearance / Decodes} preferences category, but
+default colors are shown here.
 
 \begin{tabularx}{16cm}{llX}
 \thickhline
@@ -57,6 +61,54 @@ Error & Malformed/unreadable data & \cellcolor{error}\textcolor{white}{\#ff0000}
 Idle & Inter-frame gaps & \cellcolor{idle}\textcolor{white}{\#404040} \\
 \thinhline
 Preamble & Preamble/sync words & \cellcolor{preamble}\textcolor{white}{\#808080} \\
+\thickhline
+\end{tabularx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{1-Wire}
+\label{filter:1wire}
+
+Decodes the Dallas Semiconductor 1-wire bus, commonly used for EEPROMs and sensors in cost / area optimized, low speed
+applications.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/1wire.png}
+\caption{Example 1-wire decode}
+\label{filter_1wire}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-1wire.png}
+\caption{Example filter graph using decoding a 1-wire signal}
+\label{filter_graph_1wire}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Digital & Serial data input \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs a single decoded data stream consisting of 1-wire sample objects.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Stream name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Sparse protocol & Output decode \\
 \thickhline
 \end{tabularx}
 
@@ -99,10 +151,7 @@ blocks, other than searching for skip ordered sets (beginning with 0xaa) and usi
 \thickhline
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
-data & Digital & Serial 128b/130b data line \\
-\thinhline
-clk & Digital & DDR bit clock, typically generated by use of the \hyperref[filter:cdrpll]{Clock Recovery
-(PLL)} filter on the input data.\\
+data & Sparse digital & Sampled and thresholded 128b/130b data \\
 \thickhline
 \end{tabularx}
 
@@ -135,6 +184,16 @@ Error & Block with type 2'b00 or 2'b11 & \cellcolor{error}\textcolor{white}{Erro
 \thickhline
 \end{tabularx}
 
+\subsection{Breaking Changes}
+
+This section lists major interface changes that may require projects to be updated.
+
+\begin{itemize}
+\item \textbf{v0.2:} This filter no longer needs the clock input that was required in v0.1.
+Instead, threshold the sampledData output of the \hyperref[filter:cdrpll]{Clock Recovery (PLL)} and pass this to the
+128b/130b decode, as shown in Fig. \ref{filter_graph_128b130b}.
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{2-Port Shunt Through}
@@ -151,8 +210,8 @@ networks, such as power distribution networks.
 \section{64b/66b}
 \label{filter:64b66b}
 
-Decodes the 64/66b line code used by \hyperref[filter:10gbaser]{10Gbase-R} and other serial protocols, as originally
-specified in IEEE 802.3 clause 49.2.
+Decodes the 64/66b line code used by \hyperref[filter:10gbaser]{10Gbase-R}, Aurora, JESD204C, and other serial
+protocols, as originally specified in IEEE 802.3 clause 49.2.
 
 64b/66b is a serial line code which divides transmitted data into 64-bit blocks and scrambles them with a LFSR, then
 appends a 2-bit type field (which is not scrambled) to each block for synchronization. Block synchronization depends on
@@ -183,10 +242,7 @@ this is not universal and some other protocols use these fields for different pu
 \thickhline
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
-data & Digital & Serial 64b/66b data line \\
-\thinhline
-clk & Digital & DDR bit clock, typically generated by use of the \hyperref[filter:cdrpll]{Clock Recovery
-(PLL)} filter on the input data.\\
+data & Sparse digital & Serial 64b/66b data line \\
 \thickhline
 \end{tabularx}
 
@@ -219,14 +275,24 @@ Error & Block with type 2'b00 or 2'b11 & \cellcolor{error}\textcolor{white}{Erro
 \thickhline
 \end{tabularx}
 
+\subsection{Breaking Changes}
+
+This section lists major interface changes that may require projects to be updated.
+
+\begin{itemize}
+\item \textbf{v0.2:} This filter no longer needs the clock input that was required in v0.1.
+Instead, threshold the sampledData output of the \hyperref[filter:cdrpll]{Clock Recovery (PLL)} and pass this to the
+64/66b decode, as shown in Fig. \ref{filter_graph_64b66b}.
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{8B/10B (IBM)}
 \label{filter:8b10b}
 
-Decodes the standard 8b/10b line code used by \hyperref[filter:sgmii]{SGMII}, \hyperref[filter:1000basex]{1000base-X},
-DisplayPort, JESD204A/B, \hyperref[filter:pcie2_logical]{PCIe gen 1/2}, SATA, USB 3.0, and many other common serial
-protocols.
+Decodes the standard 8b/10b line code, originally invented at IBM and now used by \hyperref[filter:sgmii]{SGMII},
+\hyperref[filter:1000basex]{1000base-X}, \hyperref[filter:dpmain]{DisplayPort}, JESD204A/B,
+\hyperref[filter:pcie2_logical]{PCIe gen 1/2}, SATA, USB 3.0, and many other common serial protocols.
 
 8b/10b is a dictionary based code which converts each byte of message data to a ten-bit code. In order to maintain DC
 balance and limit run length to a maximum of five identical bits in a row, all 8-bit input codes have one of:
@@ -238,6 +304,12 @@ balance and limit run length to a maximum of five identical bits in a row, all 8
 The transmitter maintains a ``running disparity" counter and chooses the appropriate coding for each symbol to ensure
 DC balance. There are twelve legal codes which are not needed for encoding data values; these are used to encode
 frame boundaries, idle/alignment sequences, and other control information.
+
+\textbf{NOTE} If an 8B/10B signal has its polarity inverted, e.g. by putting a differential probe on backwards or
+swapping the pair for routability and correcting in the SERDES, \emph{all Kx.x control characters will be unchanged}
+and simply flip disparity, while Dx.x data characters will be completely scrambled. If you are looking at a protocol
+decode that appears to be nonsense but has valid framing, try adding an \hyperref[filter:invert]{Invert} block before
+the 8B/10B decode.
 
 \begin{figure}[h]
 \centering
@@ -260,9 +332,6 @@ frame boundaries, idle/alignment sequences, and other control information.
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 data & Digital & Serial 8b/10b data line \\
-\thinhline
-clk & Digital & DDR bit clock, typically generated by use of the \hyperref[filter:cdrpll]{Clock Recovery
-(PLL)} filter on the input data.\\
 \thickhline
 \end{tabularx}
 
@@ -306,6 +375,16 @@ Data & Upper layer protocol data & \cellcolor{data}\textcolor{white}{Data} & D\%
 Error & Malformed data & \cellcolor{error}\textcolor{white}{Error} & ERROR \\
 \thickhline
 \end{tabularx}
+
+\subsection{Breaking Changes}
+
+This section lists major interface changes that may require projects to be updated.
+
+\begin{itemize}
+\item \textbf{v0.2:} This filter no longer needs the clock input that was required in v0.1.
+Instead, threshold the sampledData output of the \hyperref[filter:cdrpll]{Clock Recovery (PLL)} and pass this to the
+8b/10b decode, as shown in Fig. \ref{filter_graph_8b10b}.
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2108,8 +2187,18 @@ This filter outputs an analog PAM-4 version of the provided digital input, sampl
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{DisplayPort - Aux Channel}
+\label{filter:dpaux}
 
 Decodes the Auxiliary Channel of DisplayPort
+
+(This filter description is a stub and will be expanded in the future)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{DisplayPort - Main Link}
+\label{filter:dpmain}
+
+Decodes the Main Link of DisplayPort
 
 (This filter description is a stub and will be expanded in the future)
 
@@ -2919,6 +3008,7 @@ Applies a finite-impulse-response filter to a signal.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Frequency}
+\label{filter:frequency}
 
 Measures the frequency of each cycle in a waveform.
 
@@ -4241,6 +4331,7 @@ Converts an analog voltage measurement of a thermal diode to a temperature value
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Threshold}
+\label{filter:threshold}
 
 Converts an analog waveform to digital by thresholding at a constant level (no hysteresis).
 
