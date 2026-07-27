@@ -2163,10 +2163,56 @@ of the filter performed the channel emulation internally.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Current Shunt}
+\label{filter:currentshunt}
 
 Converts a voltage waveform acquired across a known resistance into a current waveform.
 
 (This filter description is a stub and will be expanded in the future)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{DCD}
+\label{filter:dcd}
+
+Calculates the duty-cycle distortion for a serial data stream. This is the component of data-dependent jitter which is
+attributable to asymmetry between rising and falling edges.
+
+The DCD calculation involves examining the DDJ table and splitting the measurements up into two bins, one that ends in
+a rising edge and one ending in a falling. All of the DDJ measurements in each bin are averaged, giving one value for
+the average jitter of a rising edge and one for the jitter of a falling. The difference between the two gives the final
+DCD measurement.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/dcd.png}
+\caption{Example usage of DCD block}
+\label{filter_dcd}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-dcd.png}
+\caption{Example filter graph showing usage of DCD block}
+\label{filter_graph_dcd}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+DDJ & Protocol & Output of DDJ measurement\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs an analog scalar with the computed DCD measurement.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2178,13 +2224,27 @@ Calculates the peak-to-peak data-dependent jitter for a serial data stream.
 This filter uses the non-repeating-pattern method, which allows DDJ to be computed for arbitrary waveforms rather than
 requiring a short, repeating PRBS. In this method, per-UI jitter (TIE) measurements are split across $2^n$ histogram
 bins, one for each possible combination of the preceding $n$ bits. The jitter samples for each bin are then averaged to
-remove the effects of other jitter, leaving only the DDJ.  The final DDJ value is reported as the difference between
-the minimum and maximum histogram bins.
+remove the effects of other (random and periodic) jitter, leaving only the DDJ.  The final DDJ value is reported as the
+difference between the minimum and maximum histogram bins.
 
 The current implementation uses a fixed window size of $n=8$ UI. If the channel has significant memory effects or
 reflections with delays of more than 8 UI, DDJ maybe underestimated.
 
 The current implementation only supports NRZ signals and cannot measure DDJ for MLT3 or PAM waveforms.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/dcd.png}
+\caption{Example usage of DDJ block}
+\label{filter_ddj}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-dcd.png}
+\caption{Example filter graph showing usage of DDJ block}
+\label{filter_graph_ddj}
+\end{figure}
 
 \subsection{Inputs}
 
@@ -2194,9 +2254,7 @@ The current implementation only supports NRZ signals and cannot measure DDJ for 
 \thickhline
 TIE & Analog & TIE waveform computed by the \hyperref[filter:tie]{TIE} filter\\
 \thinhline
-Threshold & Digital & Thresholded digital sample values\\
-\thinhline
-Clock & Digital & Double rate, center aligned sampling clock for threshold values\\
+sampledThreshold & Digital & Thresholded digital sample values\\
 \thickhline
 \end{tabularx}
 
@@ -2210,6 +2268,16 @@ This filter outputs an analog waveform with a single sample containing the compu
 
 Additionally, the raw DDJ histogram is stored internally and may be accessed by other filters via the C++ API. There is
 currently no way to display the histogram content.
+
+\subsection{Breaking Changes}
+
+This section lists major interface changes that may require projects to be updated.
+
+\begin{itemize}
+\item \textbf{v0.2:} This filter no longer needs the clock input that was required in v0.1.
+Instead, threshold the sampledData output of the \hyperref[filter:cdrpll]{Clock Recovery (PLL)} and pass this to the
+sampledThreshold block, as shown in Fig. \ref{filter_graph_ddj}.
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
