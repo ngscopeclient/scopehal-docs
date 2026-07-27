@@ -2101,6 +2101,67 @@ detection heuristic, but it may be added in the future.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{CTLE}
+
+Calculates S-parameters of a continuous-time linear equalizer with the specified pole/zero combination. As of now only
+two poles and one zero are supported, but higher order CTLE support may be implemented in the future.
+
+Typically, this filter will be chained with a \hyperref[filter:channelemu]{Channel Emulation} block to actually apply
+the equalizer to a time-domain signal.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/ctle.png}
+\caption{Example usage of CTLE block, comparing eyes of a signal before and after equalization}
+\label{filter_ctle}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-ctle.png}
+\caption{Example filter graph showing usage of CTLE block, comparing eyes of a signal before and after equalization}
+\label{filter_graph_ctle}
+\end{figure}
+
+\subsection{Inputs}
+
+This filter takes no inputs.
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+DC Gain & Float & Gain, in dB, of the equalizer at DC\\
+\thinhline
+End Frequency & Int & Upper end of the S-parameter sweep\\
+\thinhline
+Pole Frequency 1 & Int & Frequency of the first pole\\
+\thinhline
+Pole Frequency 2 & Int & Frequency of the second pole\\
+\thinhline
+Zero Frequency & Int & Frequency of the first zero\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs log magnitude and phase angle values which can be passed to any other filter block that accepts
+an S-parameter input.
+
+\subsection{Breaking Changes}
+
+This section lists major interface changes that may require projects to be updated.
+
+\begin{itemize}
+\item \textbf{v0.2:} This filter now outputs S-parameters which must be passed to the
+\hyperref[filter:channelemu]{Channel Emulation}  filter to apply them to a time-domain signal. The original version
+of the filter performed the channel emulation internally.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Current Shunt}
 
 Converts a voltage waveform acquired across a known resistance into a current waveform.
