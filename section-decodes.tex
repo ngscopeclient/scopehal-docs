@@ -478,7 +478,6 @@ Instead, threshold the sampledData output of the \hyperref[filter:cdrpll]{Clock 
 TMDS decode, as shown in Fig. \ref{filter_graph_tmds}.
 \end{itemize}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{AC Couple}
@@ -1844,7 +1843,7 @@ This filter outputs a single scalar with a constant value.
 \section{Constellation}
 \label{filter:constellation}
 
-This filter takes I/Q streams and a double-rate recovered symbol clock and outputs a constellation diagram.
+This filter takes a pair of I/Q streams and outputs a constellation diagram.
 
 \begin{figure}[h]
 \centering
@@ -1857,7 +1856,7 @@ This filter takes I/Q streams and a double-rate recovered symbol clock and outpu
 \centering
 \bigimage{ng-images/filters/graph-constellation.png}
 \caption{Example filter graph showing usage of constellation filter on 2D-PAM3 data}
-\label{filter_complexspectrogram_graph}
+\label{filter_graph_constellation}
 \end{figure}
 
 \FloatBarrier
@@ -1868,11 +1867,9 @@ This filter takes I/Q streams and a double-rate recovered symbol clock and outpu
 \thickhline
 \textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
-I & Analog & Real part of input signal\\
+I & Sparse analog & Real part of input signal\\
 \thinhline
-Q & Analog & Imaginary part of input signal\\
-\thinhline
-clk & Digital & Recovered symbol clock \\
+Q & Sparse analog & Imaginary part of input signal\\
 \thickhline
 \end{tabularx}
 
@@ -1886,7 +1883,7 @@ Center I & Float & Voltage for center of the constellation in I axis\\
 \thinhline
 Center Q & Float & Voltage for center of the constellation in Q axis\\
 \thinhline
-Modulation & Enum & Modulation to use for EVM calculations\\
+Modulation & Enum & Constellation shape to use for EVM calculations\\
 \thinhline
 Range & Float & Nominal full-scale range\\
 \thickhline
@@ -1909,18 +1906,41 @@ EVM normalized & Analog scalar & Normalized EVM in percent\\
 \thickhline
 \end{tabularx}
 
+\subsection{Breaking Changes}
+
+This section lists major interface changes that may require projects to be updated.
+
+\begin{itemize}
+\item \textbf{v0.2:} This filter no longer needs the clock input that was required in v0.1.
+Instead, threshold the sampledData output of the \hyperref[filter:cdrpll]{Clock Recovery (PLL)} and pass this to the
+constellation block, as shown in Fig. \ref{filter_graph_constellation}.
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Coupler De-Embed}
 \label{filter:couplerdbed}
 
-Given waveforms from both coupled ports of a dual directional coupler and the S-parameters of the coupler, de-embeds
-the coupler response in order to recover the forward and reverse waveforms.
+Given waveforms from both coupled ports of a dual directional coupler and the 4-port S-parameters of the coupler,
+de-embeds the coupler response in order to recover the forward and reverse waveforms.
 
 NOTE: The current implementation of this filter requires the \codestyle{VK\_KHR\_push\_descriptor} Vulkan extension. A
 fallback implementation for GPUs without this extension will be added at some point in the future.
 
-Both coupled-port waveforms must be the same sample rate, memory depth, and de-skewed relative to one another.
+Both coupled-port waveforms must be the same sample rate, memory depth, and phase aligned with respect to each other.
+Use of phase-matched cables or manual deskew in postprocessing is very important especially for higher harmonics: since
+the de-embed algorithm relies on subtracting a modified version of one waveform from the the other, any time shift will
+increase leakage between the ports and degrade the quality of the de-embed. If the phase error is large enough the
+de-embedded waveforms can even have \emph{more} leakage between paths than in the original signal, although with a
+reversed sign.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-coupler-dbed.png}
+\caption{Example filter graph showing de-embed of differential signals traveling through Mini-Circuits ADCB-20-82+
+couplers}
+\label{filter_graph_coupler_dbed}
+\end{figure}
 
 This filter uses a multi-step algorithm to de-embed both the insertion loss of the coupled path and enhance the
 apparent directivity of the coupler:
@@ -1971,12 +1991,17 @@ reverseLeakAng & Analog & Angle response of reverse leakage path \\
 \thickhline
 \end{tabularx}
 
+\subsection{Output Signal}
+
+This filter outputs uniform analog waveforms containing waveforms de-embedded to the coupler's forward and reverse
+input ports.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{CSV Export}
 
-Saves waveform data to a comma-separated-value file.
+Saves waveform data to a comma-separated-value file which can be imported into a spreadsheet, external script, or
+another visualization tool.
 
 The Update Mode parameter specifies how and when the file is modified:
 \begin{itemize}
@@ -1988,6 +2013,13 @@ of the file.
 \item \textbf{Overwrite (manual):} When the ``Export" button in the filter properties box is clicked,
 the input waveforms replace the current contents of the file.
 \end{itemize}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-csv-export.png}
+\caption{Example filter graph showing usage of CSV export block}
+\label{filter_graph_csv_export}
+\end{figure}
 
 \subsection{Inputs}
 
@@ -2002,7 +2034,7 @@ arbitrary protocol type. 2D persistence maps are not supported.
 \thickhline
 File name & String & Path to the CSV file\\
 \thinhline
-Update mode & Enum & Specifies how and when to update the file)\\
+Update mode & Enum & Specifies how and when to update the file\\
 \thickhline
 \end{tabularx}
 
@@ -2010,13 +2042,62 @@ Update mode & Enum & Specifies how and when to update the file)\\
 
 This filter stores its output to a file and has no filter graph output ports.
 
+The CSV file will consist of a header line with name ``Time (s)" for the first column, and the names of the filter
+graph inputs for subsequent columns. There is no escaping of commas in the filter block names, so column names may be
+corrupted if a comma is present in a block name.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{CSV Import}
 
 Loads waveform data from a comma-separated-value file.
 
-(This filter description is a stub and will be expanded in the future)
+Lines starting with a \# are assumed to be comments, and not parsed as sample data. If Digilent WaveForms format header
+comments are detected at the start of the file, they are parsed to extract timestamps and other metadata. If
+non-numeric characters are found in the first non-comment row of the file, the fields are interpreted as channel names
+and propagated to the output streams of the filter.
+
+\begin{figure}[h]
+\centering
+\medimage{ng-images/filters/graph-csv-import.png}
+\caption{Example filter graph showing usage of CSV import block}
+\label{filter_graph_csv_import}
+\end{figure}
+
+\subsection{Inputs}
+
+This filter takes no inputs.
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+CSV File & String & Path to the CSV file\\
+\thinhline
+X Axis Unit & Enum & Unit used for row timestamps\\
+\thinhline
+Y Axis Unit N & Enum & Unit used for Y axis values in column N\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs one stream for each column in the CSV, other than the first which is assumed to be a timestamp.
+Timestamps must be monotonic (each sample's timestamp must be greater than the one before) but need not be evenly
+spaced.
+
+If all values in the first 10 non-header lines for a given column are ``0" or ``1", with no decimal point, the column
+is interpreted as digital and parsed as such. Otherwise, it is assumed to be analog. There is currently no way to
+override this detection heuristic, but it may be added in the future.
+
+After the import is complete, some statistics are computed to the intervals between timestamps to determine if the data
+is uniformly sampled. If the standard deviation of the intervals is greater than 2\% of the average interval, or if the
+maximum sample interval is more than 1.5 times the minimum interval, the data is assumed to be sampled irregularly and
+a sparse waveform is created. If not, the data is assumed to be uniformly sampled (with any variability in sample
+timestamps due to rounding error) and a uniform waveform is greated. There is currently no way to override this
+detection heuristic, but it may be added in the future.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
