@@ -2285,7 +2285,47 @@ sampledThreshold block, as shown in Fig. \ref{filter_graph_ddj}.
 
 Decodes the command bus for first-generation DDR SDRAM.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/ddr1.png}
+\caption{Example usage of DDR1 command bus decode}
+\label{filter_ddr1}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-ddr1.png}
+\caption{Example filter graph showing usage of DDR1 command bus decode}
+\label{filter_graph_ddj}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+CLK & Digital & DDR clock\\
+\thinhline
+WE\# & Digital & DDR write enable\\
+\thinhline
+RAS\# & Digital & DDR row address strobe\\
+\thinhline
+CAS\# & Digital & DDR column address strobe\\
+\thinhline
+CS\# & Digital & DDR chip select\\
+\thinhline
+A10 & Digital & DDR address bit 10 (used as command input)\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs a stream of decoded DDR1 command events.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -2392,7 +2432,7 @@ capability.
 
 \begin{figure}[h]
 \centering
-\bigimage{ng-images/filters/graph-deskew.png}
+\medimage{ng-images/filters/graph-deskew.png}
 \caption{Example filter graph showing usage of deskew filter}
 \label{filter_deskew_graph}
 \end{figure}
