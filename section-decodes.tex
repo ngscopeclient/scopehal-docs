@@ -2466,6 +2466,96 @@ offset.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+\section{Digital Constant}
+
+Outputs a constant digital value of configurable width.
+
+This filter is typically used either as a configuration strap to filters that take a digital scalar input (such as
+enabling or disabling some mode), or connected to a digital GPIO channel (either a physical pin on an I/O board, or an
+internal net connected to a debug IP block on an FPGA).
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-digital-constant.png}
+\caption{Example filter graph showing usage of digital to constant filter}
+\label{filter_digital_constant_graph}
+\end{figure}
+
+\subsection{Inputs}
+
+This filter takes no inputs.
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Value & Hex integer & The value to drive on the output\\
+\thinhline
+Width & Integer & Width of the output signal, in bits\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs a digital scalar containing the requested value.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Digital to Analog}
+
+Converts a digital value to an analog value using configurable units, gain, and offset. This is typically used to
+visualize data captured from FPGA debug IPs as digital samples.
+
+This filter will be extended to support both waveform and scalar input in the future, but currently only supports
+scalars.
+
+The output value is computed as (input - offset) * gain.
+
+The input may be interpreted as normalized (0x0 maps to an output of 0.0 before scaling, while a full-scale input
+regardless of bit width maps to an output of 1.0 before scaling) or non-normalized (an input of 0x20 maps to 32.0
+before scaling).
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-digital-constant.png}
+\caption{Example filter graph showing usage of digital to analog filter}
+\label{filter_digital_analog_graph}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Digital scalar & Value to convert\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Gain & Float & Gain to multiply the input by\\
+\thinhline
+Mode & Enum & How to interpret the input data\\
+\thinhline
+Offset & Float & Constant offset to subtract from the input\\
+\thinhline
+Unit & Enum & Units to apply to the output data\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs an analog scalar containing the scaled output value.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Digital to NRZ}
 \label{filter:digitaltonrz}
 
