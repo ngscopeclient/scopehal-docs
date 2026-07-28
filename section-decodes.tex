@@ -2646,7 +2646,53 @@ A second output stream provides access to the tunneled I2C data which can, for e
 
 Decodes the Main Link of DisplayPort
 
-(This filter description is a stub and will be expanded in the future)
+This filter is a work in progress and does not support all features of the protocol yet. Notably missing features:
+
+\begin{itemize}
+\item 2 and 4 lane configurations
+\item MST mode
+\item 128b/132b line coding and UHBR bit rates
+\item FEC
+\item Display Stream Compression
+\item Color depths other than RGB24
+\item Decoding blanking interval data (currently only video scanlines are decoded)
+\end{itemize}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/dpmain.png}
+\caption{Example of decoding DisplayPort main channel}
+\label{filter_dpmain}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-dpmain.png}
+\caption{Example filter graph showing usage of DisplayPort main channel decode}
+\label{filter_dpmain_graph}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & 8B/10B & PHY layer symbols to decode\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs a time series of DisplayPort protocol events containing pixel data.
+
+As with all other video protocol decodes in ngscopeclient, scanlines are decoded to packets as both image data and hex
+byte values. Pixel data on the timeline is decoded as HTML-style \#RRGGBB color codes and drawn in the appropriate
+color.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
