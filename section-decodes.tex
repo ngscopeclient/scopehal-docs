@@ -2592,9 +2592,52 @@ This filter outputs an analog PAM-4 version of the provided digital input, sampl
 \section{DisplayPort - Aux Channel}
 \label{filter:dpaux}
 
-Decodes the Auxiliary Channel of DisplayPort
+Decodes the Auxiliary Channel of DisplayPort.
 
-(This filter description is a stub and will be expanded in the future)
+This filter supports decoding both analog captures of the raw differential signal (via a differential probe or two
+single-ended inputs subtracted), and digital captures after thresholding.
+
+Analog inputs are assumed to be differential and centered at zero, so if you are probing the output of a differential
+receiver with an analog probe the signal must be thresholded before passing to this block. This configuration is shown
+in Fig. \ref{filter_dpaux} and Fig. \ref{filter_dpaux_graph}.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/dpaux.png}
+\caption{Example of decoding DisplayPort aux channel}
+\label{filter_dpaux}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-dpaux.png}
+\caption{Example filter graph showing usage of DisplayPort aux channel decode}
+\label{filter_dpaux_graph}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+aux & Analog or digital & Auxiliary channel data\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs a time series of DisplayPort protocol events containing accesses to both native registers and
+tunneled I2C traffic.
+
+A second output stream provides access to the tunneled I2C data which can, for example, be passed to the
+\hyperref[filter:i2ceeprom]{I2C EEPROM} protocol decode.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3590,6 +3633,7 @@ Decodes the Phillips $I^2C$ bus protocol.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{$I^2C$ EEPROM}
+\label{filter:i2ceeprom}
 
 Decodes common $I^2C$ EEPROM memory devices
 
