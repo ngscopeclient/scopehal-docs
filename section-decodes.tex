@@ -2787,19 +2787,109 @@ color.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Divide}
+\label{filter:divide}
 
-Divides one waveform by another.
+This filter adds two inputs. Either input may be a vector (waveform) or scalar.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/divide.png}
+\caption{Example usage of dividing a waveform by a constant}
+\label{filter_add}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\medimage{ng-images/filters/graph-divide.png}
+\caption{Example filter graph dividing a waveform by a constant}
+\label{filter_graph_add}
+\end{figure}
+\FloatBarrier
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+a & Analog waveform or scalar & Dividend\\
+\thinhline
+b & Analog waveform or scalar & Divisor\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+If both inputs are vectors, this filter outputs a waveform containing the pairwise quotient; i.e. sample $i$ of the output
+is $a[i] / b[i]$. No resampling is performed on the inputs so incorrect or unexpected results may occur if they do not
+share the same timebase. Both inputs must be the same type (both sparse or both uniform), mixing sparse and uniform
+(even if the sample timestamps are the same) is not allowed.
+
+If both inputs are scalars, this filter outputs $a / b$.
+
+If one input is a vector and the other is a scalar, this filter outputs the sum  of the scalar and each element of the
+waveform, i.e. sample $i$ of the output is $a / b[i]$ for the scalar + vector case and $a[i] / b$ for the vector +
+scalar.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Downconvert}
+\label{filter:downconvert}
 
-Performs digital downconversion by mixing a directly sampled RF signal with a two-phase local oscillator, then outputs
-the downconverted signal. No LO rejection filtering or decimation is performed.
+Performs digital downconversion by mixing a directly sampled RF signal with two phases of a local oscillator, then
+outputs the quadrature mix products. No LO rejection filtering or decimation is performed in the current version of the
+filter so these must be performed using external blocks.\footnote{In the future, as we build out a more complete RF
+toolbox in ngscopeclient, we may merge some of these functions into the downconvert block to improve performance and
+ease setup. Expect the interface to this block to change in future versions.}
 
-(This filter description is a stub and will be expanded in the future)
+The optional LOFrequency scalar input can be used to dynamically control the LO from another filter block and, if
+connected, overrides the LO Frequency parameter.\footnote{This is also likely not to be the final interface of the
+block; we are exploring various ways to unify parameters and scalar inputs and intend to merge them in some way in
+the future.}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/downconvert.png}
+\caption{Example usage of downconverting a 2.437 GHz Wi-Fi signal to zero IF and displaying a spectrogram}
+\label{filter_downconvert}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-downconvert.png}
+\caption{Example filter graph downconverting a 2.437 GHz Wi-Fi signal to zero IF, decimating and filtering, and
+displaying a spectrogram}
+\label{filter_graph_downconvert}
+\end{figure}
+\FloatBarrier
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+RF & Analog waveform & Directly sampled RF waveform\\
+\thinhline
+LOFrequency & Analog scalar & Optional LO frequency override\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+LO Frequency & Int & Local oscillator frequency\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs two analog waveforms containing the I/Q mix products.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
