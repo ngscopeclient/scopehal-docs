@@ -3271,18 +3271,109 @@ signal.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - 10baseT}
+\label{filter:10baset}
 
 Decodes the 10base-T Ethernet PCS/PMA as specified in IEEE 802.3-2018 clause 14.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/10baset.png}
+\caption{Example showing decode of a 10baseT signal}
+\label{filter_10baset}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-10baset.png}
+\caption{Example filter graph showing usage of 10baseT decode}
+\label{filter_graph_10baset}
+\end{figure}
+
+\FloatBarrier
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input signal\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs a stream of Ethernet sample objects which may be passed to upper layer decodes or exported to a
+PCAPNG file.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - 100baseT1}
+\label{filter:100baset1}
 
 Decodes the 100base-T1 single-pair / automotive Ethernet PMA/PCS, as specified in IEEE 802.3-2018 clause 96.
 
-(This filter description is a stub and will be expanded in the future)
+Due to the bidirectional nature of 100baseT1 signaling, it is \emph{not} possible to decode this protocol by simply
+placing probes on the differential pair. A dedicated test fixture with two dual directional couplers must be used, and
+there is typically enough crosstalk between the forward and reverse coupled path that the
+\hyperref[filter:couplerdbed]{Coupler De-Embed} filter (which requires connections to both the forward and reverse
+coupled ports of both differential legs) must be used to improve directivity.
+
+Additionally, the 100baseT1 PHY uses 2D-PAM3 signaling which must be demuxed into separate I and Q channels by the
+\hyperref[filter:iqdemux]{IQ Demux} block before decoding.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/100baset1.png}
+\caption{Example showing decode of a 100baseT1 signal}
+\label{filter_100baset1}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-100baset1.png}
+\caption{Example filter graph showing usage of 100baseT1 decode}
+\label{filter_graph_100baset1}
+\end{figure}
+
+\FloatBarrier
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+i & Analog & Input signal, I channel\\
+\thinhline
+q & Analog & Input signal, Q channel\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Scrambler Polynomial & Enum & Select the correct LFSR polynomial depending on which side of the link is being decoded\\
+\thinhline
+Threshold I+ & Float & Decision threshold between 0 and +1 states on the I channel\\
+\thinhline
+Threshold I- & Float & Decision threshold between -1 and 0 states on the I channel\\
+\thinhline
+Threshold Q+ & Float & Decision threshold between 0 and +1 states on the Q channel\\
+\thinhline
+Threshold Q- & Float & Decision threshold between -1 and 0 states on the Q channel\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs a stream of Ethernet sample objects which may be passed to upper layer decodes or exported to a
+PCAPNG file.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -4020,6 +4111,7 @@ Internet Protocol version 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{IQ Demux}
+\label{filter:iqdemux}
 
 Given a sampled data waveform containing consecutively sampled I and Q values, output separate
 sampled I and Q waveforms and a half-rate clock.
