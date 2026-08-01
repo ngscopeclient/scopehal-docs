@@ -3375,6 +3375,15 @@ Threshold Q- & Float & Decision threshold between -1 and 0 states on the Q chann
 This filter outputs a stream of Ethernet sample objects which may be passed to upper layer decodes or exported to a
 PCAPNG file.
 
+\subsection{Breaking Changes}
+
+This section lists major interface changes that may require projects to be updated.
+
+\begin{itemize}
+\item \textbf{v0.2:} This filter no longer needs the clock input that was required in v0.1.
+Instead, simply connect to the I/Q demux output
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - 100baseT1 Link Training}
@@ -3426,13 +3435,64 @@ Scrambler Polynomial & Enum & Select the correct LFSR polynomial depending on wh
 This filter outputs a stream of decode state values indicating whether the link is in SEND\_Z, SEND\_I, or SEND\_N
 state.
 
+\subsection{Breaking Changes}
+
+This section lists major interface changes that may require projects to be updated.
+
+\begin{itemize}
+\item \textbf{v0.2:} This filter no longer needs the clock input that was required in v0.1.
+Instead, simply connect to the I/Q demux output
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - 100baseTX}
 
 Decodes the 100base-TX Ethernet PMA/PCS as specified in IEEE 802.3-2018 clause 24 and 25, and the ANSI X3T12 FDDI PHY.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/100basetx.png}
+\caption{Example showing decode of a 100baseTX signal}
+\label{filter_100basetx}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-100basetx.png}
+\caption{Example filter graph showing usage of 100baseTX decode}
+\label{filter_graph_100basetx}
+\end{figure}
+
+\FloatBarrier
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+sampledData & Analog & Sampled data output from CDR PLL\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs a stream of Ethernet sample objects which may be passed to upper layer decodes or exported to a
+PCAPNG file.
+
+\subsection{Breaking Changes}
+
+This section lists major interface changes that may require projects to be updated.
+
+\begin{itemize}
+\item \textbf{v0.2:} This filter no longer needs the clock input that was required in v0.1.
+Instead, simply pass the sampledData output of the \hyperref[filter:cdrpll]{Clock Recovery (PLL)} directly to the
+100baseTX decode, as shown in Fig. \ref{filter_graph_100basetx}.
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
