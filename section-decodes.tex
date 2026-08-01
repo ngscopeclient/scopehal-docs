@@ -2894,6 +2894,7 @@ This filter outputs two analog waveforms containing the I/Q mix products.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Downsample}
+\label{filter:downsample}
 
 Optionally low-pass filters a signal to prevent aliasing, then decimates by an integer factor.
 
@@ -2942,6 +2943,7 @@ This filter outputs a decimated version of the input.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{DRAM Clocks}
+\label{filter:dramclocks}
 
 Given a DRAM command bus and a DQS strobe, produce separate gated DQ clock streams for read and write bursts.
 
@@ -2950,6 +2952,7 @@ Given a DRAM command bus and a DQS strobe, produce separate gated DQ clock strea
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{DRAM Trcd}
+\label{filter:dramtrcd}
 
 Calculates $T_{rcd}$ (RAS-to-CAS delay) for each newly opened row in a DRAM command bus stream.
 
@@ -2958,6 +2961,7 @@ Calculates $T_{rcd}$ (RAS-to-CAS delay) for each newly opened row in a DRAM comm
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{DRAM Trfc}
+\label{filter:dramtrfc}
 
 Calculates $T_{rfc}$ (refresh-to-refresh delay) for each refresh operation in a DRAM command bus stream.
 
@@ -2966,6 +2970,7 @@ Calculates $T_{rfc}$ (refresh-to-refresh delay) for each refresh operation in a 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Duty Cycle}
+\label{filter:dutycycle}
 
 Calculates the duty cycle of a bimodal waveform. The duty cycle is defined as the percentage of time spent in the high
 state divided by the period.
@@ -3063,6 +3068,7 @@ The output is a sequence of DVI scan lines including RGB pixel values.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Emphasis}
+\label{filter:emphasis}
 
 Adds pre/de emphasis to a signal by convolving it with a tapped delay line filter. This introduces a small phase shift.
 
@@ -3113,6 +3119,7 @@ The output is an analog signal with the requested amount of emphasis applied.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Emphasis Removal}
+\label{filter:emphasisremoval}
 
 Removes pre/de emphasis from a signal by convolving it with a tapped delay line filter. This introduces a small phase
 shift.
@@ -3124,14 +3131,14 @@ emphasis can increase the eye opening in the digitized signal and make interpret
 \centering
 \bigimage{ng-images/filters/emphasis-removal.png}
 \caption{Example of applying 6 dB of de-emphasis to a 1.25 Gbps 8B/10B signal then removing it}
-\label{filter_emphasis}
+\label{filter_emphasisremoval}
 \end{figure}
 
 \begin{figure}[h]
 \centering
 \bigimage{ng-images/filters/graph-emphasis-removal.png}
 \caption{Example filter graph showing usage of emphasis removal filter}
-\label{filter_emphasis}
+\label{filter_graph_emphasisremoval}
 \end{figure}
 
 \FloatBarrier
@@ -3175,8 +3182,24 @@ whose true value is midway between two ADC codes will randomly fluctuate between
 average equal to the true value.
 
 Each half bit of resolution reduces the bandwidth by an additional factor of two beyond the Nyquist limit. For example,
-a 1.5 bit resolution improvement reduces the bandwith to Fnyquist / 8. The filter properties dialog displays the
-calculated -3 dB bandwidth based on the current input sample rate.
+a 1.5 bit resolution improvement reduces the bandwith to $F_{nyquist} / 8$, or 1/16 the sampling frequency. The filter
+properties dialog displays the calculated -3 dB bandwidth based on the current input sample rate.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/eres.png}
+\caption{Example showing a squarewave with 1 and 2 bits of enhanced resolution}
+\label{filter_eres}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\medimage{ng-images/filters/graph-eres.png}
+\caption{Example filter graph showing usage of enhanced resolution filter}
+\label{filter_graph_eres}
+\end{figure}
+
+\FloatBarrier
 
 \subsection{Inputs}
 
@@ -3195,17 +3218,55 @@ in & Analog & Input signal\\
 \textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
 \thickhline
 Bits & Enum & Number of additional bits of resolution to add\\
+\thinhline
+Cutoff Frequency & Int & Calculated -3 dB cutoff of the filter\\
 \thickhline
 \end{tabularx}
+
+\subsection{Output Signal}
+
+The output is an analog signal containing the filtered version of the input.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Envelope}
 \label{filter:envelope}
 
-Finds the minimum and maximum of each sample in the input over time, and outputs them as separate streams.
+Finds the minimum and maximum of each sample in the input over time, and outputs them as separate streams. In other
+words, sample N of the output is the min/max of the Nth sample of all waveforms processed by the filter.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/envelope.png}
+\caption{Example showing envelope of a signal}
+\label{filter_envelope}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\medimage{ng-images/filters/graph-envelope.png}
+\caption{Example filter graph showing usage of envelope filter}
+\label{filter_graph_envelope}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+in & Analog & Input signal\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+The output is two analog signals called ``min" and ``max", containing the lower and upper envelope boundaries of the
+signal.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
