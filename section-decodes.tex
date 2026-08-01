@@ -3378,11 +3378,53 @@ PCAPNG file.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - 100baseT1 Link Training}
+\label{filter:100baset1-training}
 
 Decodes the link training stage of 100base-T1 single-pair / automotive Ethernet, as specified in IEEE
-802.3-2018 clause 96.
+802.3-2018 clause 96. As with the \hyperref[filter:100baset1]{100baseT1} decode, this filter requires special fixturing
+to acquire the necessary signals for a decode.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/100baset1-training.png}
+\caption{Example showing decode of a 100baseT1 training signal}
+\label{filter_100baset1_training}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-100baset1-training.png}
+\caption{Example filter graph showing usage of 100baseT1 training decode}
+\label{filter_graph_100baset1_training}
+\end{figure}
+
+\FloatBarrier
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+i & Analog & Input signal, I channel\\
+\thinhline
+q & Analog & Input signal, Q channel\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Scrambler Polynomial & Enum & Select the correct LFSR polynomial depending on which side of the link is being decoded\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs a stream of decode state values indicating whether the link is in SEND\_Z, SEND\_I, or SEND\_N
+state.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
