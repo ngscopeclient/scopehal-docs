@@ -3501,6 +3501,22 @@ Instead, simply pass the sampledData output of the \hyperref[filter:cdrpll]{Cloc
 
 Decodes the 1000base-X Ethernet PCS as specified in IEEE 802.3-2018 clause 36.
 
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/1000basex.png}
+\caption{Example showing decode of a 1000baseX signal}
+\label{filter_1000basex}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-1000basex.png}
+\caption{Example filter graph showing usage of 1000baseX decode}
+\label{filter_graph_1000basex}
+\end{figure}
+
+\FloatBarrier
+
 \begin{tabularx}{16cm}{llX}
 \thickhline
 \textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
@@ -3550,7 +3566,37 @@ TODO: Document protocol analyzer output
 
 Decodes the 10Gbase-R Ethernet PCS as specified in IEEE 802.3-2018 clause 49.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/10gbaser.png}
+\caption{Example showing decode of a 10Gbase-R signal}
+\label{filter_10gbaser}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-10gbaser.png}
+\caption{Example filter graph showing usage of 10Gbase-R decode}
+\label{filter_graph_10gbaser}
+\end{figure}
+
+\FloatBarrier
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & 64b/66b & Output of \hyperref[proto:64b66b]{64b/66b protocol decode}\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+The 10Gbase-R filter outputs a series of Ethernet frame segment objects.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\pagebreak
