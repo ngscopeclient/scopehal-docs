@@ -3774,9 +3774,53 @@ PCAPNG file.
 \section{Ethernet - SGMII}
 \label{filter:sgmii}
 
-Decodes Serial GMII data at 10, 100, or 1000 Mbps rates to Ethernet frames.
+Decodes Serial GMII data at 10, 100, or 1000 Mbps rates to Ethernet frames. Manual configuration of the data rate is
+currently required: SGMII always runs at 1.25 Gbps at the physical layer and simply repeats 8b/10b symbols 10 or 100
+times at lower data rates. Automatic detection of data rate may be added in the future by parsing autonegotiation
+traffic or looking at the number of preamble bytes between the K27.7 start token and the D21.6 start-of-frame marker.
 
 (This filter description is a stub and will be expanded in the future)
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/sgmii.png}
+\caption{Example of decoding SGMII}
+\label{filter_sgmii}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-sgmii.png}
+\caption{Example filter graph showing usage of SGMII filter}
+\label{filter_sgmii}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & 8B/10B & Coded input symbols\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Speed & Enum & The current operating speed of the link\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This filter outputs a stream of Ethernet sample objects which may be passed to upper layer decodes or exported to a
+PCAPNG file.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -3785,8 +3829,8 @@ Decodes Serial GMII data at 10, 100, or 1000 Mbps rates to Ethernet frames.
 
 Decodes the Base-T autonegotiation signaling for Ethernet as specified in IEEE 802.3-2018 clause 28.
 
-This filter outputs a stream of 16-bit negotiation codewords, which is typically fed to the Ethernet Autonegotiation
-Page filter.
+This filter outputs a stream of 16-bit negotiation codewords, which is typically fed to the
+\hyperref[filter:anegpage]{Ethernet Autonegotiation Page} filter.
 
 \begin{figure}[h]
 \centering
@@ -3832,13 +3876,14 @@ This filter outputs a stream of 16-bit link codewords.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet Autonegotiation Page}
+\label{filter:anegpage}
 
 Decodes a stream of 16-bit negotiation codewords to ability values, as specified in IEEE 802.3-2018 annex 28A, 28B, and
 28C.
 
 Note that the autonegotiation protocol is stateful, so it is not possible to definitively decode a single code word or
 small group of them in isolation. For accurate decoding, the input waveform should start with the Base Page (sent
-during the link-down state before a link partner has been detected).]
+during the link-down state before a link partner has been detected).
 
 \begin{figure}[h]
 \centering
