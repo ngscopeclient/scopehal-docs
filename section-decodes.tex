@@ -3596,7 +3596,8 @@ This filter takes no parameters.
 
 \subsection{Output Signal}
 
-The 10Gbase-R filter outputs a series of Ethernet frame segment objects.
+This filter outputs a stream of Ethernet sample objects which may be passed to upper layer decodes or exported to a
+PCAPNG file.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\pagebreak
@@ -3612,10 +3613,14 @@ The 10Gbase-R filter outputs a series of Ethernet frame segment objects.
 Converts a 5 Gbps Quad SGMII data stream for a multiport gigabit Ethernet PHY into four separate 1.25 Gbps SGMII data
 streams, containing data for each of the PHY ports, which can be independently decoded.
 
+Note that unlike most other Ethernet decodes, this block does \emph{not} decode QSGMII up to Ethernet frames; it only
+demuxes the QSGMII to 4x SGMII. You can then use the \hyperref[filter:sgmii]{SGMII} decode block to decode any or all
+of the individual PHY lanes.
+
 \begin{figure}[h]
 \centering
 \bigimage{ng-images/filters/qsgmii.png}
-\caption{Example of decoding a QSGMII signal}
+\caption{Example of decoding TX and RX lanes of a QSGMII PHY}
 \label{filter_qsgmii}
 \end{figure}
 
@@ -3668,18 +3673,101 @@ Lane 3 & Protocol & SGMII data stream for PHY 3\\
 \end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\pagebreak
-%\section{Ethernet - RGMII}
+\pagebreak
+\section{Ethernet - RGMII}
+\label{filter:rgmii}
 
-%Decodes the Reduced Gigabit Media Independent Interface as specified in the RGMII 2.0 specification.
+Decodes the Reduced Gigabit Media Independent Interface as specified in the RGMII 2.0 specification. This filter
+assumes that the clock and data are center-aligned such that the clock can be used directly to sample the data without
+additional phase shifting. You may need to use instrument-side skew correction or \hyperref[filter:deskew]{Deskew}
+block to adjust timing on the clock if you are using PHY-internal delays and have an edge-aligned clock.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/rgmii.png}
+\caption{Example of decoding RGMII}
+\label{filter_rgmii}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-rgmii.png}
+\caption{Example filter graph showing usage of RGMII filter}
+\label{filter_rgmii}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & Digital bus & 4-bit data bus\\
+\thinhline
+clk & Digital & RGMII clock \\
+\thinhline
+ctl & Digital & RGMII TX\_CTL or RX\_CTL signal \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs a stream of Ethernet sample objects which may be passed to upper layer decodes or exported to a
+PCAPNG file. In-band status is also decoded.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet - RMII}
+\label{filter:rmii}
 
-Decodes the Reduced Media Independent Interface as specified in the RMII specification.
+Decodes the Reduced Media Independent Interface as specified in the RMII Consortium RMII specification.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/rmii.png}
+\caption{Example of decoding RMII}
+\label{filter_rmii}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-rmii.png}
+\caption{Example filter graph showing usage of RMII filter}
+\label{filter_rmii}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+clk & Digital & RMII system clock\\
+\thinhline
+ctl & Digital & Enable / control line (CRS\_DV or TX\_EN depending on direction) \\
+\thinhline
+d0 & Digital & Data bit 0 \\
+\thinhline
+d1 & Digital & Data bit 1 \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs a stream of Ethernet sample objects which may be passed to upper layer decodes or exported to a
+PCAPNG file.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
