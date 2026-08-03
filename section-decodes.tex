@@ -3921,6 +3921,7 @@ This filter outputs a stream of decoded PHY ability values.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Ethernet Base-X Autonegotiation}
+\label{filter:basex_negotiation}
 
 Decodes the Base-X autonegotiation signaling for Ethernet as specified in IEEE 802.3-2018 clause 37.
 
@@ -3939,12 +3940,25 @@ previous values of the same over multiple consecutive acquisitions.
 The average is calculated recursively; for sample value $S$ and half life $T$, the recurrence relation is:
 
 \begin{math}
-Out[i] =
-	\left(1-\frac{1}{\displaystyle{2^\frac{1}{x}}}\right)\left(Out[i-1]\right) +
+Out_i =
+	\left(1-\frac{1}{\displaystyle{2^\frac{1}{x}}}\right)\left(Out_{i-1}\right) +
 	\left(\frac{1}{\displaystyle{2^\frac{1}{x}}}\right)\left(S\right)
 \end{math}
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/ema.png}
+\caption{Example of using averaging to reduce noise on data from a UV/VIS/NIR spectrometer}
+\label{filter_ema}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-ema.png}
+\caption{Example filter graph showing usage of exponential moving average filter}
+\label{filter_ema}
+\end{figure}
+\FloatBarrier
 
 \subsection{Inputs}
 
@@ -3966,21 +3980,108 @@ Half-life & Integer & Half life of the average, in waveforms\\
 \thickhline
 \end{tabularx}
 
+\subsection{Output Signal}
+
+This filter outputs an analog waveform with one sample per sample of the input, containing the averaged waveform.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye Bit Rate}
+\label{filter:eyebitrate}
 
 Measures the bit rate of an eye pattern.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/eye-bitrate.png}
+\caption{Example of measuring bit rate of an eye pattern}
+\label{filter_eye_bitrate}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-eye-bitrate.png}
+\caption{Example filter graph measuring bit rate of an eye pattern}
+\label{filter_graph_eye_bitrate}
+\end{figure}
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Eye & Eye pattern & Input signal\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs a scalar containing the calculated bit rate.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye Height}
+\label{filter:eyeheight}
 
-Measures the vertical opening of an eye pattern.
+Measures the vertical opening of an eye pattern. The opening can be measured as either at a single point, or across a
+range of values representing the receiver sampling aperture.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/eye-height.png}
+\caption{Example of measuring height of an eye pattern}
+\label{filter_eye_height}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-eye-height.png}
+\caption{Example filter graph measuring height of an eye pattern}
+\label{filter_graph_eye_height}
+\end{figure}
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Eye & Eye pattern & Input signal\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Begin Time & Integer & Start position of measurement (eye center = 0)\\
+\thinhline
+End Time & Integer & End position of measurement (eye center = 0)\\
+\thinhline
+Midpoint Voltage & Integer & Vertical center of the eye\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Output name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+heightslice & Analog waveform & Plot of vertical opening vs horizontal position across the measurement window \\
+\thinhline
+minheight & Float & Smallest opening found within the measurement window\\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
