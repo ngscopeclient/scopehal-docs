@@ -4087,9 +4087,57 @@ minheight & Float & Smallest opening found within the measurement window\\
 \pagebreak
 \section{Eye P-P Jitter}
 
-Measures the peak-to-peak jitter of an eye pattern.
+Measures the peak-to-peak jitter of an eye pattern. The jitter can be measured as either at a single point, or across a
+range of values representing the receiver sampling aperture.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/eye-ppj.png}
+\caption{Example of measuring p-p jitter of an eye pattern}
+\label{filter_eye_ppj}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-eye-ppj.png}
+\caption{Example filter graph measuring p-p jitter of an eye pattern}
+\label{filter_graph_eye_ppj}
+\end{figure}
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Eye & Eye pattern & Input signal\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Begin Voltage & Float & Start position of measurement\\
+\thinhline
+End Voltage & Float & End position of measurement\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Output name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+ppjslice & Analog waveform & Plot of jitter vs vertical position across the measurement window \\
+\thinhline
+ppj & Float & Largest jitter found within the measurement window\\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
@@ -4177,7 +4225,38 @@ samplesIntegrated & Scalar & Number of samples integrated by the eye \\
 
 Measures the UI width of an eye pattern.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/eye-period.png}
+\caption{Example of measuring period of an eye pattern}
+\label{filter_eye_period}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-eye-period.png}
+\caption{Example filter graph measuring period of an eye pattern}
+\label{filter_graph_eye_period}
+\end{figure}
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Eye & Eye pattern & Input signal\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+This filter takes no parameters.
+
+\subsection{Output Signal}
+
+This filter outputs a scalar containing the calculated period.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
