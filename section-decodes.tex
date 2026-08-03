@@ -4383,10 +4383,56 @@ avg & Analog scalar & Average fall time over the whole waveform\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{FFT}
+\label{filter:fft}
 
-Calculates a Fast Fourier Transform and displays the magnitude response.
+Calculates a Fast Fourier Transform and displays the log magnitude response.
 
-(This filter description is a stub and will be expanded in the future)
+NOTE: As of this writing (v0.2) the peak detection algorithm is CPU based and very slow compared to the FFT itself,
+especially at deep memory depths. For example, on a Xeon 8362 + AMD Radeon 9700, a 20M point FFT runs in about 2.5
+milliseconds while the peak detection takes nearly 450 ms. We intend to optimize and GPU accelerate this in the
+future. To avoid unexpected slowdowns when adding a FFT to a filter graph, the peak detector defaults to disabled; to
+enable it simply set the "number of peaks" parameter to a nonzero value.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/fft.png}
+\caption{Example showing FFT of a modulated signal and using cursors to measure total in-band power}
+\label{filter_fft}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-fft.png}
+\caption{Example filter graph showing FFT of a scope channel}
+\label{filter_graph_fft}
+\end{figure}
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input signal\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Number of Peaks & Int & Maximum number of peaks to report\\
+\thinhline
+Peak Window & Int & Minimum spacing between two peaks for them to be reported separately\\
+\thinhline
+Window & Enum & FFT window function\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
