@@ -4086,6 +4086,7 @@ minheight & Float & Smallest opening found within the measurement window\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye P-P Jitter}
+\label{filter:eyeppj}
 
 Measures the peak-to-peak jitter of an eye pattern. The jitter can be measured as either at a single point, or across a
 range of values representing the receiver sampling aperture.
@@ -4222,6 +4223,7 @@ samplesIntegrated & Scalar & Number of samples integrated by the eye \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye Period}
+\label{filter:eyeperiod}
 
 Measures the UI width of an eye pattern.
 
@@ -4262,9 +4264,57 @@ This filter outputs a scalar containing the calculated period.
 \pagebreak
 \section{Eye Width}
 
-Measures the horizontal opening of an eye pattern.
+Measures the horizontal opening of an eye pattern. The opening can be measured as either at a single point, or across a
+range of values representing the receiver sampling aperture.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/eye-width.png}
+\caption{Example of measuring width of an eye pattern}
+\label{filter_eye_width}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-eye-width.png}
+\caption{Example filter graph measuring width of an eye pattern}
+\label{filter_graph_eye_width}
+\end{figure}
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Eye & Eye pattern & Input signal\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Start Voltage & Float & Start position of measurement\\
+\thinhline
+End Voltage & Float & End position of measurement\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Output name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+heightslice & Analog waveform & Plot of horizontal opening vs vertical position across the measurement window \\
+\thinhline
+minheight & Float & Smallest opening found within the measurement window\\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
