@@ -3779,8 +3779,6 @@ currently required: SGMII always runs at 1.25 Gbps at the physical layer and sim
 times at lower data rates. Automatic detection of data rate may be added in the future by parsing autonegotiation
 traffic or looking at the number of preamble bytes between the K27.7 start token and the D21.6 start-of-frame marker.
 
-(This filter description is a stub and will be expanded in the future)
-
 \begin{figure}[h]
 \centering
 \bigimage{ng-images/filters/sgmii.png}
@@ -3926,6 +3924,15 @@ This filter outputs a stream of decoded PHY ability values.
 Decodes the Base-X autonegotiation signaling for Ethernet as specified in IEEE 802.3-2018 clause 37.
 
 Also supports the extended autonegotiation used by SGMII.
+
+(This filter description is a stub and will be expanded in the future)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Ethernet Clause 73 Autonegotiation}
+\label{filter:clause73_negotiation}
+
+Decodes the Base-KX autonegotiation signaling for Ethernet as specified in IEEE 802.3-2018 clause 73.
 
 (This filter description is a stub and will be expanded in the future)
 
@@ -4263,6 +4270,7 @@ This filter outputs a scalar containing the calculated period.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Eye Width}
+\label{filter:eyewidth}
 
 Measures the horizontal opening of an eye pattern. The opening can be measured as either at a single point, or across a
 range of values representing the receiver sampling aperture.
@@ -4319,10 +4327,58 @@ minheight & Float & Smallest opening found within the measurement window\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Fall}
+\label{filter:fall}
 
 Measures the fall time of each falling edge in a waveform.
 
-(This filter description is a stub and will be expanded in the future)
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/fall.png}
+\caption{Example of measuring fall time of a waveform and performing statistics on the results}
+\label{filter_fall}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/graph-fall.png}
+\caption{Example filter graph measuring fall time and performing statistics}
+\label{filter_graph_fall}
+\end{figure}
+\FloatBarrier
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+din & Analog & Input signal\\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Start Fraction & Float & Level to begin the fall time measurement at, in percent\\
+\thinhline
+End Fraction & Float & Level to end the fall time measurement at, in percent\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Output name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+trend & Analog waveform & Plot of fall time for each edge in the signal\\
+\thinhline
+avg & Analog scalar & Average fall time over the whole waveform\\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
