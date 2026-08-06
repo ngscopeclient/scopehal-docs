@@ -133,3 +133,18 @@ Deleting a group does not remove any nodes contained within it.
 \caption{Groups containing several nodes with hierarchical ports}
 \label{graph-editor-group2}
 \end{figure}
+
+\section{Performance Analysis}
+
+A clock icon displayed above filter nodes shows the execution time of the block, which can be used to help identify the
+reason for slowdowns in complex filter graphs.
+
+The workload scheduler tries to batch multiple nodes when possible and send them to the GPU as a single unit to reduce
+CPU-GPU round trip overhead. When this occurs, all nodes in the batch will show the same execution time and it is not
+possible to use the graph view to determine which one is the bottleneck.
+
+If you are a developer trying to optimize a specific filter block, finer grained performance data can be obtained using
+the appropriate profiling tool for your GPU (NVIDIA NSight Systems, AMD Radeon GPU Profiler, etc). When running under a
+debugger or profiler, ngscopeclient automatically adds tracking events using NVIDIA NVTX and VK\_EXT\_debug\_utils that
+allow specific shaders to be easily identified in traces.
+automatically adds debug events
