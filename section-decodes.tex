@@ -5540,6 +5540,15 @@ It samples a whole transaction of an arbitrary number of 8-bit wide bytes.
 
 Any clocking on the clk-line outside of \#cs being pulled low does not result
 in data being sampled.
+Incase there is no CS signal to be measured it can be manually reconstructed
+using a moving average of the clock signal.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/spi.png}
+\caption{Example 1-wire decode}
+\label{filter_1wire}
+\end{figure}
 
 \subsection{Inputs}
 
