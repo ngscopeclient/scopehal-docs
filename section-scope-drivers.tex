@@ -724,7 +724,7 @@ While all Teledyne LeCroy / LeCroy devices use almost identical SCPI command set
 XStream or MAUI use a custom framing protocol (``vicp") around the SCPI data while the lower end RTOS based devices use
 raw SCPI over TCP (``lan").
 
-Please see the table below for details on which configuration to use with  your hardware.
+Please see the table below for details on which configuration to use with your hardware.
 
 \begin{tabularx}{16cm}{lllX}
 \thickhline
@@ -842,13 +842,13 @@ but it may be possible to instantiate multiple copies of the FastMultiWavePort b
 
 \section{Tektronix}
 
-This driver is being primarily developed on a MSO64. It supports SCPI over LXI VXI-11 or TCP sockets.
-
-The hardware supports USBTMC, however waveform download via USBTMC does not work with libscopehal for unknown reasons.
+Please see the table below for details on which configuration to use with your hardware. The ``tektronix'' driver is a safe choice if you are unsure.
 
 \begin{tabularx}{16cm}{lllX}
 \thickhline
 \textbf{Device Family} & \textbf{Driver} & \textbf{Transport} & \textbf{Notes} \\
+\thickhline
+220 series & tektronix.22x & uart &  \\
 \thickhline
 MSO5 series & tektronix & lan, lxi &  \\
 \thinhline
@@ -856,7 +856,13 @@ MSO6 series & tektronix & lan, lxi &  \\
 \thickhline
 \end{tabularx}
 
-\subsection{Note regarding ``lan" transport on MSO5/6}
+\subsection{tektronix}
+
+This driver is the primary driver for modern Tektronix devices, and is primarily developed on a MSO64. It supports SCPI over LXI VXI-11 or TCP sockets.
+
+The hardware supports USBTMC, however waveform download via USBTMC does not work with libscopehal for unknown reasons.
+
+\subsubsection{Note regarding ``lan" transport on MSO5/6}
 
 The default settings for raw SCPI access on the MSO6 series use a full terminal emulator rather than raw SCPI
 commands. To remove the prompts and help text, go to Utility | I/O, then under the Socket Server panel select protocol
@@ -878,6 +884,29 @@ commands. To remove the prompts and help text, go to Utility | I/O, then under t
 \thinhline
 4 & 500K & 3.8 - 3.9 \\
 \thickhline
+\end{tabularx}
+
+\subsection{tektronix.22x}
+
+This driver is specific to the 220 series of Tektronix devices (222, 222A, 222PS, and 224) and supports its custom RS-232 command set through the UART transport.
+Note that these devices use real RS-232 voltage levels with specified swings up to +/- 25 V, so be sure to use an adapter with proper level shifting.
+
+The serial port parameters are as follows:
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Bit format} & 8N1 & \\
+\thickhline
+\textbf{Baud rate} & 300/1200/2400/9600 & Configurable through the the ``CONFIG'' section of the Auxiliary Fuctions menu \\
+\thickhline
+\textbf{Handshaking} & No  & DTR ignored, DSR always pulled high \\
+\thickhline
+\textbf{Hardware flow control} & No & RTS ignored, CTS always pulled high \\
+\thickhline
+\textbf{Software flow control} & Yes & XON/XOFF \\
+\thickhline
+\textbf{Ground} & Yes & Connected to external trigger ground \\
+\thichkhline
 \end{tabularx}
 
 \section{tinySA}
