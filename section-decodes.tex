@@ -5532,11 +5532,69 @@ Displays a 2D plot of frequency vs time using configurable FFT length.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+
 \section{SPI}
 
-Serial Peripheral Interface.
+This filter decodes a \textit{Serial Peripheral Interface} transaction.
+It samples a whole transaction of an arbitrary number of 8-bit wide bytes.
 
-(This filter description is a stub and will be expanded in the future)
+Any clocking on the clk-line outside of \#cs being pulled low does not result
+in data being sampled.
+Incase there is no CS signal to be measured it can be manually reconstructed
+using a moving average of the clock signal.
+
+\begin{figure}[h]
+\centering
+\bigimage{ng-images/filters/spi.png}
+\caption{Example 1-wire decode}
+\label{filter_1wire}
+\end{figure}
+
+\subsection{Inputs}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Signal name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+clk & Digital & Serial data clock \\
+\thinhline
+\#cs & Digital & Chip select. Needs to be asserted during transaction \\
+\thinhline
+data & Digital & Serial data input \\
+\thickhline
+\end{tabularx}
+
+\subsection{Parameters}
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Parameter name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+Byte Endianness & Enum &
+	\textbf{MSB}: Bitstream gets packed into bytes with the most significant bit first \newline
+	\textbf{LSB}: Bitstream gets packed into bytes with the most significant bit first \\
+\thinhline
+Clock Phase Alignment & Enum &
+	\textbf{Sample Rising CLK}: Data-Channel gets sampled on a rising clock change \newline
+	\textbf{Sample Falling CLK}: Data-Channel gets sampled on a falling clock change \\
+\thinhline
+Clock Polarity & Enum &
+	\textbf{Idle Low}: The clock-signal is considered deasserted when the clock-line is low \newline
+	\textbf{Idle High}: The clock-signal is considered deasserted when the clock-line is high\\
+\thickhline
+\end{tabularx}
+
+\subsection{Output Signal}
+
+This decoder outputs a single decoded tata stream consisting of SPI sample objects.
+
+\begin{tabularx}{16cm}{llX}
+\thickhline
+\textbf{Stream name} & \textbf{Type} & \textbf{Description} \\
+\thickhline
+data & SPI bus & Sampled Bytes \\
+\thickhline
+\end{tabularx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
